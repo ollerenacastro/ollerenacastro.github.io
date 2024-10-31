@@ -11,4 +11,4 @@ tags: [buffer overflow,exploit development,pentesting,reverse shell,msfvenom,she
 
 <hr style="border: none; height: 10px; background-color: #003b00;" />
 
-El examen se mostrará el día Octubre 31, a las 18:30 (Hora Perú)
+En coordinaciones con los alumnos.
