@@ -65,5 +65,3 @@ tags: [buffer overflow,exploit development,pentesting,reverse shell,msfvenom,she
 
 ![alt text](/assets/images/setup-lab.png)
 
-
-## 2. 
