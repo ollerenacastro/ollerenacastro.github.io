@@ -178,6 +178,38 @@ tags: [Examen Parcial, evaluation]     # TAG names should always be lowercase
   Nmap done: 1 IP address (1 host up) scanned in 0.18 seconds
   ```
 
+  - O usando el script `smb-vuln-ms17-010`:
+  
+  ```bash
+  sudo nmap -p 139,445 --script "smb-vuln-ms17-010" 10.0.2.15
+  Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-04 10:41 PST
+  Nmap scan report for 10.0.2.15
+  Host is up (0.00056s latency).
+
+  PORT    STATE SERVICE
+  139/tcp open  netbios-ssn
+  445/tcp open  microsoft-ds
+  MAC Address: 08:00:27:9B:22:24 (Oracle VirtualBox virtual NIC)
+
+  Host script results:
+  | smb-vuln-ms17-010: 
+  |   VULNERABLE:
+  |   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
+  |     State: VULNERABLE
+  |     IDs:  CVE:CVE-2017-0143
+  |     Risk factor: HIGH
+  |       A critical remote code execution vulnerability exists in Microsoft SMBv1
+  |        servers (ms17-010).
+  |           
+  |     Disclosure date: 2017-03-14
+  |     References:
+  |       https://blogs.technet.microsoft.com/msrc/2017/05/12/customer-guidance-for-wannacrypt-attacks/
+  |       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0143
+  |_      https://technet.microsoft.com/en-us/library/security/ms17-010.aspx
+
+  Nmap done: 1 IP address (1 host up) scanned in 0.20 seconds
+  ```
+
   - En este último escaneo, podemos ver que el script acusa que el servicio SMBv1 tienen una configuración por defecto, potencialmente susceptible a la explotación conocida como **EternalBlue**.
 
 
