@@ -780,3 +780,5 @@ rm ~/.john/john.pot
 - **Tip**: Asegúrate de capturar cada paso clave con capturas de pantalla y explica en tu blog lo que hace cada comando o herramienta.
 
 <!-- - **Consejo**: Piensa en cómo documentarías el proceso para que alguien sin conocimientos previos entienda tu flujo de trabajo. Enfócate en los objetivos y en el impacto de cada paso dentro del proceso de auditoría de seguridad -->
+
+![alt text](notas-ep.png)
