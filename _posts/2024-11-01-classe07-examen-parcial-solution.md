@@ -1,5 +1,5 @@
 ---
-title: Examen Parcial - Solución de Pregunta 2 
+title: Clase 07 - Examen Parcial - Solución de Pregunta 2 
 date: 2024-11-01 06:20:00 -0500
 categories: [Cybersecurity,Ethical Hacking,Pentesting,Exploitation Techniques]
 tags: [Examen Parcial, evaluation]     # TAG names should always be lowercase
