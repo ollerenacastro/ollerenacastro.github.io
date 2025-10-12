@@ -1,6 +1,6 @@
 ---
 title: Syllabus del Curso
-date: 2024-09-28 12:20:00 -0500
+date: 2025-09-21 12:20:00 -0500
 categories: [clase01, introduction]
 tags: [syllabus]     # TAG names should always be lowercase
 header-includes:
