@@ -25,3 +25,12 @@ package-lock.json
 # Misc
 _sass/dist
 assets/js/dist
+
+# Claude Code
+.claude/
+CLAUDE.md
+issues/
+docs/plan_*.md
+docs/methodology_*.md
+backups/
+todo.md
