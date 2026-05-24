@@ -32,7 +32,12 @@ El roadmap produce 10 posts de sesión (tema03-tema12) publicados como entradas 
   3. Cada etapa del lab tiene su técnica MITRE ATT&CK mapeada (Recon → Exfiltration)
   4. Todos los comandos y outputs del post coinciden con lo que el alumno ve en las OVAs proporcionadas
   5. El post sigue la estructura: Objetivos → Teoría [40%] → Lab guiado [60%] → MITRE mapping → Conclusión
-**Plans:** TBD
+**Plans:** 4 plans
+Plans:
+- [ ] 01-01-PLAN.md — Añadir `_posts/*.backup` al .gitignore (D-04)
+- [ ] 01-02-PLAN.md — Walking Skeleton: crear `_posts/2026-05-31-tema03.md` con front matter canónico + lab existente preservado + Objetivos + disclaimer legal + intro teórica KC1
+- [ ] 01-03-PLAN.md — Insertar Kill Chain 2 (Jenkins Script Console RCE) + Kill Chain 3 (EternalBlue/MS17-010) + tabla `## Mapeo MITRE ATT&CK` con 11 filas
+- [ ] 01-04-PLAN.md — Limpieza (eliminar `_posts/2025-10-05-tema03.md` y `_drafts/2026-05-24-tema03.md`) + checkpoint humano de verificación visual del post servido localmente
 
 ### Phase 2: Reconocimiento (tema04)
 **Goal:** tema04 publicado — reconocimiento avanzado y OSINT completo con lab guiado sobre Metasploitable3
@@ -126,7 +131,7 @@ El roadmap produce 10 posts de sesión (tema03-tema12) publicados como entradas 
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Revisar tema03 + Plantilla | 0/? | Not started | - |
+| 1. Revisar tema03 + Plantilla | 0/4 | Planned | - |
 | 2. Reconocimiento (tema04) | 0/? | Not started | - |
 | 3. Explotación Web (tema05) | 0/? | Not started | - |
 | 4. Buffer Overflows (tema06) | 0/? | Not started | - |
