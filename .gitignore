@@ -34,3 +34,6 @@ docs/plan_*.md
 docs/methodology_*.md
 backups/
 todo.md
+
+# Backups de posts
+_posts/*.backup
