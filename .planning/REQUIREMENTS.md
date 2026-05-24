@@ -50,25 +50,25 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONT-01 | Phase 1 | Pending |
-| STR-01 | Phase 1 | Pending |
-| STR-02 | Phase 1 | Pending |
-| STR-03 | Phase 1 | Pending |
-| CONT-02 | Phase 2 | Pending |
-| CONT-03 | Phase 3 | Pending |
-| CONT-04 | Phase 4 | Pending |
-| CONT-05 | Phase 5 | Pending |
-| CONT-06 | Phase 6 | Pending |
-| CONT-07 | Phase 7 | Pending |
-| CONT-08 | Phase 8 | Pending |
-| CONT-09 | Phase 9 | Pending |
-| CONT-10 | Phase 10 | Pending |
+| CONT-01 | Phase 1 — Revisar tema03 + Plantilla | Pending |
+| STR-01 | Phase 1 — Revisar tema03 + Plantilla | Pending (carries forward) |
+| STR-02 | Phase 1 — Revisar tema03 + Plantilla | Pending (carries forward) |
+| STR-03 | Phase 1 — Revisar tema03 + Plantilla | Pending (carries forward) |
+| CONT-02 | Phase 2 — Reconocimiento (tema04) | Pending |
+| CONT-03 | Phase 3 — Explotación Web (tema05) | Pending |
+| CONT-04 | Phase 4 — Buffer Overflows (tema06) | Pending |
+| CONT-05 | Phase 5 — EternalBlue/SMB (tema07) | Pending |
+| CONT-06 | Phase 6 — Post-explotación y Privesc (tema08+09) | Pending |
+| CONT-07 | Phase 6 — Post-explotación y Privesc (tema08+09) | Pending |
+| CONT-08 | Phase 7 — Seguridad Web (tema10) | Pending |
+| CONT-09 | Phase 8 — Defensa y CTF Final (tema11+12) | Pending |
+| CONT-10 | Phase 8 — Defensa y CTF Final (tema11+12) | Pending |
 
 **Coverage:**
 - v1 requirements: 13 total (excl. 2 already validated)
-- Mapped to phases: 13
+- Mapped to phases: 13/13
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-05-24*
-*Last updated: 2026-05-24 after initial definition*
+*Last updated: 2026-05-24 after roadmap creation (8 phases, standard granularity)*
