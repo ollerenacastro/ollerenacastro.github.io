@@ -9,7 +9,7 @@
 
 - [x] **CONT-00a**: Publicar tema01 — Introducción al curso, framework GitHub Pages + Jekyll + Chirpy *(ya validado)*
 - [x] **CONT-00b**: Publicar tema02 — Setup del laboratorio (VirtualBox, OVAs, NAT Network) *(ya validado)*
-- [ ] **CONT-01**: Revisar tema03 (actualmente en _drafts) — Agregar ≥2 kill chains alternativos realizables en Metasploitable3 (ej. EternalBlue/MS17-010, Jenkins Script Console, Tomcat WAR upload), profundizar mapeo MITRE ATT&CK por etapa, verificar precisión técnica de todos los comandos y outputs contra las OVAs
+- [x] **CONT-01**: Revisar tema03 (actualmente en _drafts) — Agregar ≥2 kill chains alternativos realizables en Metasploitable3 (ej. EternalBlue/MS17-010, Jenkins Script Console, Tomcat WAR upload), profundizar mapeo MITRE ATT&CK por etapa, verificar precisión técnica de todos los comandos y outputs contra las OVAs
 - [ ] **CONT-02**: Crear tema04 — Reconocimiento avanzado y OSINT: Nmap avanzado (scripts NSE, timing, evasión), banner grabbing, enumeración de servicios, footprinting pasivo (Shodan, Google dorks); lab guiado sobre Metasploitable3
 - [ ] **CONT-03**: Crear tema05 — Explotación de servicios web en Metasploitable3: Jenkins Script Console RCE (puerto 8484), Tomcat Manager WAR upload (puerto 8282), GlassFish exploits (puerto 4848/8080); comparar vectores y MITRE mapping
 - [ ] **CONT-04**: Crear tema06 — Buffer overflows: stack-based buffer overflow, control de EIP, generación de shellcode con msfvenom, explotación básica en entorno controlado
@@ -22,9 +22,9 @@
 
 ### Estructura y Calidad
 
-- [ ] **STR-01**: Cada post sigue estructura consistente: (1) Objetivos de aprendizaje → (2) Teoría + fundamentos [40%] → (3) Laboratorio guiado con comandos [60%] → (4) Mapeo MITRE ATT&CK → (5) Conclusión y recomendaciones
-- [ ] **STR-02**: Todos los comandos y outputs de cada lab son verificados contra las OVAs proporcionadas (Kali Linux + Metasploitable3 en NAT Network VirtualBox)
-- [ ] **STR-03**: Cada post publicado en `_posts/` con filename `YYYY-MM-DD-tema##.md`; borradores en `_drafts/` hasta la fecha de clase
+- [x] **STR-01**: Cada post sigue estructura consistente: (1) Objetivos de aprendizaje → (2) Teoría + fundamentos [40%] → (3) Laboratorio guiado con comandos [60%] → (4) Mapeo MITRE ATT&CK → (5) Conclusión y recomendaciones
+- [x] **STR-02**: Todos los comandos y outputs de cada lab son verificados contra las OVAs proporcionadas (Kali Linux + Metasploitable3 en NAT Network VirtualBox)
+- [x] **STR-03**: Cada post publicado en `_posts/` con filename `YYYY-MM-DD-tema##.md`; borradores en `_drafts/` hasta la fecha de clase
 
 ## v2 Requirements
 
@@ -50,7 +50,7 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONT-01 | Phase 1 — Revisar tema03 + Plantilla | Pending |
+| CONT-01 | Phase 1 — Revisar tema03 + Plantilla | Complete |
 | STR-01 | Phase 1 — Revisar tema03 + Plantilla | Pending (carries forward) |
 | STR-02 | Phase 1 — Revisar tema03 + Plantilla | Pending (carries forward) |
 | STR-03 | Phase 1 — Revisar tema03 + Plantilla | Pending (carries forward) |

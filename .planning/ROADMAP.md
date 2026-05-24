@@ -36,12 +36,12 @@ El roadmap produce 10 posts de sesión (tema03-tema12) publicados como entradas 
   4. Todos los comandos y outputs del post coinciden con lo que el alumno ve en las OVAs proporcionadas
   5. El post sigue la estructura: Objetivos → Teoría [40%] → Lab guiado [60%] → MITRE mapping → Conclusión
 
-**Plans:** 4 plans
+**Plans:** 2/4 plans executed
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Añadir `_posts/*.backup` al .gitignore (D-04)
-- [ ] 01-02-PLAN.md — Walking Skeleton: crear `_posts/2026-05-31-tema03.md` con front matter canónico + lab existente preservado + Objetivos + disclaimer legal + intro teórica KC1
+- [x] 01-01-PLAN.md — Añadir `_posts/*.backup` al .gitignore (D-04)
+- [x] 01-02-PLAN.md — Walking Skeleton: crear `_posts/2026-05-31-tema03.md` con front matter canónico + lab existente preservado + Objetivos + disclaimer legal + intro teórica KC1
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -164,7 +164,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Revisar tema03 + Plantilla | 0/4 | Planned | - |
+| 1. Revisar tema03 + Plantilla | 2/4 | In Progress|  |
 | 2. Reconocimiento (tema04) | 0/? | Not started | - |
 | 3. Explotación Web (tema05) | 0/? | Not started | - |
 | 4. Buffer Overflows (tema06) | 0/? | Not started | - |
