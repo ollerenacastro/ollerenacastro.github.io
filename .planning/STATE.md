@@ -5,7 +5,7 @@ milestone_name: milestone
 status: executing
 stopped_at: context exhaustion at 75% (2026-05-24)
 last_updated: "2026-05-24T21:13:52.904Z"
-last_activity: 2026-05-24 -- Phase 01 execution started
+last_activity: 2026-05-31 -- Quick task 260531-rec: tabla tipos de reconocimiento (OSINT, pasivo, activo) en Etapa 1 tema03
 progress:
   total_phases: 8
   completed_phases: 0
@@ -79,6 +79,7 @@ None yet.
 | 260531-f5e | corregir Kill Chain 2 en tema03: URL correcta Jenkins Script Console y verificación PowerShell del servicio | 2026-05-31 | 9faf96f | [260531-f5e-corregir-kill-chain-2-en-tema03-url-corr](.planning/quick/260531-f5e-corregir-kill-chain-2-en-tema03-url-corr/) |
 | 260531-fyy | enriquecer Kill Chain 2 en tema03: narrativa histórica DevOps, qué es Groovy, impacto real post-RCE y contexto T1190 | 2026-05-31 | 618a517 | [260531-fyy-enriquecer-kill-chain-2-en-tema03-narrat](.planning/quick/260531-fyy-enriquecer-kill-chain-2-en-tema03-narrat/) |
 | 260531-gh0 | enriquecer Kill Chain 2 tema03: analogia Jenkins=GitHub Actions, flujo CI/CD concreto, analogia Groovy, prerequisito red interna | 2026-05-31 | bb3d353 | [260531-gh0-enriquecer-kill-chain-2-tema03-analogia-](.planning/quick/260531-gh0-enriquecer-kill-chain-2-tema03-analogia-/) |
+| 260531-rec | agregar tabla tipos de reconocimiento (pasivo/semi-pasivo/activo) con ejemplos OSINT en Etapa 1 de tema03 | 2026-05-31 | 09f5334 | [260531-rec-agregar-contexto-recon-tecnicas-osint-tema03](.planning/quick/260531-rec-agregar-contexto-recon-tecnicas-osint-tema03/) |
 
 ## Deferred Items
 
