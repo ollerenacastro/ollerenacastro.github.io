@@ -78,6 +78,7 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260531-f5e | corregir Kill Chain 2 en tema03: URL correcta Jenkins Script Console y verificación PowerShell del servicio | 2026-05-31 | 9faf96f | [260531-f5e-corregir-kill-chain-2-en-tema03-url-corr](.planning/quick/260531-f5e-corregir-kill-chain-2-en-tema03-url-corr/) |
 | 260531-fyy | enriquecer Kill Chain 2 en tema03: narrativa histórica DevOps, qué es Groovy, impacto real post-RCE y contexto T1190 | 2026-05-31 | 618a517 | [260531-fyy-enriquecer-kill-chain-2-en-tema03-narrat](.planning/quick/260531-fyy-enriquecer-kill-chain-2-en-tema03-narrat/) |
+| 260531-gh0 | enriquecer Kill Chain 2 tema03: analogia Jenkins=GitHub Actions, flujo CI/CD concreto, analogia Groovy, prerequisito red interna | 2026-05-31 | bb3d353 | [260531-gh0-enriquecer-kill-chain-2-tema03-analogia-](.planning/quick/260531-gh0-enriquecer-kill-chain-2-tema03-analogia-/) |
 
 ## Deferred Items
 
