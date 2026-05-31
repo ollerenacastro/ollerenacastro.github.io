@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-24)
 Phase: 01 (revisar-tema03-plantilla) — EXECUTING
 Plan: 1 of 4
 Status: Executing Phase 01
-Last activity: 2026-05-31 -- Quick task 260531-f5e: corregir URL Jenkins Kill Chain 2
+Last activity: 2026-05-31 -- Quick task 260531-fyy: enriquecer Kill Chain 2 narrativa histórica DevOps y Groovy
 
 Progress: [█████░░░░░] 50%
 
@@ -77,6 +77,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260531-f5e | corregir Kill Chain 2 en tema03: URL correcta Jenkins Script Console y verificación PowerShell del servicio | 2026-05-31 | 9faf96f | [260531-f5e-corregir-kill-chain-2-en-tema03-url-corr](.planning/quick/260531-f5e-corregir-kill-chain-2-en-tema03-url-corr/) |
+| 260531-fyy | enriquecer Kill Chain 2 en tema03: narrativa histórica DevOps, qué es Groovy, impacto real post-RCE y contexto T1190 | 2026-05-31 | 618a517 | [260531-fyy-enriquecer-kill-chain-2-en-tema03-narrat](.planning/quick/260531-fyy-enriquecer-kill-chain-2-en-tema03-narrat/) |
 
 ## Deferred Items
 
