@@ -49,8 +49,39 @@ En mi caso, obtengo algo así:
 
 ![Output](/assets/images/Openssh-stopped-troubleshooting-01.png)
 
-En mi caso todos son logs de **información**. En su caso Tome un screenshot y coloque en su reporte.
+> **Nota:** En mi caso todos son logs de información porque mi servicio **sí funciona**. Compara tu output con este: si aparecen entradas de tipo `Error`, esas líneas señalan la causa del fallo.
 
+---
+
+### Inspeccionar la configuración del servicio
+
+Ejecuta estos dos comandos desde `cmd.exe` (no PowerShell) para ver exactamente qué binario intenta lanzar el servicio y dónde escribe sus errores:
+
+```cmd
+"C:\Program Files\OpenSSH\bin\cygrunsrv.exe" --query OpenSSHd
+```
+
+```cmd
+reg query "HKLM\SYSTEM\CurrentControlSet\Services\OpenSSHd\Parameters"
+```
+
+![Configuración del servicio OpenSSHd](/assets/images/opensshd-troubleshooting-03.png)
+
+> **Nota:** En mi caso el servicio aparece como `Running`. En tu caso debería aparecer `Stopped`. Lo importante es comparar los valores `AppPath` y `StdErr` — deben coincidir con los de esta imagen.
+
+Los valores clave que debes anotar:
+- **`AppPath`**: la ruta al binario real de sshd (en Cygwin: `/usr/sbin/sshd`)
+- **`StdErr`**: la ruta del log de errores — aquí se registra el motivo del fallo
+
+### Revisar el log de errores del servicio
+
+El valor `StdErr` apunta a `/var/log/OpenSSHd.log`. En Windows esa ruta corresponde a:
+
+```powershell
+Get-Content "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
+```
+
+**Si el archivo existe y tiene contenido**, el mensaje de error ahí es el diagnóstico definitivo. Úsalo para identificar cuál de las causas aplica.
 
 ---
 
@@ -81,75 +112,84 @@ Get-Service OpenSSHd
 
 ---
 
-## Causa 2: Ruta del binario incorrecta (servicio apunta a un archivo que no existe)
+## Causa 2: Binario del servicio o launcher inexistente
 
-**Probabilidad: Media.** El registro de Windows guarda la ruta del ejecutable del servicio. Si Cygwin no está instalado en `C:\cygwin\` o si el OVA fue importado con problemas de filesystem, la ruta puede estar rota.
+**Probabilidad: Media.** El servicio OpenSSHd usa `cygrunsrv.exe` como launcher y `sshd.exe` como proceso real. Si alguno de los dos no existe en la ruta esperada, el servicio falla al arrancar.
 
 ### Cómo detectarlo
 
 ```powershell
-# Ver la ruta registrada del servicio
+# Verificar el launcher (cygrunsrv)
 (Get-WmiObject win32_service -filter "name='OpenSSHd'").PathName
+
+Test-Path "C:\Program Files\OpenSSH\bin\cygrunsrv.exe"
+
+# Verificar el binario real de sshd
+Test-Path "C:\Program Files\OpenSSH\usr\sbin\sshd.exe"
 ```
 
-Anota esa ruta (por ejemplo: `C:\cygwin\bin\sshd.exe -D`) y verifica que el archivo existe:
+Ambos `Test-Path` deben devolver `True`.
 
-```powershell
-Test-Path "C:\cygwin\bin\sshd.exe"
-```
+![Verificación de binarios OpenSSH](/assets/images/get-wmiobject-opensshd.png)
 
-Si devuelve `False`, el binario no está donde el servicio lo busca.
+> **Nota:** En mi caso ambos devuelven `True` y el servicio funciona. Verifica que en tu máquina ocurra lo mismo. Si alguno devuelve `False`, esa es la causa del fallo.
 
 ### Solución
 
-Verificar en qué unidad/ruta está realmente instalado Cygwin:
+Si `cygrunsrv.exe` o `sshd.exe` no existen, la instalación de OpenSSH está incompleta o corrompida. Buscar los archivos en el disco:
 
 ```powershell
-# Buscar sshd.exe en el disco
 Get-ChildItem -Path C:\ -Filter "sshd.exe" -Recurse -ErrorAction SilentlyContinue
+Get-ChildItem -Path C:\ -Filter "cygrunsrv.exe" -Recurse -ErrorAction SilentlyContinue
 ```
 
-Si se encuentra en otra ruta (ej. `C:\Program Files\OpenSSH\`), hay que re-registrar el servicio:
-
-```powershell
-# Detener el servicio actual
-sc.exe delete OpenSSHd
-
-# Re-registrar con la ruta correcta (ajustar según lo que encontraste arriba)
-sc.exe create OpenSSHd binPath= "C:\ruta\correcta\sshd.exe -D" start= auto DisplayName= "OpenSSH Server"
-Start-Service OpenSSHd
-```
+Si no se encuentran en ninguna ruta, reinstalar OpenSSH para Windows desde la VM no es viable en un entorno de laboratorio. En ese caso, restaurar la VM desde un snapshot limpio o reimportar el OVA.
 
 ---
 
-## Causa 3: Permisos incorrectos en directorios de Cygwin
+## Causa 3: Error de configuración o permisos en OpenSSH
 
-**Probabilidad: Media.** Cygwin emula permisos POSIX sobre NTFS. El directorio `/var/empty` (requerido por sshd como `ChrootDirectory`) y `/etc/ssh/` necesitan permisos específicos. Una importación problemática del OVA puede romper estas ACLs.
+**Probabilidad: Media.** La instalación de OpenSSH en `C:\Program Files\OpenSSH\` incluye directorios con permisos POSIX emulados sobre NTFS. Si esos permisos se corrompieron durante la importación del OVA, `sshd` falla al arrancar.
 
 ### Cómo detectarlo
 
-Abrir una terminal de Cygwin y ejecutar el diagnóstico de sshd:
+Primero revisa el log (si aún no lo has hecho):
 
-```bash
-# Desde Cygwin bash
-/usr/sbin/sshd -t
+```powershell
+Get-Content "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
 ```
 
-Si hay errores de permisos, verás algo como:
+Mensajes típicos de permisos incorrectos:
 ```
 /var/empty must be owned by root and not group or world-writable.
+Bad owner or permissions on /etc/ssh/sshd_config
 ```
+
+También puedes ejecutar `sshd` en modo test directamente desde `cmd.exe`:
+
+```cmd
+"C:\Program Files\OpenSSH\usr\sbin\sshd.exe" -t
+```
+
+Si hay errores de configuración o permisos, los mostrará en la consola.
 
 ### Solución
 
-Desde una terminal de Cygwin con privilegios de Administrador:
+Abrir `cmd.exe` **como Administrador** y ejecutar los comandos de la shell Cygwin incluida:
 
-```bash
-# Corregir permisos del directorio requerido por sshd
-chown root /var/empty
-chmod 755 /var/empty
-chmod 600 /etc/ssh/ssh_host_*_key
-chmod 644 /etc/ssh/ssh_host_*_key.pub
+```cmd
+"C:\Program Files\OpenSSH\bin\bash.exe" --login -c "chown root /var/empty && chmod 755 /var/empty"
+```
+
+```cmd
+"C:\Program Files\OpenSSH\bin\bash.exe" --login -c "chmod 600 /etc/ssh/ssh_host_*_key && chmod 644 /etc/ssh/ssh_host_*_key.pub"
+```
+
+Luego intentar arrancar el servicio nuevamente:
+
+```powershell
+Start-Service OpenSSHd
+Get-Service OpenSSHd
 ```
 
 ---
