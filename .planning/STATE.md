@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: context exhaustion at 75% (2026-05-31)
-last_updated: "2026-05-31T18:52:29.219Z"
-last_activity: "2026-05-31 -- Quick task 260531-fyy: enriquecer Kill Chain 2 narrativa histórica DevOps y Groovy"
+stopped_at: active
+last_updated: "2026-06-09T02:12:00.000Z"
+last_activity: "2026-06-09 -- Quick task 260609-ts-openssh-metasploitable: guía troubleshooting OpenSSH Stopped en Metasploitable3"
 progress:
   total_phases: 8
   completed_phases: 0
@@ -81,6 +81,7 @@ None yet.
 | 260531-gh0 | enriquecer Kill Chain 2 tema03: analogia Jenkins=GitHub Actions, flujo CI/CD concreto, analogia Groovy, prerequisito red interna | 2026-05-31 | bb3d353 | [260531-gh0-enriquecer-kill-chain-2-tema03-analogia-](.planning/quick/260531-gh0-enriquecer-kill-chain-2-tema03-analogia-/) |
 | 260531-rec | agregar tabla tipos de reconocimiento (pasivo/semi-pasivo/activo) con ejemplos OSINT en Etapa 1 de tema03 | 2026-05-31 | 09f5334 | [260531-rec-agregar-contexto-recon-tecnicas-osint-tema03](.planning/quick/260531-rec-agregar-contexto-recon-tecnicas-osint-tema03/) |
 | 260531-eb1 | Kill Chain 3: Paso 0 inspección módulo Ruby + anatomía completa EternalBlue + nota BSOD + Paso 3 post-explotación Meterpreter | 2026-05-31 | 473eb48 | — |
+| 260609-ts-openssh | Guía troubleshooting OpenSSH Stopped en Metasploitable3: 6 causas + flujo diagnóstico + nota en tema03 | 2026-06-09 | 339138e | [260609-ts-openssh-metasploitable](.planning/quick/260609-ts-openssh-metasploitable/) |
 
 ## Deferred Items
 
