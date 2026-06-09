@@ -1,6 +1,6 @@
 ---
 title: "Troubleshooting: OpenSSH Detenido en Metasploitable3"
-date: 2026-06-09
+date: 2026-06-08
 categories: [Laboratorio, Troubleshooting]
 tags: [metasploitable3, openssh, virtualbox, windows, laboratorio]
 ---
