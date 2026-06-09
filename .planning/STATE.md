@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: active
-last_updated: "2026-06-09T02:12:00.000Z"
-last_activity: "2026-06-09 -- Quick task 260609-ts-openssh-metasploitable: guía troubleshooting OpenSSH Stopped en Metasploitable3"
+stopped_at: context exhaustion at 75% (2026-06-09)
+last_updated: "2026-06-09T08:38:49.715Z"
+last_activity: "2026-05-31 -- Quick task 260531-fyy: enriquecer Kill Chain 2 narrativa histórica DevOps y Groovy"
 progress:
   total_phases: 8
   completed_phases: 0
@@ -91,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-31T18:52:29.214Z
-Stopped at: context exhaustion at 75% (2026-05-31)
+Last session: 2026-06-09T08:38:49.712Z
+Stopped at: context exhaustion at 75% (2026-06-09)
 Resume file: None
