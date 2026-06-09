@@ -34,6 +34,8 @@ Get-EventLog -LogName System -Newest 30 | Where-Object {
 } | Select-Object TimeGenerated, Source, EntryType, Message | Format-List
 ```
 
+Es muy probable que obtenga un output. Tome un screenshot y coloque en su reporte de troubleshooting (un .md con este troubleshooting).
+
 ```powershell
 # Ver también el Application log
 Get-EventLog -LogName Application -Newest 30 | Where-Object {
@@ -42,6 +44,13 @@ Get-EventLog -LogName Application -Newest 30 | Where-Object {
 ```
 
 Anota el mensaje de error — te indicará cuál de las causas aplica.
+
+En mi caso, obtengo algo así:
+
+![Output](/assets/images/Openssh-stopped-troubleshooting-01.png)
+
+En mi caso todos son logs de **información**. En su caso Tome un screenshot y coloque en su reporte.
+
 
 ---
 
@@ -72,56 +81,7 @@ Get-Service OpenSSHd
 
 ---
 
-## Causa 2: Claves de host SSH inexistentes o inválidas
-
-**Probabilidad: Alta.** El demonio `sshd` requiere claves de host criptográficas en `C:\cygwin\etc\` para poder arrancar. Si estas claves no existen o tienen permisos incorrectos, el servicio falla silenciosamente.
-
-### Cómo detectarlo
-
-```powershell
-# Verificar si las claves de host existen
-Test-Path "C:\cygwin\etc\ssh_host_rsa_key"
-Test-Path "C:\cygwin\etc\ssh_host_dsa_key"
-Test-Path "C:\cygwin\etc\ssh_host_ecdsa_key"
-```
-
-Si alguno devuelve `False`, faltan las claves.
-
-### Solución
-
-Abrir una terminal de **Cygwin** (no PowerShell) y regenerar las claves:
-
-```bash
-# Desde la terminal de Cygwin (C:\cygwin\bin\bash.exe)
-ssh-keygen -A
-```
-
-Si no hay un ícono de Cygwin Terminal, puedes abrirlo desde PowerShell:
-
-```powershell
-Start-Process "C:\cygwin\bin\bash.exe" -ArgumentList "--login", "-i"
-```
-
-Luego desde esa terminal bash:
-
-```bash
-ssh-keygen -A
-# Deberías ver:
-# Generating public/private rsa key pair...
-# Generating public/private dsa key pair...
-# etc.
-```
-
-Después vuelve a PowerShell y arranca el servicio:
-
-```powershell
-Start-Service OpenSSHd
-Get-Service OpenSSHd
-```
-
----
-
-## Causa 3: Ruta del binario incorrecta (servicio apunta a un archivo que no existe)
+## Causa 2: Ruta del binario incorrecta (servicio apunta a un archivo que no existe)
 
 **Probabilidad: Media.** El registro de Windows guarda la ruta del ejecutable del servicio. Si Cygwin no está instalado en `C:\cygwin\` o si el OVA fue importado con problemas de filesystem, la ruta puede estar rota.
 
@@ -162,7 +122,7 @@ Start-Service OpenSSHd
 
 ---
 
-## Causa 4: Permisos incorrectos en directorios de Cygwin
+## Causa 3: Permisos incorrectos en directorios de Cygwin
 
 **Probabilidad: Media.** Cygwin emula permisos POSIX sobre NTFS. El directorio `/var/empty` (requerido por sshd como `ChrootDirectory`) y `/etc/ssh/` necesitan permisos específicos. Una importación problemática del OVA puede romper estas ACLs.
 
@@ -194,7 +154,7 @@ chmod 644 /etc/ssh/ssh_host_*_key.pub
 
 ---
 
-## Causa 5: Puerto 22 ya en uso
+## Causa 4: Puerto 22 ya en uso
 
 **Probabilidad: Baja.** Si otro proceso está usando el puerto 22, sshd no puede enlazarse a él y falla al arrancar.
 
@@ -222,7 +182,7 @@ Start-Service OpenSSHd
 
 ---
 
-## Causa 6: Recursos insuficientes (RAM)
+## Causa 5: Recursos insuficientes (RAM)
 
 **Probabilidad: Baja.** Metasploitable3 requiere al menos **4 GB de RAM** asignados en VirtualBox. Con menos memoria, servicios como el SSH pueden fallar al iniciar.
 
@@ -249,18 +209,15 @@ Seguir este orden para diagnosticar el problema de manera eficiente:
 2. Verificar StartMode → ¿está en Manual/Disabled?
       ↓ sí → Causa 1 (cambiar a Automatic)
       ↓ no → continuar
-3. Verificar claves de host → ¿existen ssh_host_*_key?
-      ↓ no → Causa 2 (ssh-keygen -A)
+3. Verificar ruta del binario → ¿existe el .exe registrado en el servicio?
+      ↓ no → Causa 2 (re-registrar servicio)
       ↓ sí → continuar
-4. Verificar ruta del binario → ¿existe C:\cygwin\bin\sshd.exe?
-      ↓ no → Causa 3 (re-registrar servicio)
-      ↓ sí → continuar
-5. Ejecutar sshd -t desde Cygwin → ¿hay errores de permisos?
-      ↓ sí → Causa 4 (corregir permisos)
+4. Ejecutar sshd -t desde Cygwin → ¿hay errores de permisos?
+      ↓ sí → Causa 3 (corregir permisos)
       ↓ no → continuar
-6. Verificar puerto 22 → ¿hay otro proceso usando :22?
-      ↓ sí → Causa 5 (liberar el puerto)
-      ↓ no → Causa 6 (verificar RAM asignada)
+5. Verificar puerto 22 → ¿hay otro proceso usando :22?
+      ↓ sí → Causa 4 (liberar el puerto)
+      ↓ no → Causa 5 (verificar RAM asignada)
 ```
 
 ---
