@@ -23,6 +23,10 @@ Al intentar iniciarlo con `Start-Service OpenSSHd`, el comando falla con error `
 
 ---
 
+> **Causas más probables:** Basado en el comportamiento observado en el laboratorio, sospecho primero de la **Causa 1** (el servicio está configurado en inicio Manual y simplemente no arrancó solo). Si la Causa 1 no resuelve el problema, la siguiente sospecha es la **Causa 5** (recursos insuficientes de la VM). Sin embargo, antes de llegar a la Causa 5 conviene agotar las causas intermedias — el diagnóstico por log (Causa 3) suele revelar el problema exacto sin necesidad de apagar y reconfigurar VMs.
+
+---
+
 ## Diagnóstico previo: obtener el error real
 
 Antes de aplicar cualquier solución, ejecuta esto en PowerShell para ver el motivo exacto del fallo:
@@ -154,7 +158,7 @@ Si no se encuentran en ninguna ruta, reinstalar OpenSSH para Windows desde la VM
 ### Cómo leer el log
 
 ```powershell
-type "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
+Get-Content "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
 ```
 
 En mi caso (servicio **funcionando**) el log muestra esto:
@@ -244,7 +248,7 @@ Get-Process -Id <PID>
 
 ### Solución
 
-Si el proceso que ocupa el puerto 22 no es esencial, detenerlo:
+Si el proceso que ocupa el puerto 22 no es OpenSSHd o SSHd, detenerlo:
 
 ```powershell
 Stop-Process -Id <PID> -Force
@@ -253,19 +257,52 @@ Start-Service OpenSSHd
 
 ---
 
-## Causa 5: Recursos insuficientes (RAM)
+## Causa 5: Recursos insuficientes (RAM y CPU)
 
-**Probabilidad: Baja.** Metasploitable3 requiere al menos **4 GB de RAM** asignados en VirtualBox. Con menos memoria, servicios como el SSH pueden fallar al iniciar.
+**Probabilidad: Media** — especialmente si tienes Kali y Metasploitable3 corriendo al mismo tiempo con recursos mínimos.
+
+### Por qué ocurre
+
+En el laboratorio es común tener ambas VMs activas simultáneamente con configuraciones muy ajustadas (1 GB de RAM y 1 CPU cada una). Esto puede causar que el servicio OpenSSH no arranque por dos razones:
+
+1. **Windows detiene servicios por memoria baja.** El Service Control Manager de Windows puede no iniciar servicios no esenciales cuando la RAM disponible está por debajo de cierto umbral. Con 1 GB de RAM total para Windows Server 2008 R2, el sistema operativo consume la mayor parte solo para arrancar.
+
+2. **El fork() de Cygwin falla por falta de memoria.** El error `fork: child -1 - CreateProcessW failed` del log (Causa 3 - Error tipo B) también puede ser causado directamente por memoria insuficiente para duplicar el proceso sshd, no solo por conflictos de DLLs.
 
 ### Cómo verificarlo
 
-En VirtualBox (con la VM apagada): clic derecho sobre la VM → Configuración → Sistema → Memoria base. Debe ser ≥ 4096 MB.
+Verifica los recursos asignados a cada VM con VirtualBox **cerradas** (no en modo suspendido):
+
+**En VirtualBox → seleccionar la VM → Configuración → Sistema:**
+
+| VM | RAM mínima recomendada | CPU mínima recomendada |
+|---|---|---|
+| Metasploitable3 (Windows) | 2048 MB | 2 CPUs |
+| Kali Linux | 2048 MB | 2 CPUs |
+
+Si alguna tiene 1024 MB o menos, esa es probablemente la causa.
+
+También verifica dentro de la VM cuánta RAM está disponible:
+
+```powershell
+(Get-WmiObject Win32_OperatingSystem).FreePhysicalMemory
+```
+
+Si el valor es menor a 200,000 KB (≈200 MB libres) con el sistema recién iniciado y sin carga, la RAM es insuficiente.
 
 ### Solución
 
-1. Apagar la VM
-2. En VirtualBox: Configuración → Sistema → aumentar memoria a 4096 MB como mínimo
-3. Reiniciar la VM
+1. Apagar ambas VMs
+2. En VirtualBox: clic derecho → Configuración → Sistema → aumentar **Memoria base** a 2048 MB mínimo para Metasploitable3
+3. Aumentar también los **Procesadores** a 2 si el equipo host lo permite
+4. Reiniciar la VM y verificar el servicio:
+
+```powershell
+Start-Service OpenSSHd
+Get-Service OpenSSHd
+```
+
+> **Nota:** Para aumentar los recursos de las VMs, el equipo host necesita tener RAM suficiente. Si el host tiene 8 GB de RAM, asignar 2 GB a cada VM es viable. Si el host tiene 4 GB o menos, considera ejecutar solo una VM a la vez.
 
 ---
 
