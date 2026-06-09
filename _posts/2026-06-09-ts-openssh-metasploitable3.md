@@ -47,7 +47,7 @@ Anota el mensaje de error — te indicará cuál de las causas aplica.
 
 En mi caso, obtengo algo así:
 
-![Output](/assets/images/Openssh-stopped-troubleshooting-01.png)
+![Output](/assets/images/opensshd-troubleshooting-01.png)
 
 > **Nota:** En mi caso todos son logs de información porque mi servicio **sí funciona**. Compara tu output con este: si aparecen entradas de tipo `Error`, esas líneas señalan la causa del fallo.
 
@@ -78,7 +78,7 @@ Los valores clave que debes anotar:
 El valor `StdErr` apunta a `/var/log/OpenSSHd.log`. En Windows esa ruta corresponde a:
 
 ```powershell
-Get-Content "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
+type "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
 ```
 
 **Si el archivo existe y tiene contenido**, el mensaje de error ahí es el diagnóstico definitivo. Úsalo para identificar cuál de las causas aplica.
@@ -130,9 +130,9 @@ Test-Path "C:\Program Files\OpenSSH\usr\sbin\sshd.exe"
 
 Ambos `Test-Path` deben devolver `True`.
 
-![Verificación de binarios OpenSSH](/assets/images/get-wmiobject-opensshd.png)
+![Verificación de binarios OpenSSH](/assets/images/opensshd-troubleshooting-02.png)
 
-> **Nota:** En mi caso ambos devuelven `True` y el servicio funciona. Verifica que en tu máquina ocurra lo mismo. Si alguno devuelve `False`, esa es la causa del fallo.
+> **Nota:** En mi caso ambos devuelven `True` y el servicio funciona. Verifica que en tu máquina ocurra lo mismo. Si alguno devuelve `False`, esa es probablemente la causa del fallo.
 
 ### Solución
 
@@ -147,50 +147,81 @@ Si no se encuentran en ninguna ruta, reinstalar OpenSSH para Windows desde la VM
 
 ---
 
-## Causa 3: Error de configuración o permisos en OpenSSH
+## Causa 3: Errores en el log de sshd (claves faltantes o fallo de fork)
 
-**Probabilidad: Media.** La instalación de OpenSSH en `C:\Program Files\OpenSSH\` incluye directorios con permisos POSIX emulados sobre NTFS. Si esos permisos se corrompieron durante la importación del OVA, `sshd` falla al arrancar.
+**Probabilidad: Media-Alta.** El log de errores del servicio revela dos tipos de problemas que pueden impedir el arranque de sshd.
 
-### Cómo detectarlo
-
-Primero revisa el log (si aún no lo has hecho):
+### Cómo leer el log
 
 ```powershell
-Get-Content "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
+type "C:\Program Files\OpenSSH\var\log\OpenSSHd.log"
 ```
 
-Mensajes típicos de permisos incorrectos:
+En mi caso (servicio **funcionando**) el log muestra esto:
+
+![Log de OpenSSHd en máquina funcional](/assets/images/opensshd-troubleshooting-04.png)
+
+> **Nota:** Este es el output de mi máquina donde el servicio **sí arranca**. Tu log puede contener los mismos errores o versiones más graves. Compara línea por línea.
+
+---
+
+### Error tipo A: `Could not load host key`
+
 ```
-/var/empty must be owned by root and not group or world-writable.
-Bad owner or permissions on /etc/ssh/sshd_config
+Could not load host key: /etc/ssh_host_ed25519_key
 ```
 
-También puedes ejecutar `sshd` en modo test directamente desde `cmd.exe`:
+En mi caso falta la clave `ed25519`, pero sshd arranca igual porque tiene otras claves de respaldo (rsa, dsa, ecdsa). **Si en tu máquina faltan TODAS las claves**, sshd no puede arrancar.
+
+**Diagnóstico:**
+
+```powershell
+# Verificar qué claves existen (en Windows corresponden a C:\Program Files\OpenSSH\etc\)
+Get-ChildItem "C:\Program Files\OpenSSH\etc\" -Filter "ssh_host_*"
+```
+
+Si el directorio está vacío o no existe ninguna clave `ssh_host_*_key`, esa es la causa.
+
+**Solución — regenerar las claves:**
 
 ```cmd
-"C:\Program Files\OpenSSH\usr\sbin\sshd.exe" -t
+"C:\Program Files\OpenSSH\usr\bin\ssh-keygen.exe" -t rsa -f "C:\Program Files\OpenSSH\etc\ssh_host_rsa_key" -N ""
+"C:\Program Files\OpenSSH\usr\bin\ssh-keygen.exe" -t dsa -f "C:\Program Files\OpenSSH\etc\ssh_host_dsa_key" -N ""
+"C:\Program Files\OpenSSH\usr\bin\ssh-keygen.exe" -t ecdsa -f "C:\Program Files\OpenSSH\etc\ssh_host_ecdsa_key" -N ""
 ```
 
-Si hay errores de configuración o permisos, los mostrará en la consola.
-
-### Solución
-
-Abrir `cmd.exe` **como Administrador** y ejecutar los comandos de la shell Cygwin incluida:
-
-```cmd
-"C:\Program Files\OpenSSH\bin\bash.exe" --login -c "chown root /var/empty && chmod 755 /var/empty"
-```
-
-```cmd
-"C:\Program Files\OpenSSH\bin\bash.exe" --login -c "chmod 600 /etc/ssh/ssh_host_*_key && chmod 644 /etc/ssh/ssh_host_*_key.pub"
-```
-
-Luego intentar arrancar el servicio nuevamente:
+Luego intentar arrancar el servicio:
 
 ```powershell
 Start-Service OpenSSHd
 Get-Service OpenSSHd
 ```
+
+---
+
+### Error tipo B: `fork: child -1 - CreateProcessW failed`
+
+```
+0 [main] sshd 2928 fork: child -1 - CreateProcessW failed for 'C:\Program Files\OpenSSH\usr\sbin\sshd.exe'
+```
+
+Este error significa que Cygwin no puede hacer `fork()` porque otra DLL del sistema está ocupando la dirección de memoria que necesita. En mi máquina son errores transitorios — sshd arranca igual. En tu máquina pueden ser fatales si el conflicto es más grave (diferente versión de Windows, software adicional instalado, o configuración de ASLR distinta).
+
+**Solución — rebase de las DLLs de Cygwin:**
+
+Cierra **todos** los procesos de Cygwin/OpenSSH y ejecuta desde `cmd.exe` como Administrador:
+
+```cmd
+"C:\Program Files\OpenSSH\bin\rebaseall.exe"
+```
+
+Si `rebaseall.exe` no existe en esa ruta, búscalo:
+
+```powershell
+Get-ChildItem -Path "C:\Program Files\OpenSSH\" -Filter "rebaseall*" -Recurse
+```
+
+Tras ejecutar `rebaseall`, reinicia la VM y vuelve a intentar arrancar el servicio.
 
 ---
 
