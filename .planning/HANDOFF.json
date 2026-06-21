@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-09T08:44:44Z",
+  "timestamp": "2026-06-21T06:44:00Z",
   "phase": "01",
   "phase_name": "revisar-tema03-plantilla",
   "phase_dir": ".planning/phases/01-revisar-tema03-plantilla",
@@ -10,7 +10,8 @@
   "status": "paused",
   "completed_tasks": [
     {"id": 1, "name": "Eliminar archivos obsoletos tema03", "status": "done", "commit": "previo a esta sesion"},
-    {"id": "qt-260609", "name": "Quick task: guia troubleshooting OpenSSH Stopped", "status": "done", "commit": "8e86fb7"}
+    {"id": "qt-260609", "name": "Quick task: guia troubleshooting OpenSSH Stopped", "status": "done", "commit": "8e86fb7"},
+    {"id": "qt-260621", "name": "Quick task: examen parcial 01 (20 preguntas PDF)", "status": "done", "commit": "pendiente"}
   ],
   "remaining_tasks": [
     {"id": 2, "name": "Checkpoint humano: verificacion visual del post tema03 en navegador", "status": "not_started"}
@@ -18,7 +19,7 @@
   "blockers": [],
   "human_actions_pending": [
     {
-      "action": "Verificar visualmente el post 2026-05-31-tema03.md en http://127.0.0.1:4000 con bundle exec jekyll serve --future",
+      "action": "Verificar visualmente el post 2026-05-31-tema03.md en http://localhost:4000 con bundle exec jekyll serve --future --host 0.0.0.0",
       "context": "Plan 01-04 Task 2 es un checkpoint bloqueante que requiere aprobacion humana antes de cerrar Phase 01",
       "blocking": true
     }
@@ -26,9 +27,15 @@
   "decisions": [
     {"decision": "Post troubleshooting OpenSSH creado como post separado (no incrustado en tema03)", "rationale": "Mantiene tema03 enfocado en el flujo ofensivo; el troubleshooting es material de soporte", "phase": "01"},
     {"decision": "Slug Jekyll se genera desde el filename, no del title front matter", "rationale": "Descubierto via fallo en htmlproofer CI; permalink :title usa parte del filename post la fecha", "phase": "01"},
-    {"decision": "Causa 2 (host keys) eliminada del troubleshooting; paths C:\\cygwin\\etc\\ incorrectos para este entorno", "rationale": "Test-Path False en maquina funcional confirmo que el path no aplica a Metasploitable3 Windows 2008 R2", "phase": "01"}
+    {"decision": "Causa 2 (host keys) eliminada del troubleshooting; paths C:\\cygwin\\etc\\ incorrectos para este entorno", "rationale": "Test-Path False en maquina funcional confirmo que el path no aplica a Metasploitable3 Windows 2008 R2", "phase": "01"},
+    {"decision": "Examen parcial: preguntas dan el comando y piden explicar que hace (no escribir de memoria)", "rationale": "Evalua comprension sobre memorizacion de sintaxis", "phase": "ad-hoc"},
+    {"decision": "Tema 01 reducido a 3 preguntas (de 5); 2 puntos redistribuidos a Tema 03", "rationale": "Jekyll/Ruby es setup, no nucleo del curso; Tema 03 (Kill Chains) merece mas peso", "phase": "ad-hoc"},
+    {"decision": "Nombre oficial del curso: PET 204 Ciberseguridad", "rationale": "Correccion aplicada al examen parcial", "phase": "ad-hoc"}
   ],
-  "uncommitted_files": [".planning/STATE.md"],
-  "next_action": "Ejecutar checkpoint humano del Plan 01-04: bundle exec jekyll serve --future y verificar post tema03 en navegador. Escribir 'approved' para cerrar Phase 01.",
-  "context_notes": "Phase 01 esta al 99% — solo falta el checkpoint humano del Plan 01-04 Task 2. Durante esta sesion se produjo un quick task completo (260609-ts-openssh) con pagina de troubleshooting para el alumno con OpenSSH Stopped. El build de CI pasara ahora que el link fue corregido a /posts/ts-openssh-metasploitable3/."
+  "uncommitted_files": [
+    "docs/examen-parcial-01.md",
+    "docs/examen-parcial-01.pdf"
+  ],
+  "next_action": "Ejecutar checkpoint humano del Plan 01-04: bundle exec jekyll serve --future --host 0.0.0.0 y verificar post tema03 en navegador. Escribir 'approved' para cerrar Phase 01.",
+  "context_notes": "Phase 01 sigue al 99% — solo falta checkpoint humano del Plan 01-04 Task 2. Sesion 2026-06-21 fue completamente ad-hoc: examen parcial 01 creado (docs/examen-parcial-01.md + .pdf, 20 preguntas distribuidas 3+5+12 por unidad, generado con Chrome headless). Archivos docs/ sin commitear."
 }
