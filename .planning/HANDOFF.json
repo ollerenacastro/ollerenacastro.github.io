@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-28T19:38:10Z",
+  "phase": null,
+  "phase_name": "none — between phases",
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": "phase-01-close", "name": "Phase 01 cerrada: checkpoint humano aprobado, 01-04-SUMMARY.md escrito", "status": "done", "commit": "ad10158"},
+    {"id": "qt-260628-k6u", "name": "Quick task: tema04 OilRig reestructurado para clase de 3 horas", "status": "done", "commit": "106ef91"}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "human_actions_pending": [],
+  "decisions": [
+    {"decision": "Phase 01 cerrada: plantilla STR-01 aprobada visualmente — fases 2-8 pueden replicar", "rationale": "Checkpoint humano aprobado 2026-06-28", "phase": "01"},
+    {"decision": "tema04 OilRig: backup en _posts/2025-10-12-tema04.md.backup (gitignored), post reestructurado de 7614 a 3190 líneas para 3h", "rationale": "El original cubre 10h; se seleccionaron Pasos 1/3/4/6/10 + Parte 3.3", "phase": "ad-hoc"},
+    {"decision": "tema04 es un post existente (2025-10-12-tema04.md) — Phase 02 ROADMAP dice crear tema04 en _posts/ con filename YYYY-MM-DD-tema04.md", "rationale": "El post ya existe pero está desactualizado vs requisitos CONT-02 (Nmap avanzado NSE, Shodan, Google dorks sobre Metasploitable3). Necesita evaluación antes de iniciar Phase 02.", "phase": "ad-hoc"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Iniciar Phase 02: /gsd-plan-phase 02. PERO primero evaluar si el tema04 existente (2025-10-12-tema04.md, ahora reestructurado para clase) cumple los requisitos CONT-02 o si Phase 02 requiere un post nuevo con diferente filename.",
+  "context_notes": "Sesión 2026-06-28: (1) Phase 01 cerrada con checkpoint humano aprobado. (2) tema04 analizado — el post original OilRig tiene ~10h de contenido; reestructurado para 3h de clase (Pasos 1/3/4/6/10 + Parte 3.3). El post existente es un APT emulation scenario, NO reconocimiento avanzado Nmap/OSINT. Phase 02 ROADMAP requiere Nmap NSE + Shodan + Google dorks sobre Metasploitable3 — contenido diferente al actual tema04. Decisión pendiente: ¿el tema04 reestructurado satisface Phase 02 o se necesita un post nuevo?"
+}
