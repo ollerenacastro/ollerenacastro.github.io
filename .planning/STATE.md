@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-24)
 Phase: 01 (revisar-tema03-plantilla) — **COMPLETADA** ✓
 Plan: 4 of 4 — completado (checkpoint humano aprobado 2026-06-28)
 Status: Listo para Phase 02
-Last activity: 2026-06-28 -- Phase 01 cerrada: checkpoint humano aprobado
+Last activity: 2026-06-28 -- Quick task 260628-k6u: tema04 OilRig reestructurado para clase de 3 horas
 
 Progress: [█░░░░░░░░░] 12% (1/8 phases)
 
@@ -85,6 +85,7 @@ None yet.
 | 260531-rec | agregar tabla tipos de reconocimiento (pasivo/semi-pasivo/activo) con ejemplos OSINT en Etapa 1 de tema03 | 2026-05-31 | 09f5334 | [260531-rec-agregar-contexto-recon-tecnicas-osint-tema03](.planning/quick/260531-rec-agregar-contexto-recon-tecnicas-osint-tema03/) |
 | 260531-eb1 | Kill Chain 3: Paso 0 inspección módulo Ruby + anatomía completa EternalBlue + nota BSOD + Paso 3 post-explotación Meterpreter | 2026-05-31 | 473eb48 | — |
 | 260609-ts-openssh | Guía troubleshooting OpenSSH Stopped en Metasploitable3: 6 causas + flujo diagnóstico + nota en tema03 | 2026-06-09 | 339138e | [260609-ts-openssh-metasploitable](.planning/quick/260609-ts-openssh-metasploitable/) |
+| 260628-k6u | Reestructurar tema04 OilRig para clase de 3 horas: backup original, 5 pasos seleccionados (1/3/4/6/10), Parte 3.3 | 2026-06-28 | 106ef91 | [260628-k6u-reestructurar-tema04-oilrig-para-clase-d](.planning/quick/260628-k6u-reestructurar-tema04-oilrig-para-clase-d/) |
 
 ## Deferred Items
 
