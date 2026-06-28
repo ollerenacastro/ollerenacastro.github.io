@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: context exhaustion at 75% (2026-06-09)
-last_updated: "2026-06-09T08:38:49.715Z"
-last_activity: "2026-05-31 -- Quick task 260531-fyy: enriquecer Kill Chain 2 narrativa histórica DevOps y Groovy"
+stopped_at: Phase 01 completada — checkpoint humano aprobado (2026-06-28)
+last_updated: "2026-06-28T19:13:00Z"
+last_activity: "2026-06-28 -- Phase 01 cerrada: checkpoint humano aprobado, SUMMARY 01-04 escrito"
 progress:
   total_phases: 8
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 3
-  percent: 0
+  completed_plans: 4
+  percent: 12
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-24)
 
 **Core value:** Cada sesión produce un escenario de ataque/defensa completamente documentado que el alumno ejecutó en su propia VM, aplicando metodología MITRE ATT&CK en entorno controlado.
-**Current focus:** Phase 01 — revisar-tema03-plantilla
+**Current focus:** Phase 02 (siguiente — por definir)
 
 ## Current Position
 
-Phase: 01 (revisar-tema03-plantilla) — EXECUTING
-Plan: 1 of 4
-Status: Executing Phase 01
-Last activity: 2026-05-31 -- Quick task 260531-fyy: enriquecer Kill Chain 2 narrativa histórica DevOps y Groovy
+Phase: 01 (revisar-tema03-plantilla) — **COMPLETADA** ✓
+Plan: 4 of 4 — completado (checkpoint humano aprobado 2026-06-28)
+Status: Listo para Phase 02
+Last activity: 2026-06-28 -- Phase 01 cerrada: checkpoint humano aprobado
 
-Progress: [█████░░░░░] 50%
+Progress: [█░░░░░░░░░] 12% (1/8 phases)
 
 ## Performance Metrics
 
@@ -60,8 +60,11 @@ Progress: [█████░░░░░] 50%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Init]: tema03 está en `_drafts/` — requiere revisión antes de publicar (CONT-01 es prioridad máxima)
-- [Init]: STR-01/02/03 establecidos en Phase 1 como plantilla; aplican a todas las fases siguientes
+- [Phase 01]: Jekyll slug viene del filename, no del `title` front matter (descubierto vía CI htmlproofer)
+- [Phase 01]: Post troubleshooting OpenSSH separado de tema03 (material de soporte, no flujo ofensivo)
+- [Phase 01]: Plantilla STR-01 aprobada visualmente — fases 2-8 pueden replicar con confianza
+- [Ad-hoc]: Examen parcial 01: preguntas dan el comando y piden explicar qué hace (no memorización)
+- [Ad-hoc]: Curso se llama oficialmente "PET 204 Ciberseguridad"
 - [Init]: tema06 = Buffer Overflows reservado por el profesor (no negociable)
 
 ### Pending Todos
@@ -91,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-09T08:38:49.712Z
-Stopped at: context exhaustion at 75% (2026-06-09)
+Last session: 2026-06-28T19:13:00Z
+Stopped at: Phase 01 completada — lista para Phase 02
 Resume file: None
