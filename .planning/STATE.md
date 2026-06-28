@@ -66,6 +66,7 @@ Recent decisions affecting current work:
 - [Ad-hoc]: Examen parcial 01: preguntas dan el comando y piden explicar qué hace (no memorización)
 - [Ad-hoc]: Curso se llama oficialmente "PET 204 Ciberseguridad"
 - [Init]: tema06 = Buffer Overflows reservado por el profesor (no negociable)
+- [Phase 02]: CONT-02 (Nmap NSE + Shodan + Google dorks) va en el post tema04 existente (`_posts/2025-10-12-tema04.md`) — no se crea post nuevo
 
 ### Pending Todos
 
@@ -86,6 +87,7 @@ None yet.
 | 260531-eb1 | Kill Chain 3: Paso 0 inspección módulo Ruby + anatomía completa EternalBlue + nota BSOD + Paso 3 post-explotación Meterpreter | 2026-05-31 | 473eb48 | — |
 | 260609-ts-openssh | Guía troubleshooting OpenSSH Stopped en Metasploitable3: 6 causas + flujo diagnóstico + nota en tema03 | 2026-06-09 | 339138e | [260609-ts-openssh-metasploitable](.planning/quick/260609-ts-openssh-metasploitable/) |
 | 260628-k6u | Reestructurar tema04 OilRig para clase de 3 horas: backup original, 5 pasos seleccionados (1/3/4/6/10), Parte 3.3 | 2026-06-28 | 106ef91 | [260628-k6u-reestructurar-tema04-oilrig-para-clase-d](.planning/quick/260628-k6u-reestructurar-tema04-oilrig-para-clase-d/) |
+| 260628-ttps | Agregar tarea investigación 26 TTPs OilRig (Descripción/Ejecución/Producto) bajo tabla MITRE ATT&CK en tema04 | 2026-06-28 | ad4589b | [260628-agregar-tarea-ttps-tema04](.planning/quick/260628-agregar-tarea-ttps-tema04/) |
 
 ## Deferred Items
 
