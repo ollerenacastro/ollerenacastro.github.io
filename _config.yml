@@ -214,6 +214,8 @@ exclude:
   - LICENSE
   - "*.config.js"
   - package*.json
+  - backups
+  - "*.backup"
 
 jekyll-archives:
   enabled: [categories, tags]
