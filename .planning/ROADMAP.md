@@ -13,7 +13,7 @@ El roadmap produce 10 posts de sesión (tema03-tema12) publicados como entradas 
 
 - [ ] **Phase 1: Revisar tema03 + Plantilla** - Publicar tema03 revisado con kill chains adicionales; establece la estructura estándar de posts
 - [ ] **Phase 2: Reconocimiento (tema04)** - Post completo sobre Nmap avanzado, OSINT y footprinting
-- [ ] **Phase 3: Explotación Web (tema05)** - Post sobre Jenkins, Tomcat y GlassFish en Metasploitable3
+- [x] **Phase 3: Threat Intelligence Management (tema05)** - Post sobre TIM con OpenCTI: teoría + lab slim (repo untels-tim-lab) + ejercicios de investigación de IoCs *(el plan original "Explotación Web" se movió a Deferred/Backlog)*
 - [ ] **Phase 4: Buffer Overflows (tema06)** - Post reservado sobre stack-based overflows y shellcode
 - [ ] **Phase 5: EternalBlue/SMB (tema07)** - Post sobre MS17-010 y explotación SMB completa
 - [ ] **Phase 6: Post-explotación y Privesc (tema08+09)** - Dos posts sobre Meterpreter, persistencia y escalación de privilegios
@@ -66,22 +66,27 @@ Plans:
 
 **Plans:** TBD
 
-### Phase 3: Explotación Web (tema05)
+### Phase 3: Threat Intelligence Management (tema05) — ✅ COMPLETADA
 
-**Goal:** tema05 publicado — explotación de tres vectores web en Metasploitable3 con comparación de técnicas y MITRE mapping
+**Goal:** tema05 publicado — Threat Intelligence Management con OpenCTI: teoría del ciclo de inteligencia y un lab práctico donde el alumno levanta su propio TIM e investiga IoCs reales
 **Mode:** mvp
 **Depends on:** Phase 2
-**Requirements:** CONT-03
+**Requirements:** CONT-03 *(reinterpretado: de "Explotación Web" a "Threat Intelligence")*
+**Ejecutada vía:** quick task `260705-acg` (2026-07-05, commit `0f71ba2`)
 **Success Criteria** (what must be TRUE):
 
-  1. tema05 publicado en `_posts/` con filename `YYYY-MM-DD-tema05.md`
-  2. El lab demuestra Jenkins Script Console RCE (puerto 8484) con shell obtenida
-  3. El lab demuestra Tomcat Manager WAR upload (puerto 8282) con shell obtenida
-  4. El post compara los tres vectores web (Jenkins, Tomcat, GlassFish) con su MITRE mapping respectivo
+  1. ✅ tema05 publicado en `_posts/2025-11-22-tema05.md` (slug `tema05`)
+  2. ✅ El post cubre teoría TIM: ciclo de inteligencia, IoC vs TTP vs CTI, Pirámide del Dolor, STIX 2.1, OpenCTI, fuentes OSINT, MITRE ATT&CK
+  3. ✅ El lab (repo separado <https://github.com/ollerenacastro/untels-tim-lab>) levanta un stack slim de OpenCTI sin módulos LLM/GPU en VM Kali de 8GB: OpenCTI 6.4 + MITRE ATT&CK + CISA KEV + feeds URLhaus/Feodo
+  4. ✅ 4 ejercicios de investigación de IoCs anclados en OilRig/APT34 (continuidad con tema04)
 
-**Plans:** TBD
+**Nota:** El lab NO vive en este repo Jekyll — es el repositorio GitHub separado `ollerenacastro/untels-tim-lab` (stack Docker), enlazado desde el post.
+
+**Plans:** N/A (ejecutado como quick task, no como plan de fase)
 
 ### Phase 4: Buffer Overflows (tema06)
+
+> ⚠️ **Nota (2026-07-05):** el post existente `_posts/2025-11-29-tema06.md` fue **despublicado** (`published: false`) por decisión del profesor. El archivo se conserva; ya no aparece en el sitio.
 
 **Goal:** tema06 publicado — introducción a stack-based buffer overflows con lab controlado y generación de shellcode
 **Mode:** mvp
@@ -97,6 +102,8 @@ Plans:
 **Plans:** TBD
 
 ### Phase 5: EternalBlue/SMB (tema07)
+
+> ⚠️ **Nota (2026-07-05):** el archivo `_posts/2025-12-15-tema07.md` (actualmente "Examen Final") fue **despublicado** (`published: false`). Nota adicional: el slug `tema07` planeado para EternalBlue/SMB choca con el archivo existente; resolver la numeración al planear esta fase.
 
 **Goal:** tema07 publicado — explotación completa de MS17-010 contra Metasploitable3, desde detección hasta shell SYSTEM
 **Mode:** mvp
@@ -166,9 +173,15 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Revisar tema03 + Plantilla | 2/4 | In Progress|  |
 | 2. Reconocimiento (tema04) | 0/? | Not started | - |
-| 3. Explotación Web (tema05) | 0/? | Not started | - |
+| 3. Threat Intelligence Mgmt (tema05) | quick 260705-acg | ✅ Complete | 2026-07-05 |
 | 4. Buffer Overflows (tema06) | 0/? | Not started | - |
 | 5. EternalBlue/SMB (tema07) | 0/? | Not started | - |
 | 6. Post-explotación y Privesc (tema08+09) | 0/? | Not started | - |
 | 7. Seguridad Web (tema10) | 0/? | Not started | - |
 | 8. Defensa y CTF Final (tema11+12) | 0/? | Not started | - |
+
+## Deferred / Backlog
+
+| Item | Origen | Estado | Nota |
+|------|--------|--------|------|
+| **Explotación Web** (Jenkins Script Console RCE, Tomcat WAR upload, GlassFish) con MITRE mapping | Plan original de Phase 3 (tema05), reemplazado por TIM el 2026-07-05 | Diferido | Contenido válido; asignar un tema-número libre si se quiere recuperar como clase futura. Success criteria original preservado en el historial git de este ROADMAP. |
