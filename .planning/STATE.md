@@ -67,6 +67,8 @@ Recent decisions affecting current work:
 - [Ad-hoc]: Curso se llama oficialmente "PET 204 Ciberseguridad"
 - [Init]: tema06 = Buffer Overflows reservado por el profesor (no negociable)
 - [Phase 02]: CONT-02 (Nmap NSE + Shodan + Google dorks) va en el post tema04 existente (`_posts/2025-10-12-tema04.md`) — no se crea post nuevo
+- [260705-acg]: tema05 ahora es Threat Intelligence Management (OpenCTI). Despublicados tema05 Caldera, tema06 Buffer Overflows y tema07 Examen Final (`published: false`). Esto **anula** la nota previa "tema06 reservado por el profesor" — el usuario ordenó despublicarlo explícitamente (reversible).
+- [260705-acg]: Lab TIM se distribuye como repo GitHub separado `ollerenacastro/untels-tim-lab` (no dentro del blog). Stack slim OpenCTI sin módulos LLM/GPU para VM Kali 8GB.
 
 ### Pending Todos
 
@@ -88,6 +90,7 @@ None yet.
 | 260609-ts-openssh | Guía troubleshooting OpenSSH Stopped en Metasploitable3: 6 causas + flujo diagnóstico + nota en tema03 | 2026-06-09 | 339138e | [260609-ts-openssh-metasploitable](.planning/quick/260609-ts-openssh-metasploitable/) |
 | 260628-k6u | Reestructurar tema04 OilRig para clase de 3 horas: backup original, 5 pasos seleccionados (1/3/4/6/10), Parte 3.3 | 2026-06-28 | 106ef91 | [260628-k6u-reestructurar-tema04-oilrig-para-clase-d](.planning/quick/260628-k6u-reestructurar-tema04-oilrig-para-clase-d/) |
 | 260628-ttps | Agregar tarea investigación 26 TTPs OilRig (Descripción/Ejecución/Producto) bajo tabla MITRE ATT&CK en tema04 | 2026-06-28 | ad4589b | [260628-agregar-tarea-ttps-tema04](.planning/quick/260628-agregar-tarea-ttps-tema04/) |
+| 260705-acg | tema05 reemplazado por clase Threat Intelligence Management (OpenCTI): teoría + lab untels-tim-lab + 4 ejercicios IoC OilRig; despublicados tema05 Caldera/tema06 BOF/tema07 examen | 2026-07-05 | 0f71ba2 | [260705-acg-threat-intel-tema05](.planning/quick/260705-acg-threat-intel-tema05/) |
 
 ## Deferred Items
 
