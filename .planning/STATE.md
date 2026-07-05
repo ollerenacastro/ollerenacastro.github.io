@@ -91,7 +91,7 @@ None yet.
 | 260628-k6u | Reestructurar tema04 OilRig para clase de 3 horas: backup original, 5 pasos seleccionados (1/3/4/6/10), Parte 3.3 | 2026-06-28 | 106ef91 | [260628-k6u-reestructurar-tema04-oilrig-para-clase-d](.planning/quick/260628-k6u-reestructurar-tema04-oilrig-para-clase-d/) |
 | 260628-ttps | Agregar tarea investigación 26 TTPs OilRig (Descripción/Ejecución/Producto) bajo tabla MITRE ATT&CK en tema04 | 2026-06-28 | ad4589b | [260628-agregar-tarea-ttps-tema04](.planning/quick/260628-agregar-tarea-ttps-tema04/) |
 | 260705-acg | tema05 reemplazado por clase Threat Intelligence Management (OpenCTI): teoría + lab untels-tim-lab + 4 ejercicios IoC OilRig; despublicados tema05 Caldera/tema06 BOF/tema07 examen | 2026-07-05 | 0f71ba2 | [260705-acg-threat-intel-tema05](.planning/quick/260705-acg-threat-intel-tema05/) |
-| 260705-fl8 | Refinar tema05 TIM (brainstorming): +niveles inteligencia/modelos/TLP/TAXII, +panorama CTI (3 tablas), +caso guiado APT39 completo, +6 screenshots reales OpenCTI; 310→580 líneas | 2026-07-05 | pending | [260705-fl8-refinar-tema05-tim](.planning/quick/260705-fl8-refinar-tema05-tim/) |
+| 260705-fl8 | Refinar tema05 TIM (brainstorming): +niveles inteligencia/modelos/TLP/TAXII, +panorama CTI (3 tablas), +caso guiado APT39 completo, +6 screenshots reales OpenCTI; 310→580 líneas | 2026-07-05 | 60716fc | [260705-fl8-refinar-tema05-tim](.planning/quick/260705-fl8-refinar-tema05-tim/) |
 
 ## Deferred Items
 
