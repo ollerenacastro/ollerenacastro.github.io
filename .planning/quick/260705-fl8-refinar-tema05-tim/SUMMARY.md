@@ -42,3 +42,14 @@ vía brainstorming (superpowers): APT39 completo + 3 tablas CTI + screenshots re
 
 Ejecutado como quick task GSD tras brainstorming. No se invocó writing-plans (edición de
 un solo post markdown con diseño aprobado — plan multi-fase innecesario).
+
+## Seguimiento — fixes post deep-dive (understand-explain)
+
+Tras un deep-dive del post se aplicaron 4 mejoras de robustez/foco (580→606 líneas):
+- **Plan B del lab**: fallback si el TIM no levanta (parejas o importar export STIX).
+- **Ej.4 CVE variable**: ya no depende de que Log4Shell esté en el catálogo KEV.
+- **TLP practicado**: paso nuevo en Ej.2 (marcado TLP + con quién compartir) — antes era
+  concepto huérfano.
+- **Diamond practicado**: paso nuevo en Ej.1 (aplicar Modelo Diamond a OilRig).
+- **Cierre del ciclo**: la regla de detección del Ej.2 enmarcada como fase 5 (difusión).
+(No se tocó la densidad teórica por decisión del usuario.)
