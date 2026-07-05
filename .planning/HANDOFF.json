@@ -1,26 +1,40 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-28T19:38:10Z",
+  "timestamp": "2026-07-05T16:50:39Z",
   "phase": null,
-  "phase_name": "none — between phases",
+  "phase_name": "none — entre Phase 01 (cerrada) y Phase 02 (no iniciada)",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
+  "context": "default",
+  "session_summary": "Sesión ad-hoc (quick tasks, no phase work): creación y refinamiento de la clase tema05 Threat Intelligence Management con OpenCTI, construcción del repo del lab untels-tim-lab, y guión de dictado como Artifact.",
   "completed_tasks": [
-    {"id": "phase-01-close", "name": "Phase 01 cerrada: checkpoint humano aprobado, 01-04-SUMMARY.md escrito", "status": "done", "commit": "ad10158"},
-    {"id": "qt-260628-k6u", "name": "Quick task: tema04 OilRig reestructurado para clase de 3 horas", "status": "done", "commit": "106ef91"}
+    {"id": "lab-tim", "name": "Repo lab untels-tim-lab (stack slim OpenCTI, sin LLM/GPU) — construido, smoke-test en host OK, publicado en GitHub separado", "status": "done", "commit": "244013c (repo lab)"},
+    {"id": "qt-260705-acg", "name": "quick 260705-acg: tema05 reemplazado Caldera->TIM; despublicados tema05-caldera/tema06/tema07", "status": "done", "commit": "0f71ba2"},
+    {"id": "roadmap-reconcile", "name": "ROADMAP reconciliado: Phase 3 = TIM completada, Explotación Web a Backlog", "status": "done", "commit": "d7a1930"},
+    {"id": "qt-260705-fl8", "name": "quick 260705-fl8: tema05 refinado (brainstorming) — panorama CTI 3 tablas, caso APT39 completo, 6 screenshots, teoría expandida (310->580 líneas)", "status": "done", "commit": "60716fc"},
+    {"id": "fix-backups", "name": "Fix Jekyll: backups dejan de publicarse (movidos fuera de _posts + exclude en _config.yml)", "status": "done", "commit": "b51cb2d"},
+    {"id": "tema05-fixes", "name": "tema05 fixes post deep-dive: Plan B lab, TLP/Diamond practicados, CVE variable, cierre difusión (580->606)", "status": "done", "commit": "9959ecb"},
+    {"id": "guion-artifact", "name": "Guión de dictado tema05 como Artifact (claude.ai) — narración+timing+demos+preguntas", "status": "done", "commit": "n/a (artifact hosteado)"}
   ],
-  "remaining_tasks": [],
+  "remaining_tasks": [
+    {"id": "phase-02", "name": "Phase 02: Reconocimiento (tema04) — NO iniciada. Evaluar si tema04 OilRig satisface CONT-02 o requiere contenido Nmap NSE + Shodan + dorks", "status": "not_started"}
+  ],
   "blockers": [],
-  "human_actions_pending": [],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {"action": "Verificar que el TIM en la VM Kali terminó de ingerir (cola RabbitMQ ~0) antes de dictar la clase", "context": "El arranque en frío tardaba 20-50 min; iba en ~15k+ relaciones cuando se pausó", "blocking": false}
+  ],
   "decisions": [
-    {"decision": "Phase 01 cerrada: plantilla STR-01 aprobada visualmente — fases 2-8 pueden replicar", "rationale": "Checkpoint humano aprobado 2026-06-28", "phase": "01"},
-    {"decision": "tema04 OilRig: backup en _posts/2025-10-12-tema04.md.backup (gitignored), post reestructurado de 7614 a 3190 líneas para 3h", "rationale": "El original cubre 10h; se seleccionaron Pasos 1/3/4/6/10 + Parte 3.3", "phase": "ad-hoc"},
-    {"decision": "tema04 es un post existente (2025-10-12-tema04.md) — Phase 02 ROADMAP dice crear tema04 en _posts/ con filename YYYY-MM-DD-tema04.md", "rationale": "El post ya existe pero está desactualizado vs requisitos CONT-02 (Nmap avanzado NSE, Shodan, Google dorks sobre Metasploitable3). Necesita evaluación antes de iniciar Phase 02.", "phase": "ad-hoc"}
+    {"decision": "tema05 = Threat Intelligence Management (OpenCTI), reemplaza a Caldera", "rationale": "Decisión del usuario; clase práctica con lab real", "phase": "quick 260705-acg"},
+    {"decision": "Lab TIM en repo GitHub SEPARADO ollerenacastro/untels-tim-lab, no dentro del blog", "rationale": "Es un stack Docker, no encaja en el repo Jekyll", "phase": "quick 260705-acg"},
+    {"decision": "Despublicados tema05-caldera/tema06/tema07 (published:false + movidos a backups/)", "rationale": "Orden del usuario; anula la nota previa 'tema06 reservado'", "phase": "quick 260705-acg + b51cb2d"},
+    {"decision": "Backups viven en backups/ (raíz) y están excluidos en _config.yml", "rationale": "Jekyll lee _posts/ recursivamente; un subdir _posts/backup/ seguía publicando", "phase": "b51cb2d"},
+    {"decision": "Lab corre en VM Kali (8GB/4CPU + disco Docker 25GB), no Docker Desktop en Windows", "rationale": "Sin GPU, no intrusivo en host del alumno, Docker nativo en Kali", "phase": "sesión TIM"}
   ],
   "uncommitted_files": [],
-  "next_action": "Iniciar Phase 02: /gsd-plan-phase 02. PERO primero evaluar si el tema04 existente (2025-10-12-tema04.md, ahora reestructurado para clase) cumple los requisitos CONT-02 o si Phase 02 requiere un post nuevo con diferente filename.",
-  "context_notes": "Sesión 2026-06-28: (1) Phase 01 cerrada con checkpoint humano aprobado. (2) tema04 analizado — el post original OilRig tiene ~10h de contenido; reestructurado para 3h de clase (Pasos 1/3/4/6/10 + Parte 3.3). El post existente es un APT emulation scenario, NO reconocimiento avanzado Nmap/OSINT. Phase 02 ROADMAP requiere Nmap NSE + Shodan + Google dorks sobre Metasploitable3 — contenido diferente al actual tema04. Decisión pendiente: ¿el tema04 reestructurado satisface Phase 02 o se necesita un post nuevo?"
+  "next_action": "Si se retoma trabajo de curso: iniciar Phase 02 (tema04 reconocimiento) con /gsd-plan-phase 02, evaluando primero si el tema04 OilRig existente satisface CONT-02. Si se retoma la clase TIM: verificar ingestión del TIM en la VM y ensayar el guión.",
+  "context_notes": "El grueso de la sesión fue la clase tema05 TIM (fuera del roadmap de fases, como quick tasks). El repo del lab está probado y público. El guión de dictado (Artifact) usa etiquetas NARRA/DEMO/PREGUNTA/OJO con timing de 3h; la clave operativa es arrancar docker compose up ANTES de la teoría por el arranque en frío. Phase 02 sigue pendiente igual que antes de esta sesión."
 }
