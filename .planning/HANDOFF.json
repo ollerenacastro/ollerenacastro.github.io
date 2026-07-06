@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-05T16:50:39Z",
+  "timestamp": "2026-07-06T10:30:23Z",
   "phase": null,
   "phase_name": "none — entre Phase 01 (cerrada) y Phase 02 (no iniciada)",
   "phase_dir": null,
@@ -9,32 +9,32 @@
   "total_tasks": null,
   "status": "paused",
   "context": "default",
-  "session_summary": "Sesión ad-hoc (quick tasks, no phase work): creación y refinamiento de la clase tema05 Threat Intelligence Management con OpenCTI, construcción del repo del lab untels-tim-lab, y guión de dictado como Artifact.",
+  "session_summary": "Sesión ad-hoc de troubleshooting del lab untels-tim-lab (mini-OpenCTI) en la VM Kali: diagnóstico end-to-end de por qué el TIM 'siempre necesita reconstruirse'. Causa raíz encontrada, fix durable (restart-lab.sh) creado y documentado en ambas guías.",
   "completed_tasks": [
-    {"id": "lab-tim", "name": "Repo lab untels-tim-lab (stack slim OpenCTI, sin LLM/GPU) — construido, smoke-test en host OK, publicado en GitHub separado", "status": "done", "commit": "244013c (repo lab)"},
-    {"id": "qt-260705-acg", "name": "quick 260705-acg: tema05 reemplazado Caldera->TIM; despublicados tema05-caldera/tema06/tema07", "status": "done", "commit": "0f71ba2"},
-    {"id": "roadmap-reconcile", "name": "ROADMAP reconciliado: Phase 3 = TIM completada, Explotación Web a Backlog", "status": "done", "commit": "d7a1930"},
-    {"id": "qt-260705-fl8", "name": "quick 260705-fl8: tema05 refinado (brainstorming) — panorama CTI 3 tablas, caso APT39 completo, 6 screenshots, teoría expandida (310->580 líneas)", "status": "done", "commit": "60716fc"},
-    {"id": "fix-backups", "name": "Fix Jekyll: backups dejan de publicarse (movidos fuera de _posts + exclude en _config.yml)", "status": "done", "commit": "b51cb2d"},
-    {"id": "tema05-fixes", "name": "tema05 fixes post deep-dive: Plan B lab, TLP/Diamond practicados, CVE variable, cierre difusión (580->606)", "status": "done", "commit": "9959ecb"},
-    {"id": "guion-artifact", "name": "Guión de dictado tema05 como Artifact (claude.ai) — narración+timing+demos+preguntas", "status": "done", "commit": "n/a (artifact hosteado)"}
+    {"id": "diag-8080", "name": "Diagnóstico puerto 8080 muerto: docker-proxy/NAT del host apuntando a IP vieja de opencti tras suspend/resume de la VM. Confirmado con ss (LISTEN 127.0.0.1:8080) + curl HTTP 000 + node in-container IN 401", "status": "done", "commit": "n/a (diagnóstico)"},
+    {"id": "diag-mitre", "name": "MITRE=0 en verify-platform.sh era falsa alarma: GraphQL directo da 1514 attackPatterns. El script se rindió a los 15 min mientras opencti aún calentaba tras force-recreate", "status": "done", "commit": "n/a (diagnóstico)"},
+    {"id": "diag-root", "name": "Causa raíz recurrente: al reanudar la VM, restart:unless-stopped NO respeta depends_on -> opencti sube antes que ES/Redis, crashea, IP nueva -> NAT stale (8080 muerto) + worker/connectors en crash-loop (Errno 111). Hueco en logs 23:12->07:09 = VM suspendida de noche", "status": "done", "commit": "n/a (diagnóstico)"},
+    {"id": "restart-script", "name": "restart-lab.sh creado (down+up limpio, reordena por healthcheck, espera 8080, self-check con curl loop)", "status": "done", "commit": "c60eb6d (repo lab)"},
+    {"id": "readme-lab", "name": "README lab: nota de retomar + 3 filas troubleshooting (8080 muerto pese a healthy, curl 000, connectors crash-loop)", "status": "done", "commit": "5355311 (repo lab, pusheado)"},
+    {"id": "post-tema05", "name": "Post tema05: nota de retomar el TIM con restart-lab.sh tras suspend/reboot", "status": "done", "commit": "3079756 (blog, NO pusheado aún)"}
   ],
   "remaining_tasks": [
-    {"id": "phase-02", "name": "Phase 02: Reconocimiento (tema04) — NO iniciada. Evaluar si tema04 OilRig satisface CONT-02 o requiere contenido Nmap NSE + Shodan + dorks", "status": "not_started"}
+    {"id": "push-blog", "name": "Decidir push del commit 3079756 al blog (GitHub Pages -> visible a alumnos). Quedó pendiente de confirmación del usuario", "status": "not_started"},
+    {"id": "pull-vm", "name": "En la VM Kali: cd ~/untels-tim-lab && git pull para bajar restart-lab.sh + README actualizado", "status": "not_started"},
+    {"id": "phase-02", "name": "Phase 02: Reconocimiento (tema04) — NO iniciada, igual que antes. Evaluar si tema04 OilRig satisface CONT-02", "status": "not_started"}
   ],
   "blockers": [],
   "async_jobs": [],
   "human_actions_pending": [
-    {"action": "Verificar que el TIM en la VM Kali terminó de ingerir (cola RabbitMQ ~0) antes de dictar la clase", "context": "El arranque en frío tardaba 20-50 min; iba en ~15k+ relaciones cuando se pausó", "blocking": false}
+    {"action": "git push del blog (commit 3079756) — publica a GitHub Pages", "context": "El usuario no confirmó el push; outward-facing, requiere su OK", "blocking": false},
+    {"action": "En la VM Kali: git pull en ~/untels-tim-lab para obtener restart-lab.sh", "context": "El script vive en el repo lab; la VM necesita pull para usarlo", "blocking": false}
   ],
   "decisions": [
-    {"decision": "tema05 = Threat Intelligence Management (OpenCTI), reemplaza a Caldera", "rationale": "Decisión del usuario; clase práctica con lab real", "phase": "quick 260705-acg"},
-    {"decision": "Lab TIM en repo GitHub SEPARADO ollerenacastro/untels-tim-lab, no dentro del blog", "rationale": "Es un stack Docker, no encaja en el repo Jekyll", "phase": "quick 260705-acg"},
-    {"decision": "Despublicados tema05-caldera/tema06/tema07 (published:false + movidos a backups/)", "rationale": "Orden del usuario; anula la nota previa 'tema06 reservado'", "phase": "quick 260705-acg + b51cb2d"},
-    {"decision": "Backups viven en backups/ (raíz) y están excluidos en _config.yml", "rationale": "Jekyll lee _posts/ recursivamente; un subdir _posts/backup/ seguía publicando", "phase": "b51cb2d"},
-    {"decision": "Lab corre en VM Kali (8GB/4CPU + disco Docker 25GB), no Docker Desktop en Windows", "rationale": "Sin GPU, no intrusivo en host del alumno, Docker nativo en Kali", "phase": "sesión TIM"}
+    {"decision": "Fix del TIM = arranque limpio (restart-lab.sh: down+up), NO force-recreate ni up -d sueltos", "rationale": "down limpia red+IPs viejas (mata NAT stale) y up respeta depends_on/healthchecks; datos persisten en volúmenes nombrados", "phase": "sesión troubleshooting"},
+    {"decision": "NO tocar el binding 127.0.0.1:8080:8080 — navegar dentro de Kali", "rationale": "Decisión de diseño: no exponer el TIM fuera de la VM; exponerlo requiere cambiar red VirtualBox", "phase": "sesión troubleshooting"},
+    {"decision": "NO subir RAM ni tocar mem_limit de Redis por ahora", "rationale": "ES 91% / Redis 90% es justo pero no roto; no experimentar antes de una clase. Candidato si vuelve a flapear", "phase": "sesión troubleshooting"}
   ],
   "uncommitted_files": [],
-  "next_action": "Si se retoma trabajo de curso: iniciar Phase 02 (tema04 reconocimiento) con /gsd-plan-phase 02, evaluando primero si el tema04 OilRig existente satisface CONT-02. Si se retoma la clase TIM: verificar ingestión del TIM en la VM y ensayar el guión.",
-  "context_notes": "El grueso de la sesión fue la clase tema05 TIM (fuera del roadmap de fases, como quick tasks). El repo del lab está probado y público. El guión de dictado (Artifact) usa etiquetas NARRA/DEMO/PREGUNTA/OJO con timing de 3h; la clave operativa es arrancar docker compose up ANTES de la teoría por el arranque en frío. Phase 02 sigue pendiente igual que antes de esta sesión."
+  "next_action": "Confirmar con el usuario si se hace push del blog (commit 3079756). Luego: en la VM, git pull del repo lab. Trabajo de curso pendiente sigue siendo Phase 02 (tema04).",
+  "context_notes": "El TIM quedó OPERATIVO: HTTP 200, 1514 attack patterns intactos, login admin@tim.local / JetH1y1vSqySAQUxgdNR. La regla operativa para la clase: al empezar o tras suspender la VM, correr ./scripts/restart-lab.sh, esperar ~2 min, verificar. Los datos NUNCA se pierden con down (sin -v). El guión de dictado (Artifact claude.ai) sigue listo de la sesión previa. Phase 02 intacta."
 }
