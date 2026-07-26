@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-24)
 Phase: 01 (revisar-tema03-plantilla) — **COMPLETADA** ✓
 Plan: 4 of 4 — completado (checkpoint humano aprobado 2026-06-28)
 Status: Listo para Phase 02
-Last activity: 2026-06-28 -- Quick task 260628-k6u: tema04 OilRig reestructurado para clase de 3 horas
+Last activity: 2026-07-26 -- Quick task 260726-amm: tema06 "Anatomía de la seguridad de Windows" creado (clase defensiva 3h)
 
 Progress: [█░░░░░░░░░] 12% (1/8 phases)
 
@@ -90,6 +90,7 @@ None yet.
 | 260609-ts-openssh | Guía troubleshooting OpenSSH Stopped en Metasploitable3: 6 causas + flujo diagnóstico + nota en tema03 | 2026-06-09 | 339138e | [260609-ts-openssh-metasploitable](.planning/quick/260609-ts-openssh-metasploitable/) |
 | 260628-k6u | Reestructurar tema04 OilRig para clase de 3 horas: backup original, 5 pasos seleccionados (1/3/4/6/10), Parte 3.3 | 2026-06-28 | 106ef91 | [260628-k6u-reestructurar-tema04-oilrig-para-clase-d](.planning/quick/260628-k6u-reestructurar-tema04-oilrig-para-clase-d/) |
 | 260628-ttps | Agregar tarea investigación 26 TTPs OilRig (Descripción/Ejecución/Producto) bajo tabla MITRE ATT&CK en tema04 | 2026-06-28 | ad4589b | [260628-agregar-tarea-ttps-tema04](.planning/quick/260628-agregar-tarea-ttps-tema04/) |
+| 260726-amm | Crear tema06 "Anatomía de la seguridad de Windows": clase defensiva 3h para hosts Windows reales con cuenta estándar, desglosables admin, 3 bloques, Sysinternals, mapeo ATT&CK, entregable informe de postura | 2026-07-26 | 9fe0c4b | [260726-amm-crear-post-tema06-anatomia-de-la-segurid](.planning/quick/260726-amm-crear-post-tema06-anatomia-de-la-segurid/) |
 | 260705-acg | tema05 reemplazado por clase Threat Intelligence Management (OpenCTI): teoría + lab untels-tim-lab + 4 ejercicios IoC OilRig; despublicados tema05 Caldera/tema06 BOF/tema07 examen | 2026-07-05 | 0f71ba2 | [260705-acg-threat-intel-tema05](.planning/quick/260705-acg-threat-intel-tema05/) |
 | 260705-fl8 | Refinar tema05 TIM (brainstorming): +niveles inteligencia/modelos/TLP/TAXII, +panorama CTI (3 tablas), +caso guiado APT39 completo, +6 screenshots reales OpenCTI; 310→580 líneas | 2026-07-05 | 60716fc | [260705-fl8-refinar-tema05-tim](.planning/quick/260705-fl8-refinar-tema05-tim/) |
 
