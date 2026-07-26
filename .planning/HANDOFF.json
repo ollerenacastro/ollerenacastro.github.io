@@ -36,5 +36,5 @@
   ],
   "uncommitted_files": [],
   "next_action": "Confirmar con el usuario si se hace push del blog (commit 3079756). Luego: en la VM, git pull del repo lab. Trabajo de curso pendiente sigue siendo Phase 02 (tema04).",
-  "context_notes": "El TIM quedó OPERATIVO: HTTP 200, 1514 attack patterns intactos, login admin@tim.local / JetH1y1vSqySAQUxgdNR. La regla operativa para la clase: al empezar o tras suspender la VM, correr ./scripts/restart-lab.sh, esperar ~2 min, verificar. Los datos NUNCA se pierden con down (sin -v). El guión de dictado (Artifact claude.ai) sigue listo de la sesión previa. Phase 02 intacta."
+  "context_notes": "El TIM quedó OPERATIVO: HTTP 200, 1514 attack patterns intactos, login admin@tim.local (password en el .env del lab en la VM, no versionado). La regla operativa para la clase: al empezar o tras suspender la VM, correr ./scripts/restart-lab.sh, esperar ~2 min, verificar. Los datos NUNCA se pierden con down (sin -v). El guión de dictado (Artifact claude.ai) sigue listo de la sesión previa. Phase 02 intacta."
 }
