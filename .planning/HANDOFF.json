@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-06T10:30:23Z",
+  "timestamp": "2026-07-26T16:40:55.453Z",
   "phase": null,
   "phase_name": "none — entre Phase 01 (cerrada) y Phase 02 (no iniciada)",
   "phase_dir": null,
@@ -9,32 +9,32 @@
   "total_tasks": null,
   "status": "paused",
   "context": "default",
-  "session_summary": "Sesión ad-hoc de troubleshooting del lab untels-tim-lab (mini-OpenCTI) en la VM Kali: diagnóstico end-to-end de por qué el TIM 'siempre necesita reconstruirse'. Causa raíz encontrada, fix durable (restart-lab.sh) creado y documentado en ambas guías.",
+  "session_summary": "Sesión de creación de contenido: nuevo tema06 'Anatomía de la seguridad de Windows' (clase defensiva de 3h para hosts Windows reales con cuenta estándar). Post escrito vía gsd-quick (260726-amm), backfill con salidas y capturas reales de la VM Win10 del docente, reescrito a 3ª persona impersonal, y publicado a GitHub Pages. Guía de dictado docente publicada como Artifact. Un hallazgo de seguridad (password del TIM en handoffs versionados) depurado.",
   "completed_tasks": [
-    {"id": "diag-8080", "name": "Diagnóstico puerto 8080 muerto: docker-proxy/NAT del host apuntando a IP vieja de opencti tras suspend/resume de la VM. Confirmado con ss (LISTEN 127.0.0.1:8080) + curl HTTP 000 + node in-container IN 401", "status": "done", "commit": "n/a (diagnóstico)"},
-    {"id": "diag-mitre", "name": "MITRE=0 en verify-platform.sh era falsa alarma: GraphQL directo da 1514 attackPatterns. El script se rindió a los 15 min mientras opencti aún calentaba tras force-recreate", "status": "done", "commit": "n/a (diagnóstico)"},
-    {"id": "diag-root", "name": "Causa raíz recurrente: al reanudar la VM, restart:unless-stopped NO respeta depends_on -> opencti sube antes que ES/Redis, crashea, IP nueva -> NAT stale (8080 muerto) + worker/connectors en crash-loop (Errno 111). Hueco en logs 23:12->07:09 = VM suspendida de noche", "status": "done", "commit": "n/a (diagnóstico)"},
-    {"id": "restart-script", "name": "restart-lab.sh creado (down+up limpio, reordena por healthcheck, espera 8080, self-check con curl loop)", "status": "done", "commit": "c60eb6d (repo lab)"},
-    {"id": "readme-lab", "name": "README lab: nota de retomar + 3 filas troubleshooting (8080 muerto pese a healthy, curl 000, connectors crash-loop)", "status": "done", "commit": "5355311 (repo lab, pusheado)"},
-    {"id": "post-tema05", "name": "Post tema05: nota de retomar el TIM con restart-lab.sh tras suspend/reboot", "status": "done", "commit": "3079756 (blog, NO pusheado aún)"}
+    {"id": "quick-260726-amm", "name": "Post tema06 creado vía gsd-quick (front matter Chirpy, 3 bloques, desglosables admin <details markdown=1>, mapeo ATT&CK, entregable informe de postura)", "status": "done", "commit": "5f09f0b (docs) + 4c83510/9fe0c4b (contenido)"},
+    {"id": "backfill-real", "name": "Placeholders rellenados con salidas reales de la VM Win10 del docente (whoami/all+priv, net user, icacls, accesschk, Get-Service, Defender, firewall, eventos 4624, auditpol) + 4 capturas reales en assets/images/tema06", "status": "done", "commit": "19311db, f178155, 3f4399d, 95f1bb4"},
+    {"id": "third-person", "name": "Post reescrito de 2ª/1ª persona a 3ª persona impersonal (subagente + limpieza de nosotros)", "status": "done", "commit": "6427293"},
+    {"id": "push-blog", "name": "Push a GitHub Pages (main sincronizado con origin)", "status": "done", "commit": "29c68a8 (HEAD)"},
+    {"id": "guia-dictado", "name": "Guía de dictado docente publicada como Artifact (objetivos de aprendizaje, puntos clave, momentos clave del host real, chuleta ATT&CK, logística)", "status": "done", "commit": "n/a (Artifact: https://claude.ai/code/artifact/7a09a5a6-081f-4915-9638-fe28bf28a016)"},
+    {"id": "sec-scrub", "name": "Password admin del TIM ([REDACTADO]) eliminado de HANDOFF.json + .continue-here.md (estaban versionados y pusheados a repo público)", "status": "done", "commit": "29c68a8"}
   ],
   "remaining_tasks": [
-    {"id": "push-blog", "name": "Decidir push del commit 3079756 al blog (GitHub Pages -> visible a alumnos). Quedó pendiente de confirmación del usuario", "status": "not_started"},
-    {"id": "pull-vm", "name": "En la VM Kali: cd ~/untels-tim-lab && git pull para bajar restart-lab.sh + README actualizado", "status": "not_started"},
-    {"id": "phase-02", "name": "Phase 02: Reconocimiento (tema04) — NO iniciada, igual que antes. Evaluar si tema04 OilRig satisface CONT-02", "status": "not_started"}
+    {"id": "phase-02", "name": "Phase 02: Reconocimiento (tema04) — NO iniciada, igual que antes de esta sesión", "status": "not_started"},
+    {"id": "tema06-screenshots-optional", "name": "Capturas adicionales opcionales para tema06 (los 4 PNG ya están; ampliar si se desea)", "status": "not_started"}
   ],
   "blockers": [],
   "async_jobs": [],
   "human_actions_pending": [
-    {"action": "git push del blog (commit 3079756) — publica a GitHub Pages", "context": "El usuario no confirmó el push; outward-facing, requiere su OK", "blocking": false},
-    {"action": "En la VM Kali: git pull en ~/untels-tim-lab para obtener restart-lab.sh", "context": "El script vive en el repo lab; la VM necesita pull para usarlo", "blocking": false}
+    {"action": "Rotar el password admin del TIM en la VM Kali (editar OPENCTI_ADMIN_PASSWORD en el .env del lab + ./scripts/restart-lab.sh)", "context": "El password viejo quedó en el historial git público; el archivo actual ya está limpio. Riesgo bajo (OpenCTI escucha solo en 127.0.0.1 dentro de la VM), pero rotarlo lo anula del todo", "blocking": false},
+    {"action": "En la VM Kali: cd ~/untels-tim-lab && git pull", "context": "Pendiente de sesiones previas: bajar restart-lab.sh + README actualizado del repo lab", "blocking": false}
   ],
   "decisions": [
-    {"decision": "Fix del TIM = arranque limpio (restart-lab.sh: down+up), NO force-recreate ni up -d sueltos", "rationale": "down limpia red+IPs viejas (mata NAT stale) y up respeta depends_on/healthchecks; datos persisten en volúmenes nombrados", "phase": "sesión troubleshooting"},
-    {"decision": "NO tocar el binding 127.0.0.1:8080:8080 — navegar dentro de Kali", "rationale": "Decisión de diseño: no exponer el TIM fuera de la VM; exponerlo requiere cambiar red VirtualBox", "phase": "sesión troubleshooting"},
-    {"decision": "NO subir RAM ni tocar mem_limit de Redis por ahora", "rationale": "ES 91% / Redis 90% es justo pero no roto; no experimentar antes de una clase. Candidato si vuelve a flapear", "phase": "sesión troubleshooting"}
+    {"decision": "Clase tema06 = 100% defensiva/observacional sobre hosts Windows reales con cuenta estándar", "rationale": "El docente indicó que son hosts reales (no VMs), sin permiso para ejercicios ofensivos; flujo principal en cuenta estándar + desglosables <details> para comandos admin", "phase": "sesión contenido"},
+    {"decision": "Insertar salidas/capturas REALES del host Win10, nunca fabricar output", "rationale": "El docente corrió los comandos y aportó logs reales; los hallazgos reales (token dividido UAC, Sysmon+Elastic, exclusiones ocultas) son las mejores anclas pedagógicas", "phase": "sesión contenido"},
+    {"decision": "Todo el post en 3ª persona impersonal (sin tú ni nosotros)", "rationale": "Petición explícita del docente: 'tercera persona siempre'", "phase": "sesión contenido"},
+    {"decision": "Guía de dictado como Artifact privado, NO como post del blog", "rationale": "Es material docente interno; mismo precedente que el guión de tema05. El material del alumno es el post", "phase": "sesión contenido"}
   ],
   "uncommitted_files": [],
-  "next_action": "Confirmar con el usuario si se hace push del blog (commit 3079756). Luego: en la VM, git pull del repo lab. Trabajo de curso pendiente sigue siendo Phase 02 (tema04).",
-  "context_notes": "El TIM quedó OPERATIVO: HTTP 200, 1514 attack patterns intactos, login admin@tim.local (password en el .env del lab en la VM, no versionado). La regla operativa para la clase: al empezar o tras suspender la VM, correr ./scripts/restart-lab.sh, esperar ~2 min, verificar. Los datos NUNCA se pierden con down (sin -v). El guión de dictado (Artifact claude.ai) sigue listo de la sesión previa. Phase 02 intacta."
+  "next_action": "Decidir rumbo: (1) iniciar Phase 02 (tema04 Reconocimiento) con /gsd-plan-phase 02, o (2) atender los pendientes humanos (rotar password TIM + git pull en la VM). tema06 está cerrado y publicado.",
+  "context_notes": "tema06 quedó COMPLETO y publicado en GitHub Pages: clase defensiva de 3h, datos reales de la VM Win10 del docente (cuenta jarod), 4 capturas, 3ª persona, mapeo ATT&CK. Guía de dictado en Artifact. ANTI-PATRÓN descubierto esta sesión: nunca poner credenciales vivas en los handoffs versionados (.planning/*) — el flujo GSD los commitea y el repo es público. Regla: solo punteros ('password en el .env de la VM'). Ya aplicado. Phase 02 sigue intacta."
 }
