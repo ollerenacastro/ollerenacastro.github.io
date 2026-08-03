@@ -102,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-28T19:13:00Z
-Stopped at: Phase 01 completada — lista para Phase 02
-Resume file: None
+Last session: 2026-08-03T07:00:00Z
+Stopped at: Sesión reanudada — auditoría manual de tema05, §1-§5 hechas, retomando por §6 (Ejercicios)
+Resume file: .planning/.continue-here.md (+ .planning/HANDOFF.json)
