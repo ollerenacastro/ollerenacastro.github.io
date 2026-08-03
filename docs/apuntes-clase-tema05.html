@@ -227,6 +227,22 @@
     <a href="#s44"><span class="n">4.4</span><span class="txt">Actualizar el clon</span></a>
     <a href="#s45"><span class="n">4.5</span><span class="txt">Verificar la plataforma</span></a>
     <a href="#s46"><span class="n">4.6</span><span class="txt">Fuentes opcionales</span></a>
+    <a href="#s47"><span class="n">4.7</span><span class="txt">Empezar de cero</span></a>
+
+    <p class="navlabel">Caso guiado</p>
+    <a href="#s51"><span class="n">5.1</span><span class="txt">Partir de un malware</span></a>
+    <a href="#s52"><span class="n">5.2</span><span class="txt">Leer sus TTPs</span></a>
+    <a href="#s53"><span class="n">5.3</span><span class="txt">Pivotar al actor</span></a>
+    <a href="#s54"><span class="n">5.4</span><span class="txt">Modelo Diamond</span></a>
+    <a href="#s55"><span class="n">5.5</span><span class="txt">El arsenal</span></a>
+    <a href="#s56"><span class="n">5.6</span><span class="txt">Firma vs conducta</span></a>
+
+    <p class="navlabel">Ejercicios</p>
+    <a href="#s6"><span class="n">6</span><span class="txt">Lanzar los 1–4</span></a>
+    <a href="#s65"><span class="n">6.5</span><span class="txt">El dashboard</span></a>
+
+    <p class="navlabel">Cierre</p>
+    <a href="#s7"><span class="n">7</span><span class="txt">Entrega y cierre</span></a>
   </nav>
 
   <main>
@@ -994,6 +1010,324 @@
           apunta a la clave mal pegada (espacios o comillas) o a un <code>git pull</code>
           pendiente. Los errores <code>429</code> en el registro son la cuota gratuita de la API,
           no un fallo de configuración.
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.7 -->
+    <section class="sec" id="s47">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">4.7</span>
+        <h2>Empezar de cero — contingencia</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>No se explica en clase salvo que alguien lo necesite.</b> Está en el post para el alumno que llegue con el lab roto. Mencionarlo en una frase y seguir.</li>
+          <li><b>La escalera, de menos a más destructiva</b> — es lo único que hay que decir en voz alta:
+            <ul>
+              <li><code>./scripts/restart-lab.sh</code> → no pierde nada. Resuelve la mayoría de los casos.</li>
+              <li><code>git pull</code> + variable nueva en <code>.env</code> → no pierde nada.</li>
+              <li><code>./scripts/reset-lab.sh</code> → pierde los datos, <b>conserva las credenciales</b>.</li>
+            </ul>
+          </li>
+          <li><b>El punto que sí conviene subrayar:</b> <code>reset-lab.sh</code> no toca la carpeta ni el <code>.env</code>, así que después <b>entran con la misma contraseña de siempre</b>. No tienen que apuntar nada.</li>
+        </ul>
+        <div class="warn">
+          <span class="tag">Error clásico</span>
+          El reflejo del alumno es <code>rm -rf</code> de la carpeta. Es la peor opción: los volúmenes
+          de Docker <b>no viven ahí</b>, quedan huérfanos ocupando varios GB y ya no hay ningún
+          <code>docker compose</code> que sepa borrarlos. Y si vuelve a clonar con el mismo nombre de
+          carpeta, Docker <b>los reutiliza</b>: RabbitMQ conserva su contraseña vieja mientras OpenCTI
+          entra con la nueva, y el stack arranca, se ve sano y <b>no ingiere nada</b>.
+        </div>
+        <div class="warn">
+          <span class="tag">Anticipa esta pregunta</span>
+          «¿Por qué conservar el <code>.env</code> y no regenerarlo?» — Las contraseñas internas son un
+          <b>secreto compartido</b> entre el <code>.env</code> y los volúmenes: valen mientras ambos
+          lados coincidan. Al borrar los volúmenes, cada servicio se reinicializa leyendo el
+          <code>.env</code> y vuelven a coincidir. Regenerar el <code>.env</code> conservando los
+          volúmenes rompe el par.
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.1 -->
+    <section class="sec" id="s51">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">5.1</span>
+        <h2>Caso guiado — partir de un malware</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <div class="say">
+          <span class="tag">Encuadre necesario</span>
+          <q>Los siguientes 25 minutos <b>no los siguen en su máquina</b>: miran. Después lo repiten ustedes con otro actor, y esa es la entrega.</q>
+        </div>
+        <ul>
+          <li><b>Por qué se empieza por el malware y no por el actor.</b> Es el recorrido real de un analista: lo que llega del SOC es una muestra, no un nombre de grupo. El actor <b>se descubre</b>, no se asume.</li>
+          <li><b>Buscar <code>Remexi</code></b> → abrir la entidad de tipo <i>Malware</i>.</li>
+          <li><b>Lo que se ve en el Overview:</b> descripción, tipo, plataformas. Todavía nada de quién lo usa — eso llega en 5.3, y esa espera es deliberada.</li>
+        </ul>
+        <div class="pace">
+          <span class="tag">Sugerencia de ritmo</span>
+          5.1 y 5.2 son los que más aguantan si va sobrado de tiempo. Si va justo,
+          <b>5.4 es la sección que no se puede saltar</b>: es donde está la idea del día.
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.2 -->
+    <section class="sec" id="s52">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">5.2</span>
+        <h2>Leer sus TTPs — y por qué el Timeline engaña</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Knowledge → Attack patterns.</b> La tabla del post recoge <b>10 de las 16</b> técnicas, ordenadas por táctica. Decirlo: no es la lista completa, es una selección para leerla en clase.</li>
+          <li><b>La vista TIMELINE <u>no</u> está ordenada cronológicamente</b>, y algún alumno lo va a notar. Dos razones, y conviene dar las dos:
+            <ul>
+              <li><b>Todas las relaciones comparten fecha:</b> la de publicación del dataset de MITRE. No hay nada que ordenar.</li>
+              <li><b>Y de fondo, la razón buena:</b> «este malware usa esta técnica» es una <b>propiedad</b>, no un evento con hora. Un timeline necesita eventos.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="warn">
+          <span class="tag">Anticipa esta pregunta</span>
+          «¿Entonces para qué sirve el Timeline?» — Para entidades que <b>sí</b> son eventos:
+          <i>Incidents</i>, <i>Sightings</i>, campañas con fechas de inicio y fin. Con datos de MITRE
+          está vacío de sentido; con datos de un caso real, no.
+        </div>
+        <div class="link">
+          <span class="tag">Puente a 5.3</span>
+          «Ya sabemos <b>cómo</b> opera. Todavía no sabemos <b>quién</b> lo opera.»
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.3 -->
+    <section class="sec" id="s53">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">5.3</span>
+        <h2>Pivotar al actor</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Desde el malware, seguir la relación hacia el <i>intrusion-set</i>:</b> APT39.</li>
+          <li><b>El movimiento que hay que nombrar en voz alta:</b> esto es <b>pivotar</b>. No es buscar «APT39» en un buscador — es seguir una arista que ya existía en el grafo. La diferencia entre consultar y navegar.</li>
+          <li><b>Los alias</b> (Chafer, Remix Kitten…). Cada vendor bautiza a los actores por su cuenta; el grafo los unifica en una entidad.</li>
+        </ul>
+        <div class="say">
+          <span class="tag">Frase</span>
+          <q>Nadie escribió «Remexi pertenece a APT39» en una hoja de cálculo. Estaba en el grafo, y lo encontramos caminando.</q>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.4 -->
+    <section class="sec" id="s54">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">5.4</span>
+        <h2>El Modelo Diamond — la idea del día</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <div class="say">
+          <span class="tag">Frase de apertura</span>
+          <q>Abran el Diamond de APT39 y díganme qué falta.</q>
+        </div>
+        <ul>
+          <li><b>Lo que se ve:</b> de los cuatro vértices, <b>solo Capabilities está poblado</b>. Adversary trae los alias pero <i>Last attributions</i> vacío; Infrastructure y Victimology, vacíos del todo.</li>
+          <li><b>La contradicción que hay que hacer notar:</b> la descripción en prosa del actor <b>sí menciona</b> la atribución al MOIS y los sectores objetivo (telecomunicaciones, turismo, académico). Están escritos. Pero no en el grafo.</li>
+          <li><b>La conclusión, y es la frase del día:</b> esa información está redactada <b>para que la lea un humano</b>, no modelada como relación STIX. Por eso el Diamond no la puede pintar y ningún dashboard la puede contar.</li>
+          <li><b>Lo mismo pasa con OilRig</b>, que es el que ellos investigan en el Ejercicio 1. Conviene decirlo aquí para que no lo vivan como un fallo de su instalación.</li>
+        </ul>
+        <div class="say">
+          <span class="tag">Frase</span>
+          <q>Lo que no está estructurado, no se puede correlacionar.</q>
+        </div>
+        <div class="warn">
+          <span class="tag">Precisión</span>
+          Los campos <i>«Last used»</i> del Diamond muestran una <b>muestra</b>, no el total. El número
+          del contador lateral casi nunca coincide con lo que se ve listado, y alguien lo va a
+          preguntar.
+        </div>
+        <div class="link">
+          <span class="tag">Puente al Ejercicio 5</span>
+          Guardar esta idea: al final de la clase se le da la vuelta. Aquí el riesgo es concluir que
+          <b>algo no existe</b> porque el grafo no lo modela; en el dashboard será concluir que
+          <b>algo importa</b> porque el grafo lo sobre-representa.
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.5 -->
+    <section class="sec" id="s55">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">5.5</span>
+        <h2>El arsenal completo — Malware vs Tool</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Knowledge → Arsenal.</b> APT39 usa malware propio y también herramientas legítimas.</li>
+          <li><b>La distinción que STIX modela y mucha gente no:</b>
+            <ul>
+              <li><b>Malware</b> — construido para hacer daño. Su existencia en el host ya es un hallazgo.</li>
+              <li><b>Tool</b> — software legítimo usado con fines ofensivos (<code>psexec</code>, <code>mimikatz</code>, un cliente RDP). Su existencia <b>no</b> es un hallazgo: hay que mirar quién, cuándo y contra qué.</li>
+            </ul>
+          </li>
+          <li><b>La búsqueda de la plataforma etiqueta el tipo de entidad</b> en los resultados. Es la forma rápida de ver que «APT39» es <i>Intrusion-Set</i> y «Remexi» es <i>Malware</i>, sin abrirlos.</li>
+        </ul>
+        <div class="warn">
+          <span class="tag">Anticipa esta pregunta</span>
+          «¿Y si el atacante usa PowerShell?» — Es una <i>Tool</i>, y por eso detectarlo por presencia
+          no sirve: PowerShell está en todos los Windows. Ahí es donde la detección tiene que mirar
+          <b>comportamiento</b>. Enlaza directo con 5.6.
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.6 -->
+    <section class="sec" id="s56">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">5.6</span>
+        <h2>Dos implantes del mismo actor — firma vs conducta</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Comparar Remexi con MechaFlounder:</b> mismo actor, dos implantes, capacidades distintas.</li>
+          <li><b>El error que hay que desactivar:</b> «la detección conductual vence a la firma». Es falso dicho así, y el post ya no lo dice. Lo correcto es el reparto de propiedades:
+            <ul>
+              <li><b>Firma</b> — <b>precisa pero perecedera</b>. Acierta sin ambigüedad… hasta que el atacante recompila y el hash cambia.</li>
+              <li><b>Conducta</b> — <b>duradera pero ruidosa</b>. Sobrevive a la recompilación, pero genera falsos positivos porque el comportamiento legítimo se le parece.</li>
+            </ul>
+          </li>
+          <li><b>No compiten: se reparten el trabajo.</b> La firma cierra lo conocido a coste cero; la conducta cubre lo que la firma ya no ve.</li>
+        </ul>
+        <div class="link">
+          <span class="tag">Puente a la Pirámide del Dolor (1.4)</span>
+          Es la misma idea de la mañana, ahora con un caso: subir en la pirámide cuesta más
+          <b>y por eso duele más al adversario</b>. Cerrar el círculo aquí, en voz alta.
+        </div>
+        <div class="say">
+          <span class="tag">Anuncio de los ejercicios</span>
+          <q>Acaban de ver el método completo. Ahora lo repiten con OilRig — el mismo al que emularon en el tema04, pero desde la otra silla.</q>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="sec" id="s6">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">6</span>
+        <h2>Lanzar los Ejercicios 1–4</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <div class="pace">
+          <span class="tag">Sugerencia de ritmo</span>
+          65 minutos para los cinco ejercicios. El 1 es el más largo (~20′); los 2, 3 y 4 rondan los
+          10′ cada uno; el 5 se hace en grupo al final. El 6 es opcional y se lo llevan a casa.
+        </div>
+        <ul>
+          <li><b>Decir de entrada que van a encontrar huecos, y que los huecos son parte del ejercicio.</b> Si no se avisa, la mitad de la clase levanta la mano creyendo que su instalación está rota.</li>
+          <li><b>Los tres huecos concretos que van a chocar</b> — conviene tenerlos memorizados:
+            <ul>
+              <li><b>Ej. 1 · Victimology vacío</b> en OilRig, igual que APT39. Es 5.4 otra vez, ahora en sus manos.</li>
+              <li><b>Ej. 2 · <i>Marking</i> = <code>NONE</code></b> en los indicadores. No traen marcado TLP. La pregunta buena no es cuál es, sino <b>quién decide la política cuando el productor no la declara</b>.</li>
+              <li><b>Ej. 4 · <i>CVSS3</i> = <code>UNKNOWN</code></b> en las ~1.700 CVEs de KEV. El catálogo no transporta puntuación: transporta <b>explotación observada</b>. Ese vacío <i>es</i> el ejercicio.</li>
+            </ul>
+          </li>
+          <li><b>Ej. 1 — la matriz de técnicas:</b> agrupa por <b>técnica padre</b>. Van a ver <code>T1071</code>, no <code>T1071.001</code>. Y las columnas no son las 14 tácticas que conocen: <code>defense-evasion</code> aparece partida en <code>stealth</code> y <code>defense-impairment</code>.</li>
+          <li><b>Ej. 3 — buscar por identificador, no por nombre.</b> Muchas técnicas están cargadas con el ID como nombre.</li>
+        </ul>
+        <div class="warn">
+          <span class="tag">Precisión que evita una falsa alarma</span>
+          El contador <b>MESSAGES</b> de <i>Data → Ingestion → Connectors</i> <b>no es fiable</b> para
+          saber si un conector trabajó: puede marcar <code>0</code> con los datos ya cargados. Si un
+          alumno lo usa como diagnóstico, redirigirlo a mirar los datos.
+        </div>
+        <div class="say">
+          <span class="tag">Frase — es el criterio que vale 20%</span>
+          <q>Si el dato salió de la prosa y no del grafo, dígalo. Si el indicador no traía TLP, dígalo. Una afirmación sin fuente y un hueco sin declarar cuestan lo mismo.</q>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6.5 -->
+    <section class="sec" id="s65">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">6.5</span>
+        <h2>Ejercicio 5 — leer el dashboard con criterio</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <div class="say">
+          <span class="tag">Frase de apertura</span>
+          <q>Este dashboard está bien hecho y todos sus números son correctos. Y aun así se puede sacar de él una conclusión falsa. Encuéntrenla.</q>
+        </div>
+        <ul>
+          <li><b>Se hace en grupo, proyectado.</b> Es el cierre conceptual del tema, no trabajo individual — aunque el producto sí se entrega.</li>
+          <li><b>Los cuatro widgets y su lectura errónea:</b>
+            <ul>
+              <li><b>Targeted Countries.</b> Tiene datos… mientras que el Victimology de OilRig estaba vacío. <b>¿Por qué?</b> Porque las relaciones vienen de otra fuente: los pulses de OTX <b>sí</b> traen país objetivo estructurado, MITRE no.</li>
+              <li><b>Most Targeted Victims.</b> Entre los sectores aparecen <b>países</b> (China, Thailand, Egipto… varía). El widget cuenta lo que está al otro extremo de una relación <code>targets</code> <b>sin filtrar por tipo</b>. No es un ranking de sectores.</li>
+              <li><b>Relationships created.</b> En una instalación nueva sale <b>plana en cero</b> pese a tener miles de entidades. La contradicción es el ejercicio: mirar en qué mes termina el eje, y qué fecha usa para colocar cada relación — la de la ingesta o la del dato de origen.</li>
+              <li><b>Most Active Threats.</b> Ordena por volumen de publicación reciente. Mide <b>de qué se habla</b>, no qué es peligroso. Junto a APT28 y Lazarus salen nombres que nadie ha oído.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="say">
+          <span class="tag">Cierre de la sección</span>
+          <q>Un dashboard de TIM describe el estado de <b>su grafo</b>, no el estado de la amenaza.</q>
+        </div>
+        <div class="link">
+          <span class="tag">Cierre — enlaza con 5.4</span>
+          Es la simétrica exacta de la demostración de la mañana. En 5.4 el riesgo era concluir que
+          algo <b>no existe</b> porque el grafo no lo modela; aquí es concluir que algo <b>importa</b>
+          porque el grafo lo sobre-representa. <b>El segundo es más peligroso</b>: un hueco se nota, y
+          un exceso de representación se lee como señal.
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="sec" id="s7">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">7</span>
+        <h2>Entrega y cierre</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Qué entregan:</b> los productos de los Ejercicios <b>1 a 5</b>. El 6 (grafo de investigación) es opcional y suma hasta <b>10 puntos extra</b>.</li>
+          <li><b>Fecha: 16 de agosto de 2026.</b> Decirla y que la anoten.</li>
+          <li><b>Extensión:</b> la ficha del Ejercicio 1 ocupa una página; los demás, entre media y una. Con las capturas que respalden lo que afirman.</li>
+          <li><b>La rúbrica, y por qué está repartida así:</b>
+            <ul>
+              <li>Pivoteo real en el grafo — <b>25%</b></li>
+              <li>Distinción IoC vs TTP — <b>20%</b></li>
+              <li><b>Procedencia y límites del dato — 20%</b></li>
+              <li>Productos defensivos concretos — <b>20%</b></li>
+              <li>Claridad del reporte — <b>15%</b></li>
+            </ul>
+          </li>
+          <li><b>Subrayar el criterio del 20% de procedencia.</b> Es el que separa un reporte de inteligencia de un volcado de la plataforma, y es el que van a olvidar.</li>
+          <li><b>El resumen del tema, en cuatro golpes:</b> la inteligencia es un <b>ciclo</b> y opera en <b>cuatro niveles</b> · IoC ≠ TTP ≠ CTI, y la <b>Pirámide del Dolor</b> explica por qué · <b>STIX</b> es el idioma y <b>TAXII</b> el transporte · levantaron un TIM real e investigaron actores reales.</li>
+        </ul>
+        <div class="say">
+          <span class="tag">Frase de cierre</span>
+          <q>Se llevan dos cosas: un TIM funcionando en su máquina, y la costumbre de preguntarle a un dato de dónde salió y qué le falta. La segunda les va a durar más que la primera.</q>
+        </div>
+        <div class="link">
+          <span class="tag">Puente al siguiente tema</span>
+          Hoy leyeron inteligencia sobre adversarios. En el tema06 se mira el otro lado: cómo está
+          construida la seguridad del host que esos adversarios atacan.
         </div>
       </div>
     </section>
