@@ -1,40 +1,44 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-26T16:40:55.453Z",
+  "timestamp": "2026-08-03T06:57:01.670Z",
   "phase": null,
-  "phase_name": "none — entre Phase 01 (cerrada) y Phase 02 (no iniciada)",
+  "phase_name": "none — trabajo de contenido y laboratorio, fuera del roadmap de phases",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "context": "default",
-  "session_summary": "Sesión de creación de contenido: nuevo tema06 'Anatomía de la seguridad de Windows' (clase defensiva de 3h para hosts Windows reales con cuenta estándar). Post escrito vía gsd-quick (260726-amm), backfill con salidas y capturas reales de la VM Win10 del docente, reescrito a 3ª persona impersonal, y publicado a GitHub Pages. Guía de dictado docente publicada como Artifact. Un hallazgo de seguridad (password del TIM en handoffs versionados) depurado.",
+  "session_summary": "Sesión larga de tres frentes: (1) troubleshooting del lab TIM en la VM Kali — OOM-loop de Redis y alta del conector oficial de AlienVault OTX; (2) auditoría manual del post tema05 contra la plataforma real, secciones 1 a 5 completadas con capturas del docente; (3) creación de un artefacto de apuntes de orador para dictar tema05 desde una segunda pantalla. Todo commiteado y pusheado en ambos repos.",
   "completed_tasks": [
-    {"id": "quick-260726-amm", "name": "Post tema06 creado vía gsd-quick (front matter Chirpy, 3 bloques, desglosables admin <details markdown=1>, mapeo ATT&CK, entregable informe de postura)", "status": "done", "commit": "5f09f0b (docs) + 4c83510/9fe0c4b (contenido)"},
-    {"id": "backfill-real", "name": "Placeholders rellenados con salidas reales de la VM Win10 del docente (whoami/all+priv, net user, icacls, accesschk, Get-Service, Defender, firewall, eventos 4624, auditpol) + 4 capturas reales en assets/images/tema06", "status": "done", "commit": "19311db, f178155, 3f4399d, 95f1bb4"},
-    {"id": "third-person", "name": "Post reescrito de 2ª/1ª persona a 3ª persona impersonal (subagente + limpieza de nosotros)", "status": "done", "commit": "6427293"},
-    {"id": "push-blog", "name": "Push a GitHub Pages (main sincronizado con origin)", "status": "done", "commit": "29c68a8 (HEAD)"},
-    {"id": "guia-dictado", "name": "Guía de dictado docente publicada como Artifact (objetivos de aprendizaje, puntos clave, momentos clave del host real, chuleta ATT&CK, logística)", "status": "done", "commit": "n/a (Artifact: https://claude.ai/code/artifact/7a09a5a6-081f-4915-9638-fe28bf28a016)"},
-    {"id": "sec-scrub", "name": "Password admin del TIM ([REDACTADO]) eliminado de HANDOFF.json + .continue-here.md (estaban versionados y pusheados a repo público)", "status": "done", "commit": "29c68a8"}
+    {"id": "redis-oom", "name": "Diagnóstico y fix del OOM-loop de Redis: el dataset (~266MB) excedía mem_limit y el fork del bgsave hacía que el kernel lo matara en bucle, rompiendo las escrituras de OpenCTI en silencio. Subido 256m→512m→768m, validado con ingesta real", "status": "done", "commit": "3ec0329 (lab)"},
+    {"id": "otx-connector", "name": "Alta del conector oficial opencti/connector-alienvault tras el profile de Compose 'otx' (sin clave entraría en bucle de reinicios). setup-env.sh genera CONNECTOR_ALIENVAULT_ID; ventana de pulses configurable vía ALIENVAULT_PULSE_START con 7 días por defecto", "status": "done", "commit": "55b160b + 3ec0329 (lab)"},
+    {"id": "tema05-s1", "name": "Sección 1: cobertura del TIM graduada por fase del ciclo, glosa TIP, matiz NIST SP 800-150, 1.3 reducida a Observable vs Indicator, hilo narrativo explícito, TTP expandido", "status": "done", "commit": "5d1ba93..02764fb"},
+    {"id": "tema05-s3", "name": "Sección 3.1: arquitectura de los 9 (ahora 10) módulos en 4 capas + flujo del dato", "status": "done", "commit": "650f1e6"},
+    {"id": "tema05-s4", "name": "Sección 4 reestructurada: nueva 4.4 (actualizar clon desactualizado con git pull/checkout/stash y el aviso de que .env no se actualiza), 4.5 verificación del stack en 4 pasos, 4.6 fuentes opcionales con los dos mecanismos de ingesta", "status": "done", "commit": "eea2eab + 107eda2"},
+    {"id": "tema05-s5-audit", "name": "AUDITORÍA DE LA SECCIÓN 5 COMPLETA (5.1-5.6) contra la plataforma real, con 3 capturas nuevas", "status": "done", "commit": "8fa080e, 4f1c9d2, 2cb1f8b, 314bd05"},
+    {"id": "apuntes", "name": "Artefacto de apuntes de orador para tema05: 20 secciones (0 a 4.6), publicado y respaldado en docs/apuntes-clase-tema05.html", "status": "done", "commit": "f1d3842"}
   ],
   "remaining_tasks": [
-    {"id": "phase-02", "name": "Phase 02: Reconocimiento (tema04) — NO iniciada, igual que antes de esta sesión", "status": "not_started"},
-    {"id": "tema06-screenshots-optional", "name": "Capturas adicionales opcionales para tema06 (los 4 PNG ya están; ampliar si se desea)", "status": "not_started"}
+    {"id": "audit-s6-s7", "name": "AUDITAR SECCIONES 6 (Ejercicios — Investigación de IoCs) y 7 (Entrega/rúbrica) del post tema05 con el mismo método: el docente pega capturas de la plataforma real y se corrigen las discrepancias", "status": "not_started"},
+    {"id": "apuntes-5-7", "name": "Añadir al artefacto de apuntes las secciones 5, 6 y 7 (ahora llega hasta 4.6). Fuente editable en docs/apuntes-clase-tema05.html", "status": "not_started"},
+    {"id": "tema06-password", "name": "tema06 §4.3 afirma que la contraseña de admin 'no se puede recuperar'. Es inexacto: está en el .env (grep OPENCTI_ADMIN_PASSWORD .env). Decidir si suavizar la frase", "status": "not_started"},
+    {"id": "phase-02", "name": "Phase 02: Reconocimiento (tema04) — sin iniciar, igual que en sesiones previas", "status": "not_started"}
   ],
   "blockers": [],
   "async_jobs": [],
   "human_actions_pending": [
-    {"action": "Rotar el password admin del TIM en la VM Kali (editar OPENCTI_ADMIN_PASSWORD en el .env del lab + ./scripts/restart-lab.sh)", "context": "El password viejo quedó en el historial git público; el archivo actual ya está limpio. Riesgo bajo (OpenCTI escucha solo en 127.0.0.1 dentro de la VM), pero rotarlo lo anula del todo", "blocking": false},
-    {"action": "En la VM Kali: cd ~/untels-tim-lab && git pull", "context": "Pendiente de sesiones previas: bajar restart-lab.sh + README actualizado del repo lab", "blocking": false}
+    {"action": "Rotar el password admin del TIM en la VM Kali (.env + restart-lab.sh)", "context": "Quedó en el historial git público de una sesión previa. Riesgo bajo: OpenCTI escucha solo en 127.0.0.1 dentro de la VM", "blocking": false},
+    {"action": "La VM del docente tiene la ventana de pulses de OTX en 1 mes (~70K bundles, ~2h de cola)", "context": "Estaba drenando al pausar. El repo ya trae 7 días por defecto para los alumnos. No requiere acción, solo esperar", "blocking": false}
   ],
   "decisions": [
-    {"decision": "Clase tema06 = 100% defensiva/observacional sobre hosts Windows reales con cuenta estándar", "rationale": "El docente indicó que son hosts reales (no VMs), sin permiso para ejercicios ofensivos; flujo principal en cuenta estándar + desglosables <details> para comandos admin", "phase": "sesión contenido"},
-    {"decision": "Insertar salidas/capturas REALES del host Win10, nunca fabricar output", "rationale": "El docente corrió los comandos y aportó logs reales; los hallazgos reales (token dividido UAC, Sysmon+Elastic, exclusiones ocultas) son las mejores anclas pedagógicas", "phase": "sesión contenido"},
-    {"decision": "Todo el post en 3ª persona impersonal (sin tú ni nosotros)", "rationale": "Petición explícita del docente: 'tercera persona siempre'", "phase": "sesión contenido"},
-    {"decision": "Guía de dictado como Artifact privado, NO como post del blog", "rationale": "Es material docente interno; mismo precedente que el guión de tema05. El material del alumno es el post", "phase": "sesión contenido"}
+    {"decision": "El conector de AlienVault va detrás del profile de Compose 'otx', no arranca por defecto", "rationale": "Sin OTX_API_KEY entra en bucle de reinicios; en una clase de 30 alumnos eso son 30 contenedores en rojo. Con COMPOSE_PROFILES=otx en .env, tanto up -d como restart-lab.sh lo incluyen solos", "phase": "lab"},
+    {"decision": "Ventana de pulses por defecto de 7 días, no 1 mes", "rationale": "Medido en la VM: 1 mes encoló ~70.000 bundles y ~2h de drenado con un solo worker a ~9/s. Una semana ronda 15.000 y ~30 min, suficiente para ver el conector funcionar en clase", "phase": "lab"},
+    {"decision": "Registro técnico sobrio en el post: sin figuras retóricas ni lenguaje coloquial", "rationale": "Petición explícita del docente — 'el alumno lo ve y pierde confianza en el documento'. Se eliminaron metáforas tipo escalera/ingredientes/plato y expresiones coloquiales", "phase": "contenido"},
+    {"decision": "Los apuntes de dictado van como artefacto privado + respaldo en docs/, nunca en _posts/", "rationale": "Material docente interno. docs/ está en el exclude de _config.yml — verificado que no aparece en _site/", "phase": "contenido"},
+    {"decision": "tema05 mantiene la SEGUNDA persona; solo tema06 se reescribió en tercera", "rationale": "La petición de tercera persona fue específica para tema06. Imponerla en tema05 rompería su consistencia interna", "phase": "contenido"}
   ],
   "uncommitted_files": [],
-  "next_action": "Decidir rumbo: (1) iniciar Phase 02 (tema04 Reconocimiento) con /gsd-plan-phase 02, o (2) atender los pendientes humanos (rotar password TIM + git pull en la VM). tema06 está cerrado y publicado.",
-  "context_notes": "tema06 quedó COMPLETO y publicado en GitHub Pages: clase defensiva de 3h, datos reales de la VM Win10 del docente (cuenta jarod), 4 capturas, 3ª persona, mapeo ATT&CK. Guía de dictado en Artifact. ANTI-PATRÓN descubierto esta sesión: nunca poner credenciales vivas en los handoffs versionados (.planning/*) — el flujo GSD los commitea y el repo es público. Regla: solo punteros ('password en el .env de la VM'). Ya aplicado. Phase 02 sigue intacta."
+  "next_action": "Retomar la auditoría manual del post tema05 por la SECCIÓN 6 (Ejercicios). El método: el docente navega la plataforma, pega capturas, y se contrasta lo que el post describe contra lo que la interfaz muestra realmente — corrigiendo rutas de menú, cifras, nombres de campo y contenido inexistente.",
+  "context_notes": "MÉTODO DE LA AUDITORÍA (esto es lo importante para retomar): el docente navega OpenCTI en su Kali y pega capturas; yo comparo con lo que afirma el post y corrijo. El patrón de error encontrado hasta ahora es que el post DESCRIBE CONTENIDO QUE NO EXISTE en la plataforma. El caso más grave fue 5.4: el diagrama pintaba Victimología (telecomunicaciones/turismo/académico) y la atribución al MOIS, pero en la plataforma esos vértices salen VACÍOS — solo Capabilities está poblado. De corregirlo salió un concepto mejor que el original: la atribución y los sectores SÍ existen pero en la DESCRIPCIÓN EN PROSA, no como relaciones STIX, y por eso el grafo no puede correlacionarlos ('lo que no está estructurado no se puede correlacionar'). Otros hallazgos: la vista TIMELINE no es cronológica porque todas las relaciones de MITRE comparten la fecha de publicación y 'malware usa técnica' es una propiedad, no un evento; los campos 'Last used' del Diamond son una muestra, no el total del contador. Las capturas van a assets/images/tema05/ con el patrón openctiNN-descriptor.png (la última usada es opencti09). Credenciales del TIM: admin@tim.local, password en el .env de la VM (no versionado)."
 }
