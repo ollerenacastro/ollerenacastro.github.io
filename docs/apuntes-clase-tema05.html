@@ -1,0 +1,1020 @@
+<title>Apuntes de clase — Tema 05 (TIM / CTI)</title>
+<style>
+  :root {
+    --ground: #eef2f4;
+    --panel: #ffffff;
+    --rail: #e4eaee;
+    --line: #ccd7dd;
+    --ink: #131c22;
+    --ink-soft: #52646f;
+    --ink-faint: #8497a1;
+    --sky: #1d6d95;
+    --sky-soft: #dcecf4;
+    --pine: #1f6b4d;
+    --pine-soft: #dcefe4;
+    --amber: #8a6112;
+    --amber-soft: #f7edd7;
+    --alert: #9c4326;
+    --alert-soft: #f8e5dd;
+    --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+    --base: 17px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0e151a; --panel: #151f26; --rail: #121b21; --line: #24333c;
+      --ink: #dde7ec; --ink-soft: #94a8b3; --ink-faint: #647986;
+      --sky: #87ceeb; --sky-soft: #14262f; --pine: #5ec394; --pine-soft: #11241b;
+      --amber: #dfae5c; --amber-soft: #251d0f; --alert: #e08d6f; --alert-soft: #26150f;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #eef2f4; --panel: #ffffff; --rail: #e4eaee; --line: #ccd7dd;
+    --ink: #131c22; --ink-soft: #52646f; --ink-faint: #8497a1;
+    --sky: #1d6d95; --sky-soft: #dcecf4; --pine: #1f6b4d; --pine-soft: #dcefe4;
+    --amber: #8a6112; --amber-soft: #f7edd7; --alert: #9c4326; --alert-soft: #f8e5dd;
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e151a; --panel: #151f26; --rail: #121b21; --line: #24333c;
+    --ink: #dde7ec; --ink-soft: #94a8b3; --ink-faint: #647986;
+    --sky: #87ceeb; --sky-soft: #14262f; --pine: #5ec394; --pine-soft: #11241b;
+    --amber: #dfae5c; --amber-soft: #251d0f; --alert: #e08d6f; --alert-soft: #26150f;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--sans); font-size: var(--base); line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  :root[data-size="l"]  { --base: 19px; }
+  :root[data-size="xl"] { --base: 21px; }
+
+  .bar {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 11px 20px; background: var(--panel);
+    border-bottom: 2px solid var(--sky);
+  }
+  .bar h1 {
+    margin: 0; font-size: .96rem; font-weight: 700; letter-spacing: -.01em;
+    display: flex; align-items: baseline; gap: 9px;
+  }
+  .bar h1 small {
+    font-size: .72rem; font-weight: 600; color: var(--ink-faint);
+    letter-spacing: .09em; text-transform: uppercase;
+  }
+  .spacer { flex: 1 1 auto; }
+  .ctl { display: flex; gap: 6px; align-items: center; }
+  .ctl button {
+    font: inherit; font-size: .78rem; font-weight: 600;
+    padding: 4px 11px; border-radius: 6px; cursor: pointer;
+    background: transparent; color: var(--ink-soft); border: 1px solid var(--line);
+  }
+  .ctl button:hover { color: var(--sky); border-color: var(--sky); }
+  .ctl span { font-size: .72rem; color: var(--ink-faint); letter-spacing: .06em; text-transform: uppercase; }
+
+  .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); align-items: start; }
+
+  nav {
+    position: sticky; top: 52px; align-self: start;
+    max-height: calc(100vh - 52px); overflow-y: auto;
+    background: var(--rail); border-right: 1px solid var(--line);
+    padding: 20px 12px 40px;
+  }
+  .navlabel {
+    font-size: .68rem; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--sky); font-weight: 700; margin: 0 0 10px; padding-left: 10px;
+  }
+  .navlabel:not(:first-of-type) {
+    margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line);
+  }
+  nav a {
+    display: flex; align-items: baseline; gap: 9px;
+    padding: 7px 10px; border-radius: 6px; margin-bottom: 2px;
+    color: var(--ink-soft); text-decoration: none; font-size: .85rem; line-height: 1.3;
+  }
+  nav a:hover { background: var(--sky-soft); color: var(--sky); }
+  nav a .n {
+    font-family: var(--mono); font-size: .78rem; font-weight: 700; color: var(--sky);
+    flex: none; font-variant-numeric: tabular-nums;
+  }
+  nav a.done { opacity: .45; }
+  nav a.done .txt { text-decoration: line-through; }
+
+  main { padding: 26px 30px 120px; max-width: 78ch; }
+
+  .sec { margin-bottom: 34px; scroll-margin-top: 66px; }
+  .sec.done > .head { opacity: .4; }
+  .sec.done > .body { display: none; }
+
+  .head {
+    display: flex; align-items: baseline; gap: 13px; cursor: pointer;
+    padding: 9px 12px; border-radius: 8px 8px 0 0;
+    background: var(--panel); border: 1px solid var(--line); border-bottom: none;
+  }
+  .head:hover { background: var(--sky-soft); }
+  .head .n {
+    font-family: var(--mono); font-size: 1.02rem; font-weight: 700; color: var(--sky);
+    flex: none; font-variant-numeric: tabular-nums;
+  }
+  .head h2 { margin: 0; font-size: 1.02rem; font-weight: 700; letter-spacing: -.01em; flex: 1; }
+  .head .tick {
+    font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 700; flex: none;
+  }
+  .sec.done .head .tick { color: var(--pine); }
+
+  .body {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 0 0 8px 8px;
+    padding: 15px 18px 17px;
+  }
+
+  ul { margin: 0; padding-left: 21px; }
+  li { margin-bottom: 9px; }
+  li::marker { color: var(--sky); }
+  li:last-child { margin-bottom: 0; }
+  ul ul { margin-top: 8px; padding-left: 19px; }
+  ul ul li { margin-bottom: 6px; font-size: .95em; color: var(--ink-soft); }
+  ul ul li::marker { color: var(--ink-faint); }
+
+  b, strong { font-weight: 700; }
+  code {
+    font-family: var(--mono); font-size: .86em;
+    background: var(--sky-soft); color: var(--ink);
+    padding: 1px 6px; border-radius: 5px;
+  }
+
+  .who {
+    display: inline-block; font-size: .7rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--sky); margin-right: 7px;
+  }
+
+  .say, .link, .warn, .pace {
+    border-radius: 7px; padding: 10px 13px; margin: 12px 0 0;
+    font-size: .95rem; line-height: 1.5;
+  }
+  .say  { background: var(--amber-soft); border-left: 3px solid var(--amber); }
+  .link { background: var(--pine-soft);  border-left: 3px solid var(--pine); }
+  .warn { background: var(--alert-soft); border-left: 3px solid var(--alert); }
+  .pace { background: var(--sky-soft);   border-left: 3px solid var(--sky); }
+  .say .tag, .link .tag, .warn .tag, .pace .tag {
+    display: block; font-size: .64rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .say .tag  { color: var(--amber); }
+  .link .tag { color: var(--pine); }
+  .warn .tag { color: var(--alert); }
+  .pace .tag { color: var(--sky); }
+  .say q { font-style: italic; quotes: "«" "»"; }
+
+  a { color: var(--sky); }
+  :focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; border-radius: 4px; }
+
+  @media (max-width: 820px) {
+    .shell { grid-template-columns: 1fr; }
+    nav {
+      position: static; max-height: none; border-right: none;
+      border-bottom: 1px solid var(--line); padding: 12px;
+      display: flex; gap: 6px; overflow-x: auto;
+    }
+    .navlabel { display: none; }
+    nav a { white-space: nowrap; flex: none; }
+    main { padding: 18px 16px 80px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="bar">
+  <h1>Apuntes de clase <small>Tema 05 · TIM / CTI</small></h1>
+  <div class="spacer"></div>
+  <div class="ctl">
+    <span>Texto</span>
+    <button type="button" onclick="setSize(-1)" aria-label="Reducir texto">A−</button>
+    <button type="button" onclick="setSize(1)" aria-label="Aumentar texto">A+</button>
+    <button type="button" onclick="resetDone()">Reiniciar</button>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav id="rail">
+    <p class="navlabel">Fundamentos</p>
+    <a href="#s0"><span class="n">0</span><span class="txt">Introducción</span></a>
+    <a href="#s11"><span class="n">1.1</span><span class="txt">Ciclo de inteligencia</span></a>
+    <a href="#s12"><span class="n">1.2</span><span class="txt">Cuatro niveles</span></a>
+    <a href="#s13"><span class="n">1.3</span><span class="txt">Observable vs Indicator</span></a>
+    <a href="#s14"><span class="n">1.4</span><span class="txt">Pirámide del Dolor</span></a>
+    <a href="#s15"><span class="n">1.5</span><span class="txt">Modelos de análisis</span></a>
+    <a href="#s16"><span class="n">1.6</span><span class="txt">TLP</span></a>
+    <a href="#s17"><span class="n">1.7</span><span class="txt">STIX y TAXII</span></a>
+    <a href="#s18"><span class="n">1.8</span><span class="txt">Fuentes</span></a>
+
+    <p class="navlabel">Plataformas</p>
+    <a href="#s21"><span class="n">2.1</span><span class="txt">Open-source</span></a>
+    <a href="#s22"><span class="n">2.2</span><span class="txt">Propietarias</span></a>
+    <a href="#s23"><span class="n">2.3</span><span class="txt">Comparativa</span></a>
+
+    <p class="navlabel">OpenCTI</p>
+    <a href="#s31"><span class="n">3.1</span><span class="txt">Arquitectura del lab</span></a>
+    <a href="#s32"><span class="n">3.2</span><span class="txt">Tour del dashboard</span></a>
+
+    <p class="navlabel">Laboratorio</p>
+    <a href="#s41"><span class="n">4.1</span><span class="txt">Acondicionar la VM</span></a>
+    <a href="#s42"><span class="n">4.2</span><span class="txt">Verificar Docker</span></a>
+    <a href="#s43"><span class="n">4.3</span><span class="txt">Levantar el TIM</span></a>
+    <a href="#s44"><span class="n">4.4</span><span class="txt">Actualizar el clon</span></a>
+    <a href="#s45"><span class="n">4.5</span><span class="txt">Verificar la plataforma</span></a>
+    <a href="#s46"><span class="n">4.6</span><span class="txt">Fuentes opcionales</span></a>
+  </nav>
+
+  <main>
+
+    <!-- 0 -->
+    <section class="sec" id="s0">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">0</span>
+        <h2>Introducción — La inteligencia como arista</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>El cambio de silla.</b> Tema03 explotamos, tema04 emulamos a OilRig. Hoy pasamos de <b>operar</b> a <b>entender al adversario</b>.</li>
+          <li><b>Qué es un TIM.</b> Donde la organización centraliza, normaliza, correlaciona e investiga todo lo que sabe de amenazas.
+            <ul>
+              <li>El contraste que se entiende solo: <b>IoCs sueltos en una hoja de cálculo</b> vs. un <b>grafo navegable</b>.</li>
+            </ul>
+          </li>
+          <li><b>Qué se llevan hoy:</b> un TIM real corriendo en su Kali + reportes sobre actores reales. No teoría suelta.</li>
+          <li><b>Ruta de las 3h:</b> teoría 50′ · setup 30′ · demo APT39 25′ · ejercicios 65′ · entrega 10′.</li>
+        </ul>
+        <div class="say">
+          <span class="tag">Frase</span>
+          <q>Hoy dejamos de atacar y empezamos a entender a quién nos ataca.</q>
+        </div>
+        <div class="pace">
+          <span class="tag">Pacing — decisión de arranque</span>
+          La importación de ATT&amp;CK tarda <b>5–15 min</b>. Vale la pena hacer que arranquen
+          <code>docker compose up -d</code> <b>antes</b> de empezar la teoría: cuando lleguen a la
+          sección 4 ya tienen datos y no hay tiempo muerto.
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.1 -->
+    <section class="sec" id="s11">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.1</span>
+        <h2>El ciclo de inteligencia</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>La idea raíz:</b> la inteligencia no es un dato, es un <b>proceso</b>. Planificación → Recolección → Procesamiento → Análisis → Difusión.</li>
+          <li><b>Origen del modelo.</b> Doctrina militar/gubernamental de EEUU — la versión divulgada por la CIA. Precede a la ciberseguridad en décadas.</li>
+          <li><b>No es un estándar.</b> El número de fases cambia según quién lo defina:
+            <ul>
+              <li><b>CIA</b> → 5 fases (la que proyectamos)</li>
+              <li><b>DoD, JP 2-0</b> → 6 (añade Evaluación/Retroalimentación)</li>
+              <li><b>NATO, AJP-2</b> → 4 (el análisis va dentro de <i>Processing</i>)</li>
+            </ul>
+          </li>
+          <li><b>Está discutido académicamente.</b> Hulnick (2006) y el modelo <i>target-centric</i> de Clark: en la práctica las fases <b>se solapan</b>, no se suceden.</li>
+          <li><b>Por qué se sigue enseñando:</b> ordena el vocabulario y separa funciones que suelen confundirse. Su valor es didáctico, no descriptivo.</li>
+          <li><b>El TIM sostiene el ciclo, pero desigual:</b> máximo en Procesamiento (es su razón de ser), alto en Análisis, <b>parcial</b> en Difusión, <b>poco</b> en Planificación.</li>
+        </ul>
+        <div class="say">
+          <span class="tag">Frase</span>
+          <q>Si esto fuera consenso global, el número de fases sería uno solo.</q>
+        </div>
+        <div class="warn">
+          <span class="tag">Precisión</span>
+          El TIM <b>no corre honeypots</b> ni <b>bloquea el firewall</b>: alimenta a quien lo hace.
+          Por eso la fila de Difusión dice «parcial». Si un alumno pregunta «¿entonces el TIM
+          hace el briefing al directorio?» — no, lo produce una persona con los datos del TIM.
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.2 -->
+    <section class="sec" id="s12">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.2</span>
+        <h2>Los cuatro niveles de inteligencia</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <div class="say">
+          <span class="tag">Frase de apertura</span>
+          <q>Una misma amenaza produce cuatro decisiones distintas, tomadas por cuatro responsables distintos y en cuatro horizontes temporales distintos.</q>
+        </div>
+        <ul style="margin-top:14px">
+          <li><b>Lectura de la tabla:</b> las cuatro filas <b>no son cuatro ejemplos sueltos</b> — son la misma amenaza bajando de altura. <b>Irán → OilRig → spearphishing → esa IP.</b></li>
+
+          <li><span class="who">Estratégico</span><b>Decide el CISO.</b> Horizonte: meses–años. Decide sobre <b>presupuesto y política</b>.
+            <ul>
+              <li><b>Adelanta el proyecto de MFA anti-phishing</b> (FIDO2/passkeys) del roadmap 2027 a este trimestre — el actor entra por correo. No es una decisión técnica sino presupuestaria.</li>
+              <li><b>Eleva el riesgo al comité</b>, activa el intercambio con el CSIRT bancario / ISAC y el regulador (marco de la <b>SBS</b> en Perú).</li>
+              <li>Clave: <b>el CISO no bloquea nada.</b> Su decisión baja como presupuesto y como una instrucción al SOC.</li>
+            </ul>
+          </li>
+
+          <li><span class="who">Operacional</span><b>Decide el gerente del SOC.</b> Horizonte: semanas–meses. Decide sobre <b>personas y prioridades</b>.
+            <ul>
+              <li><b>Lanza una cacería dirigida:</b> 2 analistas, 2 semanas, 90 días de logs, partiendo de la <b>hipótesis de que ya entraron</b>. No espera la alerta: la busca.</li>
+              <li><b>Reordena el backlog y mide cobertura:</b> ejercicio purple team + concientización <b>dirigida</b> a tesorería y finanzas (no un mailing genérico).</li>
+            </ul>
+          </li>
+
+          <li><span class="who">Táctico</span><b>Deciden analistas y threat hunters.</b> Horizonte: días–semanas. Decide sobre <b>detecciones y controles</b>.
+            <ul>
+              <li><b>Detectan comportamiento, no artefactos:</b> «hijo de Word/Excel que lanza <code>powershell</code>» y <i>beaconing</i> (conexiones periódicas de baja varianza). <b>Sobreviven aunque el atacante cambie toda su infraestructura.</b></li>
+              <li><b>Cierran visibilidad y superficie:</b> confirmar telemetría de creación de procesos (<code>4688</code> / Sysmon <code>EID 1</code>) y bloquear macros de internet por GPO.</li>
+            </ul>
+          </li>
+
+          <li><span class="who">Técnico</span><b>Deciden detección y respuesta.</b> Horizonte: horas–días. Decide sobre <b>reglas de bloqueo</b>.
+            <ul>
+              <li><b>Bloquean con fecha de caducidad</b> (30–90 días): dominio al sinkhole, IP al firewall, hash al EDR. <b>¿Por qué caduca?</b> La infraestructura del atacante rota; esa IP se reasigna mañana a un servicio legítimo y genera falsos positivos que nadie sabe de dónde salen.</li>
+              <li><b>Barrido retrospectivo:</b> antes de celebrar el bloqueo — <i>¿alguien ya habló con esa IP en 90 días?</i> Un solo hit y esto deja de ser prevención: <b>se abre un incidente</b>.</li>
+            </ul>
+          </li>
+
+          <li><b>El flujo va en los dos sentidos.</b> Baja como estrategia; <b>sube como incidente</b>. Ese hit del retro-hunt escala: técnico → táctico (<i>¿qué hicieron después?</i>) → operacional (<i>¿es una campaña contra nosotros?</i>) → estratégico (<i>el CISO reporta al directorio y al regulador</i>).
+            <ul>
+              <li>Un SOC maduro tiene tráfico en ambas direcciones. Uno inmaduro solo bloquea IPs y nunca informa hacia arriba.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="warn">
+          <span class="tag">Error clásico</span>
+          Equivocar la audiencia: llevar IoCs al directorio es <b>ruido</b>; llevar geopolítica al
+          firewall es <b>inútil</b>.
+          <br><q style="font-style:italic">Si en tu informe al CISO aparece un hash SHA256, te equivocaste de nivel.</q>
+        </div>
+
+        <div class="link">
+          <span class="tag">Guiño al tema06</span>
+          «¿Recuerdan que en el host que auditamos <code>Process Creation</code> estaba en
+          <code>No Auditing</code> y lo cubría Sysmon? Esa es exactamente la decisión táctica de
+          la que hablamos.»
+        </div>
+
+        <div class="link">
+          <span class="tag">Cierre — enlaza con la sección 3</span>
+          Sin TIM, el analista bloquea una IP y <b>nunca se entera</b> de que pertenecía al actor
+          que le quita el sueño al CISO. El TIM mantiene la IP unida al malware, unida al actor,
+          unida a la campaña: <b>conecta los cuatro niveles en un solo grafo</b>. Por eso el
+          ejercicio de hoy empieza en un malware y termina en un actor.
+        </div>
+
+        <div class="say">
+          <span class="tag">Puente hacia 1.4 (Pirámide del Dolor)</span>
+          <q>Fíjense qué desigual: bloquear la IP le cuesta al atacante 5 minutos. Detectar su comportamiento le cuesta rediseñar la operación.</q>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.3 -->
+    <section class="sec" id="s13">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.3</span>
+        <h2>Observable vs Indicator</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Por qué existe la sección.</b> En el habla corriente todo dato malicioso se llama «IoC». En <b>STIX 2.1</b> —y por tanto en OpenCTI— observable e indicator son <b>tipos de entidad distintos</b>.</li>
+
+          <li><b>Observable</b> (<i>Cyber-observable Object</i>): un hecho registrado, sin valoración.
+            <ul>
+              <li>Ejemplo: la entidad <code>ipv4-addr</code> con valor <code>185.89.157.150</code>. Afirma que esa dirección existe o fue observada. Nada más.</li>
+            </ul>
+          </li>
+
+          <li><b>Indicator</b>: un patrón de detección con contexto. Añade tres propiedades que el observable no tiene:
+            <ul>
+              <li><code>pattern</code> — la expresión evaluable por un motor de detección: <code>[ipv4-addr:value = '185.89.157.150']</code></li>
+              <li><code>indicator_types</code> — el propósito: <code>malicious-activity</code>, <code>benign</code>, <code>anomalous-activity</code></li>
+              <li><code>valid_from</code> / <code>valid_until</code> — la ventana de vigencia</li>
+            </ul>
+          </li>
+
+          <li><b>La consecuencia operativa:</b> no todo observable es un indicator. La IP de un servidor corporativo legítimo es un observable válido y no indica nada malicioso.
+            <ul>
+              <li>Este es el punto que debe quedar. Si lo entienden, entienden por qué en OpenCTI están en secciones separadas.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="link">
+          <span class="tag">Puente al lab (sección 3.2)</span>
+          En el menú <i>Observations</i> de OpenCTI aparecen <b>Observables</b> e <b>Indicators</b>
+          por separado. Conviene anunciarlo aquí para que al llegar al lab reconozcan la distinción.
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.4 -->
+    <section class="sec" id="s14">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.4</span>
+        <h2>La Pirámide del Dolor</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Enlace directo con 1.3.</b> Acabamos de ver que un indicator lleva <code>valid_until</code>, es decir, caduca. La pirámide explica <b>por qué</b> unos caducan en horas y otros no caducan nunca.</li>
+
+          <li><b>Qué mide exactamente.</b> No mide el valor del indicador para ti, sino <b>el costo que le impone al atacante</b> que se lo bloquees. Es una medida del adversario, no de la defensa. Autor: David Bianco.</li>
+
+          <li><b>Los seis niveles y su costo real para el atacante:</b>
+            <ul>
+              <li><code>Hash</code> — recompilar: segundos</li>
+              <li><code>IP</code> — cambiar de servidor: minutos</li>
+              <li><code>Dominio</code> — registrar otro: horas y algo de dinero</li>
+              <li><code>Artefactos de red</code> — modificar el <i>user-agent</i>, el patrón de URI: requiere tocar el implante</li>
+              <li><code>Herramientas</code> — cambiar de herramienta: reentrenamiento del operador</li>
+              <li><code>TTPs</code> — rediseñar la operación completa</li>
+            </ul>
+          </li>
+
+          <li><b>La asimetría que hay que hacer explícita:</b> bloquear un hash te cuesta una regla y a él le cuesta una recompilación. Detectar un comportamiento te cuesta ingeniería de detección y a él le cuesta cambiar de método de trabajo.</li>
+
+          <li><b>Consecuencia para el TIM:</b> una plataforma que solo acumula IoCs opera en la base de la pirámide. Relacionarlos con TTPs y actores es lo que permite subir. Es el argumento de por qué existe un grafo y no una lista.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="tag">Anticipa esta objeción</span>
+          «Entonces, ¿para qué bloquear IPs?» — Porque es barato e inmediato. No es excluyente:
+          el bloqueo de un IoC compra horas; una detección sobre TTPs compra meses. El error no
+          es bloquear IPs, es <b>quedarse solo ahí</b>.
+        </div>
+
+        <div class="link">
+          <span class="tag">Puente a 1.5</span>
+          La cima de la pirámide son las TTPs. La siguiente sección presenta ATT&amp;CK, que es
+          precisamente el catálogo de esa cima.
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.5 -->
+    <section class="sec" id="s15">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.5</span>
+        <h2>Modelos de análisis — Kill Chain, Diamond, ATT&amp;CK</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Punto de partida:</b> no compiten. Responden preguntas distintas y se usan juntos.</li>
+
+          <li><b>Cyber Kill Chain</b> (Lockheed Martin) — siete fases lineales.
+            <ul>
+              <li>Sirve para <b>narrar la progresión</b> de un ataque de principio a fin.</li>
+              <li>Limitación que conviene declarar: es lineal y asume perímetro. Encaja mal con movimiento lateral, amenaza interna y entornos cloud. Es un modelo pedagógico más que operativo.</li>
+            </ul>
+          </li>
+
+          <li><b>Diamond Model</b> — cuatro vértices: adversario, capacidad, infraestructura, víctima.
+            <ul>
+              <li>Su utilidad real: <b>revela lo que falta</b>. Si tienes adversario, capacidad y víctima pero no infraestructura, ese hueco es tu siguiente requerimiento de recolección.</li>
+              <li>Es el modelo del <b>pivoteo</b>: desde cualquier vértice se llega a los otros tres.</li>
+            </ul>
+          </li>
+
+          <li><b>MITRE ATT&amp;CK</b> — matriz táctica × técnica de comportamiento observado.
+            <ul>
+              <li>Es granular, accionable y funciona como <b>lenguaje común</b> entre equipos y entre organizaciones.</li>
+              <li>Enlaza con 1.4: es el catálogo de la cima de la pirámide.</li>
+            </ul>
+          </li>
+
+          <li><b>Cómo se combinan en la práctica</b> (esta es la frase que ordena la sección): la Kill Chain cuenta la historia, ATT&amp;CK etiqueta cada paso con un código <code>Txxxx</code>, y el Diamond Model conecta ese comportamiento con el actor, su infraestructura y sus víctimas.</li>
+        </ul>
+
+        <div class="link">
+          <span class="tag">Anuncio de la demostración</span>
+          OpenCTI implementa vistas para los tres. El Diamond Model aplicado a APT39 se ve en
+          vivo en la Sección 5 — conviene anunciarlo aquí para que lleguen esperándolo.
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.6 -->
+    <section class="sec" id="s16">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.6</span>
+        <h2>TLP — Traffic Light Protocol</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>El problema que resuelve:</b> la inteligencia solo sirve si circula, pero circular de más produce filtraciones. TLP es la convención que hace posible compartir. Lo mantiene <b>FIRST</b>.</li>
+
+          <li><b>El nivel contraintuitivo es TLP:RED.</b> Casi todos asumen que significa «solo interno». Significa <b>solo los destinatarios nombrados</b>: ni siquiera el resto de tu propio equipo. Conviene preguntarlo antes de decirlo.</li>
+
+          <li><b>La versión importa.</b> La tabla del post corresponde a <b>TLP 2.0</b> (2022), que introdujo <code>TLP:CLEAR</code> y <code>TLP:AMBER+STRICT</code>.
+            <ul>
+              <li>Si en un informe antiguo ven <code>TLP:WHITE</code>, es el nombre anterior de <code>TLP:CLEAR</code>. Van a encontrarlo.</li>
+            </ul>
+          </li>
+
+          <li><b>No es burocracia, es infraestructura de confianza.</b> Sin una convención de marcado, las organizaciones sencillamente no comparten. Es la precondición de los ISACs que aparecen en 1.8.</li>
+
+          <li><b>En OpenCTI es un objeto, no una etiqueta decorativa:</b> cada entidad lleva una <i>marking definition</i>, y el marcado se respeta automáticamente al exportar por TAXII. La regla se aplica sola.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 1.7 -->
+    <section class="sec" id="s17">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.7</span>
+        <h2>STIX 2.1 y TAXII</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>La distinción de una línea:</b> STIX es el <b>idioma</b> (cómo se representa la inteligencia); TAXII es el <b>transporte</b> (cómo viaja entre plataformas). Ambos son estándares OASIS.</li>
+
+          <li><b>Aquí se cierra la referencia abierta en 1.3.</b> El <code>indicator</code> que se explicó allí es uno de estos tipos de objeto. Vale la pena decirlo explícitamente.</li>
+
+          <li><b>La fila importante de la tabla es <code>relationship</code>.</b> Los demás objetos son nodos; las relaciones son las <b>aristas</b> (<code>uses</code>, <code>attributed-to</code>, <code>indicates</code>). Sin ellas hay una lista; con ellas hay un grafo recorrible. Ahí es donde ocurre la investigación.</li>
+
+          <li><b>TAXII en términos concretos:</b> el OpenCTI del laboratorio expone un servidor TAXII 2.1. Otra organización podría suscribirse a su inteligencia sin copiar archivos a mano — y el marcado TLP de 1.6 viaja dentro del <i>bundle</i>.</li>
+        </ul>
+
+        <div class="link">
+          <span class="tag">Puente al laboratorio</span>
+          Todo lo que ingieren los conectores llega como <i>bundles</i> STIX. Lo que verán en la
+          interfaz de OpenCTI son objetos STIX renderizados: la tabla de esta sección es
+          literalmente el menú lateral de la plataforma.
+        </div>
+      </div>
+    </section>
+
+    <!-- 1.8 -->
+    <section class="sec" id="s18">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">1.8</span>
+        <h2>Fuentes de inteligencia</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Ubicación en el ciclo:</b> esta sección desarrolla la <b>fase 2, Recolección</b>. Conviene volver a nombrarla para cerrar el marco que se abrió en 1.1.</li>
+
+          <li><b>Las cuatro categorías de origen</b>, que implican distinta confianza y distinto costo:
+            <ul>
+              <li><b>OSINT gratuito</b> (URLhaus, Feodo Tracker) — volumen alto, sin curación profunda</li>
+              <li><b>Gubernamental</b> (CISA KEV) — autoridad y bajo ruido</li>
+              <li><b>Sectorial</b> (ISACs) — relevancia máxima para tu industria; aquí es donde TLP se aplica de verdad</li>
+              <li><b>Comercial</b> (informes de vendors) — profundidad analítica, en PDF y por tanto difícil de automatizar</li>
+            </ul>
+          </li>
+
+          <li><b>CISA KEV merece una frase aparte.</b> No es un catálogo de vulnerabilidades, sino de vulnerabilidades <b>que se están explotando realmente</b>. Es un instrumento de priorización: responde «¿cuál parcheo primero?» con evidencia, no con puntaje teórico.</li>
+
+          <li><b>El traspaso a la práctica:</b> las cuatro primeras filas de la tabla son exactamente los conectores del laboratorio. Al terminar la Sección 4 el TIM estará ingiriendo de las cuatro de forma automática.</li>
+        </ul>
+
+        <div class="pace">
+          <span class="tag">Cierre del bloque teórico</span>
+          Aquí termina la teoría (≈50 min). La Sección 2 compara plataformas y la 3–4 levantan
+          la propia. Si se hizo arrancar <code>docker compose up -d</code> al inicio, la
+          importación de ATT&amp;CK ya debería estar avanzada.
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.1 -->
+    <section class="sec" id="s21">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">2.1</span>
+        <h2>Plataformas open-source</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Encuadre de la sección 2 entera:</b> el objetivo no es memorizar productos, sino que entiendan que <b>eligen problemas distintos</b>. La pregunta no es «cuál es mejor» sino «mejor para qué».</li>
+
+          <li><b>La distinción que estructura la tabla:</b> no todas son plataformas comparables entre sí.
+            <ul>
+              <li><b>OpenCTI y MISP</b> son TIP completos y sí compiten.</li>
+              <li><b>OpenTAXII</b> es solo transporte: implementa el protocolo de 1.7, no analiza nada.</li>
+              <li><b>ATT&amp;CK Navigator</b> solo trabaja TTPs, no gestiona IoCs.</li>
+              <li><b>Yeti</b> es un repositorio ligero de observables.</li>
+            </ul>
+          </li>
+
+          <li><b>OpenCTI vs MISP — la diferencia de fondo es el modelo de datos</b> (esto es lo que hay que transmitir):
+            <ul>
+              <li><b>OpenCTI</b>: grafo. Todo es nodo y arista, se navega por relaciones.</li>
+              <li><b>MISP</b>: eventos con atributos. Un evento es un contenedor de indicadores; la correlación es por coincidencia de atributos, no por recorrido del grafo.</li>
+              <li>Consecuencia práctica: MISP responde muy bien «¿quién más vio esta IP?»; OpenCTI responde «¿qué actor la usa, con qué malware y contra quién?».</li>
+            </ul>
+          </li>
+
+          <li><b>El límite de OpenCTI es honesto y ya lo comprobaron:</b> requiere Elasticsearch, Redis, RabbitMQ y MinIO. Es exactamente la arquitectura de 3.1. MISP corre con mucho menos.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2.2 -->
+    <section class="sec" id="s22">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">2.2</span>
+        <h2>Plataformas propietarias</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Qué se compra realmente al pagar una licencia:</b> no se compra software, se compra <b>recolección</b>. El diferencial de estos productos es el acceso a fuentes que una organización no puede recolectar por su cuenta (foros cerrados, telemetría propia, respuesta a incidentes a escala mundial).</li>
+
+          <li><b>Cada uno vende una ventaja distinta</b> — vale la pena nombrarla, es lo único memorizable de la tabla:
+            <ul>
+              <li><b>Recorded Future</b>: volumen de recolección y <i>scoring</i> de riesgo.</li>
+              <li><b>Mandiant</b>: inteligencia derivada de estar en primera línea de respuesta a incidentes reales.</li>
+              <li><b>CrowdStrike</b>: telemetría de su propio EDR desplegado en millones de <i>endpoints</i>.</li>
+              <li><b>ThreatConnect</b>: no solo TIP, añade SOAR (orquestación de la respuesta).</li>
+              <li><b>Microsoft Defender TI</b>: su ventaja es la integración con Sentinel, no la inteligencia en sí.</li>
+            </ul>
+          </li>
+
+          <li><b>El costo oculto que no está en la tabla:</b> son SaaS. Las consultas y los indicadores de la organización viajan al proveedor. Para banca, defensa o gobierno eso puede ser un impedimento regulatorio, no una preferencia. Enlaza directo con la fila «soberanía de datos» de 2.3.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="tag">Encuadre necesario</span>
+          Evitar que la sección suene a menosprecio de lo comercial. Estas plataformas resuelven
+          un problema real que el open-source no resuelve: <b>recolección propietaria a escala</b>.
+          La elección es de presupuesto y de modelo de riesgo, no de calidad.
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.3 -->
+    <section class="sec" id="s23">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">2.3</span>
+        <h2>Comparativa directa</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Las dos filas que deciden en la práctica</b> son «soberanía de datos» y «ideal para». El resto son matices.</li>
+
+          <li><b>Soberanía:</b> con OpenCTI y MISP ningún indicador sale de la infraestructura propia. Con SaaS, sí. En sectores regulados esto por sí solo cierra la discusión.</li>
+
+          <li><b>«Ideal para» resume todo el capítulo:</b>
+            <ul>
+              <li>OpenCTI → el analista que <b>investiga y correlaciona</b>.</li>
+              <li>MISP → la comunidad que <b>comparte</b>.</li>
+              <li>Comercial → la organización que quiere inteligencia <b>ya elaborada</b> y puede pagarla.</li>
+            </ul>
+          </li>
+
+          <li><b>Aclaración importante: no son excluyentes.</b> Una organización madura opera MISP para el intercambio sectorial, OpenCTI para investigar y un feed comercial como fuente. De hecho OpenCTI tiene conector para MISP.</li>
+
+          <li><b>Por qué esta clase usa OpenCTI</b> (cerrar con esto): gratuito, self-hosted, el grafo más rico del open-source y ATT&amp;CK como conector nativo. Es la herramienta real de un analista CTI, sin costo de licencia.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="tag">Anticipa esta pregunta</span>
+          «¿Cuál usan las empresas de verdad?» — Las tres cosas a la vez, y casi siempre MISP
+          para compartir con el sector. Elegir una sola herramienta es un síntoma de programa
+          inmaduro, no de eficiencia.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.1 -->
+    <section class="sec" id="s31">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">3.1</span>
+        <h2>Arquitectura del lab</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Advertencia previa:</b> es la sección más densa de la teoría. El objetivo no es que memoricen los contenedores, sino que entiendan <b>por qué hacen falta</b> y sepan a quién culpar cuando algo falle.</li>
+
+          <li><b>La pregunta que ordena la sección:</b> ¿por qué un TIM necesita cuatro servicios de infraestructura antes siquiera de empezar? Porque cada uno resuelve un problema distinto:
+            <ul>
+              <li><b>Elasticsearch</b> — buscar en millones de entidades. Es el almacén real.</li>
+              <li><b>Redis</b> — estado efímero: <i>locks</i>, sesión y el flujo de eventos.</li>
+              <li><b>RabbitMQ</b> — desacoplar. Los conectores publican y siguen; no esperan a que la plataforma procese.</li>
+              <li><b>MinIO</b> — archivos, que no caben en un índice de búsqueda.</li>
+            </ul>
+          </li>
+
+          <li><b>El punto conceptual del bloque:</b> los conectores <b>no escriben en OpenCTI</b>. Publican en una cola y el <i>worker</i> consume de ahí. Ese desacople es lo que permite que un conector falle sin tumbar la plataforma.
+            <ul>
+              <li>Corolario operativo: si el worker se detiene, los datos se acumulan en la cola pero nada entra al grafo. La plataforma parece sana y no ingiere.</li>
+            </ul>
+          </li>
+
+          <li><b>Los volúmenes nombrados</b> (<code>esdata</code>, <code>redisdata</code>, …) son la razón por la que <code>docker compose down</code> sin <code>-v</code> no borra nada. Vale la pena decirlo aquí y repetirlo en la Sección 4.</li>
+
+          <li><b>El presupuesto de memoria</b> (~6.5 GB de límites sobre una VM de 8 GB) explica por adelantado casi todos los fallos que verán: si un servicio se reinicia solo, la primera sospecha es memoria.</li>
+        </ul>
+
+        <div class="pace">
+          <span class="tag">Sugerencia de ritmo</span>
+          Si el tiempo aprieta, esta es la sección a comprimir: basta con el diagrama de flujo
+          (fuente → conector → cola → worker → núcleo → almacén) y la nota de memoria. El
+          detalle por servicio pueden leerlo del post.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.2 -->
+    <section class="sec" id="s32">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">3.2</span>
+        <h2>Tour del dashboard</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Cómo leer el Overview:</b> como un panel de situación, no como una página de inicio. Cada bloque responde una pregunta operativa.</li>
+
+          <li><b>Los contadores superiores</b> (Intrusion Sets, Malware, Reports, Indicators) miden <b>cuánta inteligencia hay cargada</b>. Sirven además como verificación: si están en cero, los conectores no han terminado.</li>
+
+          <li><b>Most Active Threats:</b> aquí aparece <b>OilRig</b>, el actor del tema04. Es el momento de señalarlo — conecta la clase anterior con esta y anticipa el caso guiado.</li>
+
+          <li><b>Relationships Created</b> es la métrica que importa y suele pasar desapercibida: cuenta <b>aristas</b>, no entidades. Es la medida de cuánta correlación existe. Un TIM con muchas entidades y pocas relaciones es un repositorio, no un grafo.</li>
+
+          <li><b>El menú lateral es el modelo STIX hecho navegación</b> — vale la pena decirlo explícitamente, porque cierra la sección 1.7:
+            <ul>
+              <li><b>Threats</b> → <code>intrusion-set</code>, <code>campaign</code></li>
+              <li><b>Arsenal</b> → <code>malware</code>, <code>tool</code>, <code>vulnerability</code></li>
+              <li><b>Observations</b> → <code>indicator</code> y observables (la distinción de 1.3, ya visible)</li>
+              <li><b>Techniques</b> → <code>attack-pattern</code> (ATT&amp;CK)</li>
+              <li><b>Investigations</b> → el espacio de trabajo propio</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="link">
+          <span class="tag">Cierre de la teoría</span>
+          Aquí se cierran las tres referencias que quedaron abiertas en la sección 1:
+          Observable/Indicator (1.3) está en <i>Observations</i>, los objetos STIX (1.7) son el
+          menú lateral, y las fuentes (1.8) son los conectores que llenaron los contadores.
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.1 -->
+    <section class="sec" id="s41">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">4.1</span>
+        <h2>Acondicionar la VM Kali</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Debería estar hecho antes de la clase.</b> Si hay que hacerlo aquí, es tiempo muerto: la VM debe estar apagada para cambiar RAM y CPU, y reiniciarla cuesta varios minutos por alumno.
+            <ul>
+              <li>Conviene preguntar por levantada de manos quién no lo tiene, y emparejar a esos alumnos con quienes sí (ver Plan B en 4.3).</li>
+            </ul>
+          </li>
+
+          <li><b>Los 8 GB no son negociables.</b> Solo Elasticsearch reserva 2 GB de límite, y la suma de todos los servicios ronda 6.5 GB. Con 4 GB el stack no levanta; no es lentitud, es fallo.</li>
+
+          <li><b>La advertencia de <code>lsblk</code> es la única de esta clase que puede destruir datos del alumno.</b> Formatear el disco equivocado borra su sistema.
+            <ul>
+              <li>Regla que deben repetir: se formatea el disco <b>sin particiones hijas y sin punto de montaje</b>. Si tiene <code>/</code> montado, no se toca.</li>
+              <li>Conviene proyectar una salida de <code>lsblk</code> real y que identifiquen el disco correcto en voz alta antes de que nadie escriba <code>mkfs</code>.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4.2 -->
+    <section class="sec" id="s42">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">4.2</span>
+        <h2>Verificar Docker</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Sección de un minuto.</b> Kali ya trae Docker y Compose v2; solo se confirma la versión.</li>
+
+          <li><b>El fallo real de esta sección no está en el post</b> y aparece todos los años:
+            <ul>
+              <li>Síntoma: <code>permission denied while trying to connect to the Docker daemon socket</code>.</li>
+              <li>Causa: el usuario no pertenece al grupo <code>docker</code>.</li>
+              <li>Solución: <code>sudo usermod -aG docker $USER</code> y <b>cerrar y volver a abrir sesión</b> (o <code>newgrp docker</code> para la terminal actual). Sin el reinicio de sesión el cambio no aplica, y ahí es donde se atascan.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4.3 -->
+    <section class="sec" id="s43">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">4.3</span>
+        <h2>Levantar el TIM</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Decisión de ritmo más importante de la clase:</b> si se hizo arrancar el stack al inicio de la sesión (nota de la sección 0), aquí ya solo se verifica. Si no, hay 5–15 minutos de importación de ATT&amp;CK y otros 20–40 de drenado de cola en los que no se puede avanzar.</li>
+
+          <li><b>Sobre la contraseña que imprime <code>setup-env.sh</code>:</b> el post pide guardarla. En la práctica queda escrita en el archivo <code>.env</code>, así que <b>sí se puede recuperar</b>:
+            <ul>
+              <li><code>grep OPENCTI_ADMIN_PASSWORD .env</code></li>
+              <li>Conviene tener este comando a mano: alguien la va a perder.</li>
+            </ul>
+          </li>
+
+          <li><b>Por qué <code>--build</code> en el primer arranque:</b> la mayoría de servicios se descargan como imagen, pero <code>feed-orchestrator</code> se compila localmente porque es código propio del curso. Sin <code>--build</code> no existe.</li>
+
+          <li><b>El arranque en frío ocurre una sola vez.</b> Merece decirse explícitamente para que no interpreten la lentitud inicial como un fallo: la importación de ATT&amp;CK genera decenas de miles de operaciones en cola. Los reinicios posteriores tardan 1–2 minutos.</li>
+
+          <li><b>Al retomar tras suspender la VM:</b> <code>./scripts/restart-lab.sh</code>, nunca <code>docker compose up -d</code> a secas. Si no, el puerto 8080 queda sin responder aunque los contenedores figuren como <i>healthy</i>.</li>
+        </ul>
+
+        <div class="pace">
+          <span class="tag">Plan B — tenerlo decidido de antemano</span>
+          Siempre hay una o dos VM que no levantan. Las dos salidas son: trabajar en parejas, o
+          importar un <i>bundle</i> STIX generado por un compañero
+          (<code>curl -s http://localhost:8001/feeds/export/stix &gt; iocs.json</code> →
+          <b>Data → Import</b>). Conviene anunciarlo <b>antes</b> de que alguien se frustre, no
+          después.
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.4 -->
+    <section class="sec" id="s44">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">4.4</span>
+        <h2>Actualizar el laboratorio si lo clonaron antes</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>A quién va dirigida:</b> a quien clonó en una sesión anterior. Su copia local está desactualizada y le faltan arreglos que ya son necesarios. Conviene preguntar quién clonó antes de esta sesión.</li>
+
+          <li><b>El cambio que de verdad importa es el límite de memoria de Redis.</b> Sin él, Redis excede su límite al guardar en disco, el kernel lo mata en bucle y <b>las escrituras de OpenCTI dejan de funcionar aunque la interfaz cargue con normalidad</b>.
+            <ul>
+              <li>Es un fallo silencioso: <code>docker compose ps</code> se ve bien, la web abre, y sin embargo nada se guarda. Buen ejemplo para reforzar el mensaje de 4.5.</li>
+            </ul>
+          </li>
+
+          <li><b>El reflejo que hay que enseñar</b> cuando <code>git pull</code> se niega a continuar: <b>mirar el <code>git diff</code> antes de descartar nada</b>. Casi siempre es un espacio o un salto de línea del editor, pero no se descarta a ciegas.
+            <ul>
+              <li><code>git checkout -- archivo</code> → descarta, <b>irreversible</b>.</li>
+              <li><code>git stash push</code> → guarda, reversible. Es la opción por defecto si hay duda.</li>
+            </ul>
+          </li>
+
+          <li><b>El punto que causa más frustración y no es obvio:</b> <code>.env</code> <b>no se actualiza con <code>git pull</code></b>, porque está excluido del control de versiones (contiene contraseñas). Y <code>setup-env.sh</code> tampoco lo regenera si ya existe.
+            <ul>
+              <li>Consecuencia: las variables nuevas hay que añadirlas a mano. Es el origen típico de «seguí los pasos y no funciona».</li>
+              <li>El <code>diff</code> contra <code>.env.example</code> del post les dice exactamente qué les falta.</li>
+            </ul>
+          </li>
+
+          <li><b>Cierre con <code>restart-lab.sh</code>:</b> un <code>restart</code> no aplica cambios de <code>docker-compose.yml</code> ni de <code>.env</code> — hay que <b>recrear</b> los contenedores. Es el mismo concepto que reaparece en 4.6 con <code>up -d</code> frente a <code>restart</code>.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="tag">Anticipa esta pregunta</span>
+          «¿Pierdo mis datos al hacer esto?» — No. Los datos viven en volúmenes nombrados;
+          <code>down</code> sin <code>-v</code> no los toca. Conviene decirlo antes de que lo
+          pregunten, porque el miedo a perder el trabajo frena a varios.
+        </div>
+
+        <div class="pace">
+          <span class="tag">Sugerencia de ritmo</span>
+          Si toda la clase clonó hoy, esta sección se salta entera. Si hay mezcla, dedicarle
+          5 minutos y que quienes ya están al día ayuden a los demás.
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.5 -->
+    <section class="sec" id="s45">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">4.5</span>
+        <h2>Verificar el estado de la plataforma</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Enseñarla como rutina, no como resolución de problemas.</b> Es la sección que salva la clase y las siguientes: un alumno que sabe diagnosticar no se queda bloqueado esperando ayuda.</li>
+
+          <li><b>El orden de los cuatro pasos importa</b> y conviene justificarlo: van de lo general a lo específico. Ir directo a los registros es el error habitual — se acaba leyendo miles de líneas sin saber qué se busca.
+            <ul>
+              <li>1. <code>docker compose ps</code> — ¿están vivos?</li>
+              <li>2. <code>curl</code> — ¿responden los puertos?</li>
+              <li>3. <code>docker stats</code> — ¿hay memoria?</li>
+              <li>4. registros — ¿qué dice el servicio sospechoso?</li>
+            </ul>
+          </li>
+
+          <li><b>El concepto que hay que dejar asentado:</b> son <b>tres preguntas distintas</b> y pueden discrepar entre sí.
+            <ul>
+              <li>¿El proceso responde? → <i>healthy</i></li>
+              <li>¿El puerto del host responde? → <code>curl</code></li>
+              <li>¿Hay datos? → consulta GraphQL / <code>/feeds/status</code></li>
+              <li>El caso que lo demuestra: contenedor <i>healthy</i> + <code>HTTP 000</code>. Ya ocurrió en este laboratorio.</li>
+            </ul>
+          </li>
+
+          <li><b>Actividad sugerida:</b> que ejecuten <code>docker compose ps</code> y comparen la salida con la del compañero de al lado. Las diferencias localizan el problema más rápido que cualquier explicación, y les enseña cuál es la línea base de un sistema sano.</li>
+
+          <li><b>La regla del 90 %</b> en <code>docker stats</code> es lo más accionable de la sección: si un servicio está cerca de su límite de memoria, es candidato a reiniciarse solo. Elasticsearch y Redis son los ajustados.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="tag">Precisión</span>
+          <i>Healthy</i> significa que <b>el proceso responde a su propia comprobación</b>, no que
+          el sistema funcione. Un OpenCTI <i>healthy</i> puede tener las escrituras rotas si Redis
+          está fallando por debajo. Es la diferencia entre estar vivo y estar operativo.
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.6 -->
+    <section class="sec" id="s46">
+      <div class="head" onclick="toggle(this)">
+        <span class="n">4.6</span>
+        <h2>Fuentes opcionales (OTX y abuse.ch)</h2>
+        <span class="tick">clic = cubierto</span>
+      </div>
+      <div class="body">
+        <ul>
+          <li><b>Decisión previa:</b> el registro en OTX exige confirmar un correo. Si la conectividad del aula es limitada o el tiempo va justo, <b>dejarlo como tarea</b> y explicar solo los conceptos.</li>
+
+          <li><b>Aclarar primero que <code>disabled</code> no es un error.</b> Es la respuesta esperada: el servicio no encontró clave para esa fuente y la omitió. El laboratorio está diseñado para funcionar sin registrarse en ningún sitio.</li>
+
+          <li><b>El concepto central de la sección — dos mecanismos de ingesta:</b>
+            <ul>
+              <li><b>Conector OpenCTI</b> (SDK oficial): se registra con un <code>CONNECTOR_ID</code>, manda <i>heartbeat</i> y <b>aparece</b> en <i>Data → Ingestion → Connectors</i>. Son <code>connector-mitre</code>, <code>connector-cisa-kev</code> y el opcional <code>connector-alienvault</code>.</li>
+              <li><b><code>feed-orchestrator</code></b> (servicio del curso): escribe indicadores directamente por la API. <b>No se registra</b>, así que sus feeds (URLhaus, Feodo, OTX, MalwareBazaar, ThreatFox) <b>nunca aparecen</b> en esa pantalla.</li>
+              <li>De aquí sale la confusión previsible: buscar OTX en <i>Connectors</i> y no encontrarlo. Su estado está en <code>:8001/feeds/status</code>.</li>
+            </ul>
+          </li>
+
+          <li><b>Para OTX existen las dos vías</b> y conviene contrastarlas: el feed del orquestador crea indicadores; el conector oficial crea además observables, <b>reports</b> y relaciones, y sí figura en la interfaz. Cuesta 384 MB más.</li>
+
+          <li><b>El punto que justifica la sección aunque no hagan el registro</b> — <code>up -d</code> frente a <code>restart</code>:
+            <ul>
+              <li><code>restart</code> reinicia el proceso dentro del <b>mismo</b> contenedor, que conserva las variables de entorno con las que fue creado. No vería la clave nueva.</li>
+              <li><code>up -d</code> detecta el cambio de configuración y <b>recrea</b> el contenedor.</li>
+              <li>Es un concepto general de Docker, no una particularidad de este laboratorio: vale los dos minutos.</li>
+            </ul>
+          </li>
+
+          <li><b>Por qué el conector oficial va detrás de un <i>profile</i>:</b> sin <code>OTX_API_KEY</code> entraría en bucle de reinicios y ensuciaría el <code>docker compose ps</code> de toda la clase. Con <code>COMPOSE_PROFILES=otx</code> en el <code>.env</code>, tanto <code>up -d</code> como <code>restart-lab.sh</code> lo incluyen solos.</li>
+        </ul>
+
+        <div class="warn">
+          <span class="tag">Precisión que evita una falsa alarma</span>
+          <code>status: ok</code> con <code>ioc_count: 0</code> <b>no es un fallo</b>. El contador
+          son los indicadores insertados <b>en esa corrida</b>, ya deduplicados: un cero significa
+          que la fuente no traía nada nuevo. El total acumulado se consulta con la query GraphQL
+          de <code>indicators</code>.
+        </div>
+
+        <div class="warn">
+          <span class="tag">Si no funciona</span>
+          Que el <code>status</code> siga en <code>disabled</code> tras recrear el contenedor
+          apunta a la clave mal pegada (espacios o comillas) o a un <code>git pull</code>
+          pendiente. Los errores <code>429</code> en el registro son la cuota gratuita de la API,
+          no un fallo de configuración.
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  var sizes = ["m", "l", "xl"], si = 0;
+  function setSize(d) {
+    si = Math.max(0, Math.min(sizes.length - 1, si + d));
+    document.documentElement.setAttribute("data-size", sizes[si]);
+  }
+  function toggle(head) {
+    var sec = head.parentElement;
+    sec.classList.toggle("done");
+    var link = document.querySelector('#rail a[href="#' + sec.id + '"]');
+    if (link) link.classList.toggle("done", sec.classList.contains("done"));
+  }
+  function resetDone() {
+    document.querySelectorAll(".sec.done").forEach(function (s) { s.classList.remove("done"); });
+    document.querySelectorAll("#rail a.done").forEach(function (a) { a.classList.remove("done"); });
+  }
+</script>
