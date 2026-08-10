@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-03T09:15:00.507Z",
+  "timestamp": "2026-08-10T09:18:53.372Z",
   "phase": null,
   "phase_name": "none — trabajo de contenido y laboratorio, fuera del roadmap de phases",
   "phase_dir": null,
@@ -9,7 +9,7 @@
   "total_tasks": null,
   "status": "paused",
   "context": "default",
-  "session_summary": "TEMA05 CERRADO DE PUNTA A PUNTA. La auditoría del post contra la plataforma real quedó completa (§1 a §7), se añadió un Ejercicio 5 nuevo sobre lectura crítica del dashboard, y se cerró la sección de entrega con rúbrica y plazo. En paralelo, el lab ganó el conector de países y sectores que faltaba respecto al despliegue oficial de OpenCTI, más un script de reinstalación limpia; ambos validados con una instalación desde cero real en la VM del docente. Se cerraron además los apuntes de dictado (20→30 secciones), la frase inexacta sobre la contraseña de admin y las capturas huérfanas.",
+  "session_summary": "TEMA05 CERRADO (§1-§7 auditado, Ejercicio 5 nuevo, apuntes de dictado al día) Y LAB AMPLIADO CON DOS CONECTORES. Primero el de países y sectores, que desbloqueó el widget Targeted Countries. Después el de MISP Feed apuntado al feed OSINT de CIRCL, con su documentación en §4.6 y la resincronización de toda la §4. Ambos validados en la VM del docente: el primero con una reinstalación desde cero, el segundo descargando en vivo.",
   "completed_tasks": [
     {
       "id": "tema05-s1-s5-audit",
@@ -82,22 +82,50 @@
       "name": "Borradas las cuatro capturas sin referenciar (696 KB): opencti03-malware, opencti03-techniques, opencti04, opencti06. Sugerían flujos que la auditoría eliminó",
       "status": "done",
       "commit": "17852cd"
+    },
+    {
+      "id": "lab-misp-feed",
+      "name": "Conector MISP Feed añadido y cableado completo: servicio en compose tras el profile 'misp', CONNECTOR_MISP_FEED_ID en setup-env.sh y .env.example, fila en el README. Apuntado al feed OSINT de CIRCL",
+      "status": "done",
+      "commit": "e7a51ef + 21a10e5 + 7ab33c4 (lab)"
+    },
+    {
+      "id": "circl-medido",
+      "name": "Feed de CIRCL verificado el 2026-08-09: 1.675 eventos, 2011-09-22 a 2026-08-08, 287 desde 2026-01-01, 37 desde 2026-07-01. Con esos datos se fijó la ventana por defecto en 2026-01-01 y el mem_limit en 256m (no 384m como AlienVault)",
+      "status": "done",
+      "commit": "7ab33c4 (lab)"
+    },
+    {
+      "id": "tema05-s4-misp",
+      "name": "§4.6 con subsección nueva de CIRCL (aclara que CIRCL no es MISP), §4.4 con el tercer UUID, y §4 entera resincronizada: tabla de mecanismos de ingesta, aviso sobre COMPOSE_PROFILES, y cifras del primer arranque corregidas (~530 -> ~1.700 CVEs)",
+      "status": "done",
+      "commit": "8067f94 + 67b2baa"
     }
   ],
   "remaining_tasks": [
     {
+      "id": "misp-tlp-verificar",
+      "name": "SIN VERIFICAR: si connector-misp-feed traduce los tags tlp:* de MISP a markings de OpenCTI. El Ejercicio 2 ahora pide comparar el Marking de un indicador de OTX con uno de CIRCL. Si CIRCL también sale NONE, no hay contraste y hay que ajustar esa redacción. Se comprueba abriendo un indicador de cada fuente",
+      "status": "not_started"
+    },
+    {
+      "id": "cifras-arranque",
+      "name": "§4.3 dejó las cifras de ATT&CK como órdenes de magnitud porque la plataforma seguía ingiriendo. Si se quieren números exactos, tomar los cuatro contadores del dashboard cuando termine",
+      "status": "not_started"
+    },
+    {
       "id": "republicar-apuntes",
-      "name": "Republicar el artefacto de apuntes de dictado. El fuente docs/apuntes-clase-tema05.html ya tiene las 30 secciones; el artefacto publicado sigue con las 20 viejas. El docente decidió no republicar todavía",
+      "name": "Republicar el artefacto de apuntes de dictado. El fuente docs/apuntes-clase-tema05.html tiene 30 secciones; el publicado sigue con 20. OJO: los apuntes NO mencionan el feed de CIRCL, añadido después",
       "status": "not_started"
     },
     {
       "id": "reset-lab-untested",
-      "name": "El camino de confirmación de reset-lab.sh (escribir BORRAR y que borre de verdad) solo se ejercitó hasta la cancelación, porque en el host no hay stack. Validarlo en la VM cuando no importe perder la ingesta",
+      "name": "El camino de confirmación de reset-lab.sh (escribir BORRAR y que borre de verdad) solo se ejercitó hasta la cancelación. Validarlo en la VM cuando no importe perder la ingesta",
       "status": "not_started"
     },
     {
       "id": "attack-v18",
-      "name": "Sin verificar: las columnas 'stealth' y 'defense-impairment' de la matriz sugieren la reestructuración de tácticas de ATT&CK v18. No se afirmó en el post — se dejó como pregunta comparativa que funciona sin depender de la versión",
+      "name": "Sin verificar: si 'stealth' y 'defense-impairment' son la reestructuración de tácticas de ATT&CK v18. No se afirmó en el post",
       "status": "not_started"
     }
   ],
@@ -115,6 +143,21 @@
     "Clave de OTX: el docente la regeneró tras haberla pegado en claro en el chat, y actualizó el .env"
   ],
   "decisions": [
+    {
+      "decision": "El feed de CIRCL entra vía connector-misp-feed, no hay 'conector CIRCL'",
+      "rationale": "CIRCL es el CERT de Luxemburgo: creó MISP y publica un feed en ese formato. Un alumno que busque 'conector CIRCL' en la documentación de OpenCTI no encuentra nada, así que el post lo aclara de entrada",
+      "phase": "lab"
+    },
+    {
+      "decision": "Ventana de CIRCL en 2026-01-01 y mem_limit en 256m, no los valores copiados de AlienVault",
+      "rationale": "Medido: 287 eventos desde enero frente a 37 desde julio. Y el feed entero son 1.675 eventos en quince años, frente a los ~15.000 bundles semanales de OTX. OTX es un feed de VOLUMEN y CIRCL uno de CURACIÓN: copiar los parámetros por analogía de forma era el error",
+      "phase": "lab"
+    },
+    {
+      "decision": "En el .env, para cambiar una variable existente se usa sed, nunca >>",
+      "rationale": "'grep -q X || echo' pregunta si existe, no si vale lo correcto. Falló en la VM con MISP_FEED_URL=<la-url>: grep la encontró y no la corrigió. Y §4.6 tenía el mismo patrón con COMPOSE_PROFILES desde hacía semanas — correcto en instalación, incorrecto en actualización",
+      "phase": "contenido"
+    },
     {
       "decision": "Ante un dato ausente en la plataforma, convertir la ausencia en la pregunta del ejercicio en lugar de borrar el paso",
       "rationale": "Regla destilada de tres casos de la §6. Marking=NONE obliga a preguntar quién fija la política TLP cuando el productor no la declara; CVSS=UNKNOWN en KEV es exactamente el argumento KEV-vs-CVSS; Victimology vacío enseña que lo no estructurado no se correlaciona. El porqué siempre resultó ser un concepto del temario",
@@ -162,6 +205,6 @@
     }
   ],
   "uncommitted_files": [],
-  "next_action": "Nada urgente abierto. Tema 05 cerrado: post auditado §1-§7, apuntes de dictado al día (30 secciones), lab validado desde cero. Lo que queda son remates opcionales: republicar el artefacto de apuntes cuando el docente quiera, validar el camino destructivo de reset-lab.sh en la VM, y confirmar si stealth/defense-impairment son ATT&CK v18. NO proponer tema04 ni Phase 02 — ver do_not_report.",
-  "context_notes": "TRES CLASES DE DEFECTO IDENTIFICADAS, en orden de dificultad para detectarlas. (1) POST CONTRA PLATAFORMA — el post describe contenido que la interfaz no muestra; se detecta pidiendo capturas. Tiene dos subtipos que se arreglan distinto: ausencia de dato (la fuente no lo publica; Victimology de OilRig y APT39 vacío porque MITRE no modela esa relación → se cambia la pregunta) y ausencia de resolución (el dato existe pero la vista lo agrega; la matriz muestra T1071 y no T1071.001 → se cambia el nivel al que se pregunta). El segundo subtipo es el traicionero: aparece cuando el post se escribió desde la documentación de la fuente creyendo describir la interfaz. (2) POST CONTRA SÍ MISMO — la rúbrica de §7 medía la versión previa de los ejercicios. Ninguna captura lo revela; se detecta inventariando lo que cada ejercicio produce y cruzándolo con lo que cada criterio mide. Regla: la sección que declara invariantes (rúbrica, resumen, objetivos) queda río abajo de todas las demás, revisitarla siempre al final. (3) POST CONTRA UN REPOSITORIO QUE EVOLUCIONÓ — añadir el conector al lab dejó §3.1 y §4.4 describiendo un stack que ya no existía. No lo revela ningún diff del blog porque el blog no cambió: cambió lo que describe. Solo se detecta recorriendo el procedimiento como si fueras el alumno. Fue así como apareció que §4.4 decía 'Redis a 512 MB' desde hacía días. HALLAZGOS §6 (verificados con captura): Victimology de OilRig vacío igual que APT39, solo Capabilities poblado; '¿qué vértice está vacío?' era singular y son dos y medio; la matriz agrupa por técnica padre (T1071, no T1071.001) y no trae las 14 tácticas clásicas — defense-evasion sale partida en 'stealth' (33) y 'defense-impairment' (18) — y muchas celdas muestran el ID en vez del nombre; el arsenal SÍ era correcto, las cuatro familias citadas están entre 18; no existe conector URLhaus (solo OTX, CISA KEV, MITRE ATT&CK y ahora OpenCTI Datasets); no hay columna Score en Indicators; las labels reales son elf/mips/32-bit/exe/connectwise y la IP con guiones; Marking sale NONE en los indicadores aunque otras entidades del grafo traigan TLP:CLEAR — el marcado lo pone la fuente; CVSS3 sale UNKNOWN en las ~1.700 CVEs de KEV; Investigations sí cuelga del menú lateral. OTRO: el contador MESSAGES de la lista de conectores NO es fiable para saber si un conector trabajó — OpenCTI Datasets marca 0 con los 250 países cargados en una instalación recién creada. Mirar los datos, no el contador. CAPTURAS: assets/images/tema05/, patrón openctiNN-descriptor.png, LA ÚLTIMA USADA ES opencti15-dashboard.png. Credenciales del TIM: admin@tim.local, password en el .env de la VM (no versionado)."
+  "next_action": "Nada urgente. Lo primero al retomar, si el lab sigue levantado: abrir un indicador de CIRCL y otro de OTX y comparar su campo Marking, para confirmar o ajustar la comparación que el Ejercicio 2 ahora promete. NO proponer tema04 ni Phase 02 — ver do_not_report.",
+  "context_notes": "HALLAZGOS NUEVOS DE ESTA TANDA. (1) El widget Targeted Countries salía vacío porque el conector de AlienVault crea los países con country=\"ZZ\" y sin lat/long; el catálogo geography.json los trae con coordenadas e ISO real, y como Location.generate_id(name,'Country') es determinista por nombre, ambas entidades se funden. La señal de verificación útil es LA BANDERA en la lista de países: si se renderiza, el ISO resolvió. (2) El contador MESSAGES de la lista de conectores NO es fiable para saber si un conector trabajó — OpenCTI Datasets marca 0 con los 250 países cargados en una instalación nueva. (3) CIRCL no es MISP: es el CERT de Luxemburgo, creadores del software, que publica un feed en ese formato. No existe conector CIRCL en OpenCTI 6.4.0 — verificado recorriendo el árbol del repo de conectores. (4) LECCIÓN DE PROCEDIMIENTO, la más reutilizable: en un .env, 'grep -q X || echo' es un guardián de EXISTENCIA disfrazado de guardián de CORRECCIÓN. Falla justo cuando la variable está pero con un valor malo. El patrón que aguanta es borrar-y-reescribir con sed. Y el corolario: una instrucción escrita para el caso de instalación puede ser incorrecta en el caso de actualización — la misma línea es correcta la primera vez y errónea todas las siguientes. Por eso §4.4 es un procedimiento aparte y no §4.3 con menos pasos. (5) INCIDENTE EN LA VM: quedó con una rama divergente porque se commiteó allí el mismo trabajo que en el host, partiendo del mismo punto. Se resolvió con branch de respaldo + reset --hard a origin. La VM es CONSUMIDORA del repo, no fuente: editar en el host, pushear, y en la VM solo git pull. TRES CLASES DE DEFECTO IDENTIFICADAS, en orden de dificultad para detectarlas. (1) POST CONTRA PLATAFORMA — el post describe contenido que la interfaz no muestra; se detecta pidiendo capturas. Tiene dos subtipos que se arreglan distinto: ausencia de dato (la fuente no lo publica; Victimology de OilRig y APT39 vacío porque MITRE no modela esa relación → se cambia la pregunta) y ausencia de resolución (el dato existe pero la vista lo agrega; la matriz muestra T1071 y no T1071.001 → se cambia el nivel al que se pregunta). El segundo subtipo es el traicionero: aparece cuando el post se escribió desde la documentación de la fuente creyendo describir la interfaz. (2) POST CONTRA SÍ MISMO — la rúbrica de §7 medía la versión previa de los ejercicios. Ninguna captura lo revela; se detecta inventariando lo que cada ejercicio produce y cruzándolo con lo que cada criterio mide. Regla: la sección que declara invariantes (rúbrica, resumen, objetivos) queda río abajo de todas las demás, revisitarla siempre al final. (3) POST CONTRA UN REPOSITORIO QUE EVOLUCIONÓ — añadir el conector al lab dejó §3.1 y §4.4 describiendo un stack que ya no existía. No lo revela ningún diff del blog porque el blog no cambió: cambió lo que describe. Solo se detecta recorriendo el procedimiento como si fueras el alumno. Fue así como apareció que §4.4 decía 'Redis a 512 MB' desde hacía días. HALLAZGOS §6 (verificados con captura): Victimology de OilRig vacío igual que APT39, solo Capabilities poblado; '¿qué vértice está vacío?' era singular y son dos y medio; la matriz agrupa por técnica padre (T1071, no T1071.001) y no trae las 14 tácticas clásicas — defense-evasion sale partida en 'stealth' (33) y 'defense-impairment' (18) — y muchas celdas muestran el ID en vez del nombre; el arsenal SÍ era correcto, las cuatro familias citadas están entre 18; no existe conector URLhaus (solo OTX, CISA KEV, MITRE ATT&CK y ahora OpenCTI Datasets); no hay columna Score en Indicators; las labels reales son elf/mips/32-bit/exe/connectwise y la IP con guiones; Marking sale NONE en los indicadores aunque otras entidades del grafo traigan TLP:CLEAR — el marcado lo pone la fuente; CVSS3 sale UNKNOWN en las ~1.700 CVEs de KEV; Investigations sí cuelga del menú lateral. OTRO: el contador MESSAGES de la lista de conectores NO es fiable para saber si un conector trabajó — OpenCTI Datasets marca 0 con los 250 países cargados en una instalación recién creada. Mirar los datos, no el contador. CAPTURAS: assets/images/tema05/, patrón openctiNN-descriptor.png, LA ÚLTIMA USADA ES opencti15-dashboard.png. Credenciales del TIM: admin@tim.local, password en el .env de la VM (no versionado)."
 }
