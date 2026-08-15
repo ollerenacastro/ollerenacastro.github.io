@@ -1,6 +1,6 @@
 ---
 title: "Examen Final — Capstone Threat-Informed"
-date: 2026-08-15 09:00:00 -0500
+date: 2026-08-13 09:00:00 -0500
 categories: [Examen, Threat Intelligence]
 tags: [examen-final, opencti, mitre-attack, metasploit, metasploitable3]
 published: true
