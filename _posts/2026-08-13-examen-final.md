@@ -20,8 +20,37 @@ el laboratorio.
 
 Documentarás todo como un **writeup en tu blog**. Ese post *es* tu examen.
 
-Tu APT asignado y tus **credenciales temporales** del OpenCTI del servidor del curso los
-recibes al abrir la ventana. Esas credenciales **solo funcionan durante las 24 h** del examen.
+Tu **APT asignado** está en la tabla de la sección siguiente. Tus **credenciales temporales**
+del OpenCTI del servidor del curso las recibes al abrir la ventana; **solo funcionan durante
+las 24 h** del examen.
+
+## Asignación de APT por alumno
+
+Busca tu nombre. Ese es **tu** grupo APT para todo el examen — es único: dos writeups del
+mismo APT se revisan por copia. La tabla te da el **punto de partida** (técnica, servicio
+objetivo y módulo sugerido); tu trabajo es *justificarlo con la intel del Acto 1*,
+*ejecutarlo* y *defenderlo* — no basta con copiar la fila.
+
+| Alumno | APT asignado | Técnica ATT&CK | Servicio en Metasploitable3 | Módulo Metasploit sugerido |
+|--------|--------------|----------------|-----------------------------|----------------------------|
+| MELVIN ACUÑA CHAVEZ | APT28 / Fancy Bear | T1110.003 Password Spraying | SSH (22) | `scanner/ssh/ssh_login` |
+| Jesus Apaza | APT29 / Cozy Bear | T1078 Valid Accounts + T1021.006 | WinRM (5985) | `winrm_login` → `winrm_cmd` |
+| KATHERINE FABIOLA CABIA RAMIREZ | Wizard Spider | T1210 Exploitation of Remote Services | SMB MS17-010 (445) | `ms17_010_eternalblue` |
+| DANIEL JOSUE CONDOR GARCIA | APT41 | T1190 + T1505.003 Web Shell | GlassFish (4848/8080) | `glassfish_deployer` (WAR) |
+| RAFAEL ESPINO CAMPOS | Sandworm Team | T1190 Exploit Public-Facing App | Jenkins (8484) | `jenkins_script_console` |
+| NEVARDO ALEJANDRO MARCAS CASTILLO | APT27 / Emissary Panda | T1190 + web shell | ManageEngine Desktop Central (8383) | `manageengine_connectionid_write` |
+| ROBERTH GERMAN MORALES TIRADO | menuPass / APT10 | T1021.002 SMB + T1078 | SMB (445) | `psexec` con credenciales |
+| MARIA CRISTINA OCHANTE LEON | Turla / Snake | T1505.003 Web Shell | WAMP / WordPress (80) | `wp_admin_shell_upload` |
+| ROLANDO PAZ PURISACA | APT33 / Elfin | T1110.003 Password Spraying | MySQL (3306) | `scanner/mysql/mysql_login` |
+| FRANCISCO QUISPE PINTO QUISPE | Lazarus Group | T1190 | ElasticSearch (9200) | `elasticsearch_script_mvel_rce` |
+| SERGIO ALEJANDRO ROMERO PUERTAS | APT39 | T1110 Brute Force + T1078 | WordPress admin (80) | `wordpress_login_enum` + brute |
+| SILVIO EDGAR SILVERIO FLORES | OceanLotus / APT32 | T1078 Valid Accounts | SSH (22) con credenciales | `ssh_login` con credenciales |
+| JHON KARLESSY VIOLETA MOREYRA | Dragonfly / Energetic Bear | T1190 | Apache/WAMP PHP RCE (80) | web RCE / `php_cgi` |
+
+> El módulo es **un** punto de partida sugerido, no la única solución. Debes **conectar** esa
+> técnica con la intel real de tu APT (Acto 1), **ejecutarla** con evidencia identificable
+> (Acto 3) y **defenderla** (Acto 4). Copiar la fila sin ese trabajo no suma.
+{: .prompt-warning }
 
 ## Los cuatro actos
 
