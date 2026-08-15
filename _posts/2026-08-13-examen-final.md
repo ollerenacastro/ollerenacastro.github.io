@@ -42,8 +42,8 @@ msf6 exploit(...) > edit          # abre el .rb en el editor
 # 2) Directo en disco (ojo: 'exploits' en PLURAL en la ruta del archivo):
 cat /usr/share/metasploit-framework/modules/exploits/windows/smb/ms17_010_eternalblue.rb
 
-# ¿No coincide la ruta en tu Kali? Encuéntrala:
-find / -name "ms17_010_eternalblue.rb" 2>/dev/null
+# ¿No coincide la ruta en tu Kali? Encuéntrala con comodines (* = "que contenga"):
+find / -name "*ms17_010_eternalblue*" 2>/dev/null | grep modules
 ```
 
 La columna **Archivo del módulo** es la ruta relativa a
