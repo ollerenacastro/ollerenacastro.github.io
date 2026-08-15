@@ -29,8 +29,8 @@ las 24 h** del examen.
 Busca tu nombre. Ese es **tu** grupo APT para todo el examen — es único: dos writeups del
 mismo APT se revisan por copia. La tabla te da el **punto de partida** (técnica, servicio
 objetivo, módulo y **el archivo del código** que explota la vulnerabilidad); tu trabajo es
-*justificarlo con la intel del Acto 1*, *leer y explicar ese código*, *ejecutarlo* y
-*defenderlo* — no basta con copiar la fila.
+*justificarlo con la intel del Acto 1*, *ejecutarlo* y *defenderlo* — no basta con copiar
+la fila.
 
 **Cómo leer el código de tu módulo** (dos formas):
 
@@ -64,17 +64,6 @@ La columna **Archivo del módulo** es la ruta relativa a
 | SERGIO ALEJANDRO ROMERO PUERTAS | APT39 | T1110 Brute Force + T1078 | WordPress admin (80) | `auxiliary/scanner/http/wordpress_login_enum.rb` |
 | SILVIO EDGAR SILVERIO FLORES | OceanLotus / APT32 | T1078 Valid Accounts | SSH (22) con credenciales | `auxiliary/scanner/ssh/ssh_login.rb` |
 | JHON KARLESSY VIOLETA MOREYRA | Dragonfly / Energetic Bear | T1190 | Apache/WAMP PHP RCE (80) | `exploits/multi/http/php_cgi_arg_injection.rb` |
-
-> **Qué "leer el código" según tu ruta.** Si tu archivo está en `exploits/`, además del `.rb`
-> tienes **shellcode** en el payload (analízalo con Ghidra/`scdbg` — ver Acto 3). Si está en
-> `auxiliary/` (ssh_login, mysql_login, winrm_login, wordpress_login_enum) **no hay
-> shellcode**: el artefacto a explicar es **el propio script Ruby** (cómo itera credenciales,
-> cómo detecta el éxito, cómo abre la sesión) **más el tráfico de autenticación** capturado en
-> Wireshark. Igual de exigente, distinto artefacto.
->
-> El módulo es **un** punto de partida sugerido. Debes **conectar** esa técnica con la intel
-> real de tu APT (Acto 1) y **defenderla** (Acto 4). Copiar la fila sin ese trabajo no suma.
-{: .prompt-warning }
 
 ## Los cuatro actos
 
@@ -126,26 +115,6 @@ post-explotación / escalada de privilegios.
 - Muestra el objetivo alcanzado: `getsystem`, un hash, un archivo, una flag — lo que
   demuestre control.
 
-> **Análisis del payload — OBLIGATORIO para optar a la nota máxima.** Extrae el payload de
-> tu módulo e interprétalo con **dos herramientas de análisis distintas** — una **estática**
-> y una **dinámica**:
->
-> - **Extrae los bytes:** `msfvenom -p <tu-payload> LHOST=... -f raw -o payload.bin` (o
->   captúralos del módulo Ruby / del tráfico).
-> - **Estática** (`ndisasm -b64`, `objdump -D -b binary`, Ghidra): muestra el *decoder stub*
->   y dónde termina y empieza la parte cifrada.
-> - **Dinámica** (`scdbg -f payload.bin`, `speakeasy`): lista las **APIs de Windows** que el
->   shellcode invocaría (`LoadLibrary`, `WSASocket`, `connect`…).
->
-> Responde en el post: ¿es **shellcode crudo** o un **command payload**? Si está codificado
-> (p. ej. `x86/shikata_ga_nai`), ¿por qué la estática por sí sola **no** basta para ver el
-> *egg* real? ¿Qué APIs delatan la conexión reversa? **Cruza esas APIs con tu detección del
-> Acto 4.**
->
-> Todo el análisis es **offline, dentro del lab aislado** — nada de sandboxes online (no
-> subas tu payload a terceros).
-{: .prompt-warning }
-
 ### Acto 4 — Defensa
 
 Cambia de bando. Para la cadena que ejecutaste:
@@ -178,19 +147,13 @@ tags: [examen-final]
 |---|-----------|--------|
 | 1 | Extracción y modelado de inteligencia (OpenCTI, TTP/IoC, TLP, nivel) | 20 |
 | 2 | Fidelidad del mapeo ATT&CK (con descartes justificados) | 15 |
-| 3 | Éxito de ejecución + **interpretación del payload** + evidencia (screenshots reales identificables) | 25 |
+| 3 | Éxito de ejecución + evidencia (screenshots reales identificables) | 25 |
 | 4 | Análisis defensivo (detección + mitigación mapeadas) | 15 |
 | 5 | Calidad de documentación (claridad, estructura, reproducibilidad) | 15 |
 | 6 | Defensa teórica (niveles, Diamante, TLP, kill chain correctos) | 10 |
 
 Cada dimensión se califica **por separado**: si no logras explotar (Acto 3), aún sumas por
 inteligencia, plan y defensa. Documenta lo que intentaste.
-
-> **La interpretación del payload (Acto 3) es obligatoria para la nota máxima.** Un writeup
-> que explota pero **no** interpreta su payload con una herramienta estática **y** una
-> dinámica limita la dimensión 3 a **15/25**. Con el análisis completo y bien cruzado con la
-> detección del Acto 4, opta a los 25.
-{: .prompt-danger }
 
 ## Reglas
 
