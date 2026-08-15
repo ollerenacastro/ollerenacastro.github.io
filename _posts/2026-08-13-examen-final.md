@@ -28,28 +28,52 @@ las 24 h** del examen.
 
 Busca tu nombre. Ese es **tu** grupo APT para todo el examen — es único: dos writeups del
 mismo APT se revisan por copia. La tabla te da el **punto de partida** (técnica, servicio
-objetivo y módulo sugerido); tu trabajo es *justificarlo con la intel del Acto 1*,
-*ejecutarlo* y *defenderlo* — no basta con copiar la fila.
+objetivo, módulo y **el archivo del código** que explota la vulnerabilidad); tu trabajo es
+*justificarlo con la intel del Acto 1*, *leer y explicar ese código*, *ejecutarlo* y
+*defenderlo* — no basta con copiar la fila.
 
-| Alumno | APT asignado | Técnica ATT&CK | Servicio en Metasploitable3 | Módulo Metasploit sugerido |
-|--------|--------------|----------------|-----------------------------|----------------------------|
-| MELVIN ACUÑA CHAVEZ | APT28 / Fancy Bear | T1110.003 Password Spraying | SSH (22) | `scanner/ssh/ssh_login` |
-| Jesus Apaza | APT29 / Cozy Bear | T1078 Valid Accounts + T1021.006 | WinRM (5985) | `winrm_login` → `winrm_cmd` |
-| KATHERINE FABIOLA CABIA RAMIREZ | Wizard Spider | T1210 Exploitation of Remote Services | SMB MS17-010 (445) | `ms17_010_eternalblue` |
-| DANIEL JOSUE CONDOR GARCIA | APT41 | T1190 + T1505.003 Web Shell | GlassFish (4848/8080) | `glassfish_deployer` (WAR) |
-| RAFAEL ESPINO CAMPOS | Sandworm Team | T1190 Exploit Public-Facing App | Jenkins (8484) | `jenkins_script_console` |
-| NEVARDO ALEJANDRO MARCAS CASTILLO | APT27 / Emissary Panda | T1190 + web shell | ManageEngine Desktop Central (8383) | `manageengine_connectionid_write` |
-| ROBERTH GERMAN MORALES TIRADO | menuPass / APT10 | T1021.002 SMB + T1078 | SMB (445) | `psexec` con credenciales |
-| MARIA CRISTINA OCHANTE LEON | Turla / Snake | T1505.003 Web Shell | WAMP / WordPress (80) | `wp_admin_shell_upload` |
-| ROLANDO PAZ PURISACA | APT33 / Elfin | T1110.003 Password Spraying | MySQL (3306) | `scanner/mysql/mysql_login` |
-| FRANCISCO QUISPE PINTO QUISPE | Lazarus Group | T1190 | ElasticSearch (9200) | `elasticsearch_script_mvel_rce` |
-| SERGIO ALEJANDRO ROMERO PUERTAS | APT39 | T1110 Brute Force + T1078 | WordPress admin (80) | `wordpress_login_enum` + brute |
-| SILVIO EDGAR SILVERIO FLORES | OceanLotus / APT32 | T1078 Valid Accounts | SSH (22) con credenciales | `ssh_login` con credenciales |
-| JHON KARLESSY VIOLETA MOREYRA | Dragonfly / Energetic Bear | T1190 | Apache/WAMP PHP RCE (80) | web RCE / `php_cgi` |
+**Cómo leer el código de tu módulo** (dos formas):
 
-> El módulo es **un** punto de partida sugerido, no la única solución. Debes **conectar** esa
-> técnica con la intel real de tu APT (Acto 1), **ejecutarla** con evidencia identificable
-> (Acto 3) y **defenderla** (Acto 4). Copiar la fila sin ese trabajo no suma.
+```bash
+# 1) Interactivo, dentro de msfconsole (ojo: 'exploit' en singular para use):
+msf6 > use exploit/windows/smb/ms17_010_eternalblue
+msf6 exploit(...) > edit          # abre el .rb en el editor
+
+# 2) Directo en disco (ojo: 'exploits' en PLURAL en la ruta del archivo):
+cat /usr/share/metasploit-framework/modules/exploits/windows/smb/ms17_010_eternalblue.rb
+
+# ¿No coincide la ruta en tu Kali? Encuéntrala:
+find / -name "ms17_010_eternalblue.rb" 2>/dev/null
+```
+
+La columna **Archivo del módulo** es la ruta relativa a
+`/usr/share/metasploit-framework/modules/`.
+
+| Alumno | APT asignado | Técnica ATT&CK | Servicio en Metasploitable3 | Archivo del módulo (`.rb`, leer el código) |
+|--------|--------------|----------------|-----------------------------|--------------------------------------------|
+| MELVIN ACUÑA CHAVEZ | APT28 / Fancy Bear | T1110.003 Password Spraying | SSH (22) | `auxiliary/scanner/ssh/ssh_login.rb` |
+| Jesus Apaza | APT29 / Cozy Bear | T1078 Valid Accounts + T1021.006 | WinRM (5985) | `auxiliary/scanner/winrm/winrm_login.rb` |
+| KATHERINE FABIOLA CABIA RAMIREZ | Wizard Spider | T1210 Exploitation of Remote Services | SMB MS17-010 (445) | `exploits/windows/smb/ms17_010_eternalblue.rb` |
+| DANIEL JOSUE CONDOR GARCIA | APT41 | T1190 + T1505.003 Web Shell | GlassFish (4848/8080) | `exploits/multi/http/glassfish_deployer.rb` |
+| RAFAEL ESPINO CAMPOS | Sandworm Team | T1190 Exploit Public-Facing App | Jenkins (8484) | `exploits/multi/http/jenkins_script_console.rb` |
+| NEVARDO ALEJANDRO MARCAS CASTILLO | APT27 / Emissary Panda | T1190 + web shell | ManageEngine Desktop Central (8383) | `exploits/windows/http/manageengine_connectionid_write.rb` |
+| ROBERTH GERMAN MORALES TIRADO | menuPass / APT10 | T1021.002 SMB + T1078 | SMB (445) | `exploits/windows/smb/psexec.rb` |
+| MARIA CRISTINA OCHANTE LEON | Turla / Snake | T1505.003 Web Shell | WAMP / WordPress (80) | `exploits/unix/webapp/wp_admin_shell_upload.rb` |
+| ROLANDO PAZ PURISACA | APT33 / Elfin | T1110.003 Password Spraying | MySQL (3306) | `auxiliary/scanner/mysql/mysql_login.rb` |
+| FRANCISCO QUISPE PINTO QUISPE | Lazarus Group | T1190 | ElasticSearch (9200) | `exploits/multi/elasticsearch/script_mvel_rce.rb` |
+| SERGIO ALEJANDRO ROMERO PUERTAS | APT39 | T1110 Brute Force + T1078 | WordPress admin (80) | `auxiliary/scanner/http/wordpress_login_enum.rb` |
+| SILVIO EDGAR SILVERIO FLORES | OceanLotus / APT32 | T1078 Valid Accounts | SSH (22) con credenciales | `auxiliary/scanner/ssh/ssh_login.rb` |
+| JHON KARLESSY VIOLETA MOREYRA | Dragonfly / Energetic Bear | T1190 | Apache/WAMP PHP RCE (80) | `exploits/multi/http/php_cgi_arg_injection.rb` |
+
+> **Qué "leer el código" según tu ruta.** Si tu archivo está en `exploits/`, además del `.rb`
+> tienes **shellcode** en el payload (analízalo con Ghidra/`scdbg` — ver Acto 3). Si está en
+> `auxiliary/` (ssh_login, mysql_login, winrm_login, wordpress_login_enum) **no hay
+> shellcode**: el artefacto a explicar es **el propio script Ruby** (cómo itera credenciales,
+> cómo detecta el éxito, cómo abre la sesión) **más el tráfico de autenticación** capturado en
+> Wireshark. Igual de exigente, distinto artefacto.
+>
+> El módulo es **un** punto de partida sugerido. Debes **conectar** esa técnica con la intel
+> real de tu APT (Acto 1) y **defenderla** (Acto 4). Copiar la fila sin ese trabajo no suma.
 {: .prompt-warning }
 
 ## Los cuatro actos
