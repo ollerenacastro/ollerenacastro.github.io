@@ -89,6 +89,14 @@ Entra al OpenCTI del servidor del curso con tus credenciales temporales y constr
 > La inteligencia sale del OpenCTI del curso.
 {: .prompt-warning }
 
+> **Pista para correlacionar APT → técnica → exploit.** Cada técnica que extraigas tiene su
+> ficha oficial en MITRE ATT&CK. Búscala en Google como `mitre` + el ID o nombre de la
+> técnica — p. ej. `mitre T1210` o `mitre exploitation of remote services`. La ficha
+> (`attack.mitre.org/techniques/...`) lista qué grupos la usan, ejemplos de procedimiento y
+> mitigaciones/detecciones — justo el puente entre el TTP de tu APT (Acto 1), su análogo en
+> Metasploitable3 (Acto 2) y su defensa (Acto 4).
+{: .prompt-tip }
+
 ### Acto 2 — Plan de ataque mapeado a ATT&CK
 
 Con el perfil, arma tu plan. La pregunta que respondes:
