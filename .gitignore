@@ -37,3 +37,8 @@ todo.md
 
 # Backups de posts
 _posts/*.backup
+# Examen parcial: enunciado, PDFs de alumnos, correos y notas (PII) — nunca publicar
+docs/examen-parcial/
+
+# Examen final: enunciado docente, notas y correos (PII) — nunca publicar
+docs/examen-final/
